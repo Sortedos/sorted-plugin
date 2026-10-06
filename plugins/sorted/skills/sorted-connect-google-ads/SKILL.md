@@ -42,14 +42,13 @@ The owner makes every click that grants access, in his own window; you only say 
 
 For the period the owner chose, for the whole account unless he asked per campaign:
 
-- Cost: money, in the account's currency. Reports from the Google Ads programming interface give cost in millionths (cost_micros): divide by 1,000,000.
+- Cost: money, in the account's currency. The Google Ads programming interface gives cost and average cost per click in millionths (cost_micros, average_cpc): divide by 1,000,000.
 - Impressions: count.
 - Clicks: count.
-- Click-through rate: percent, written as the percent number (4.2 means 4.2%).
+- Click-through rate: percent, written as the percent number (4.2 means 4.2%). The programming interface gives it as a fraction (0.042): multiply by 100.
 - Average cost per click: money.
 - Conversions: count. Google may report a fraction (12.5): send it with the unit `number`, never rounded.
 - Conversion value: money. Only if the account tracks values.
-- Cost per conversion: money.
 
 Read each one from the same report and the same period. If a number is not there, leave it out of the feed or send `null` for it. Never estimate.
 
@@ -67,8 +66,7 @@ Read each one from the same report and the same period. If a number is not there
   {"label": "Click-through rate", "unit": "percent"},
   {"label": "Average cost per click", "unit": "money", "currency": "EUR"},
   {"label": "Conversions", "unit": "number"},
-  {"label": "Conversion value", "unit": "money", "currency": "EUR"},
-  {"label": "Cost per conversion", "unit": "money", "currency": "EUR"}],
+  {"label": "Conversion value", "unit": "money", "currency": "EUR"}],
  "fresh_hours": 36, "daily_cap": 4}
 ```
 
@@ -84,8 +82,7 @@ Read each one from the same report and the same period. If a number is not there
   {"label": "Click-through rate", "value": 4.2},
   {"label": "Average cost per click", "value": 0.53},
   {"label": "Conversions", "value": 12.5},
-  {"label": "Conversion value", "value": 940},
-  {"label": "Cost per conversion", "value": 22.91}]}
+  {"label": "Conversion value", "value": 940}]}
 ```
 
 Per campaign, define one small table instead of a list (rows are campaign names, fixed when the feed is made, so a new campaign needs a new feed):
