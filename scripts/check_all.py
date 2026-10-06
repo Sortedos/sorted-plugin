@@ -12,8 +12,10 @@ Checks, in order:
   4. tool names           every feed tool named in the docs and skills is one of the four in docs/feed-tools.json
   5. byte-order marks     no JSON file starts with one (Claude Code then loads no servers from .mcp.json)
   6. feed call checker    scripts/check_feed_call.py --selftest (the offline checker still decides its own examples right)
-  7. plugin validation    claude plugin validate --strict on the marketplace, the plugin manifest and the Codex plugin folder
-                          (skipped, with a notice, when Claude Code is not installed)
+  7. plugin validation    claude plugin validate --strict on the marketplace, the plugin manifest and the skills folder of the
+                          Codex plugin; the Claude Code version is printed. (claude plugin validate does not read the Codex
+                          manifest, .codex-plugin/plugin.json: item 3 checks that its version matches. Skipped, with a notice,
+                          when Claude Code is not installed)
 Exit code 1 if any check failed.
 """
 import argparse
@@ -87,18 +89,35 @@ def check_feed_checker():
     return code == 0, last
 
 
+def claude_version(claude):
+    """(major, minor, patch) of the installed Claude Code, or None when it cannot be read."""
+    code, last = run([claude, "--version"])
+    m = re.search(r"(\d+)\.(\d+)\.(\d+)", last) if code == 0 else None
+    return tuple(int(x) for x in m.groups()) if m else None
+
+
 def check_validate():
     claude = shutil.which("claude")
     if not claude:
         return None, "skipped: Claude Code is not installed"
-    targets = [".", ".claude-plugin/plugin.json", "plugins/sorted"]  # the marketplace, the plugin manifest, the Codex plugin folder
+    # The marketplace, the plugin manifest, and the skills of the Codex plugin. The skills folder is named itself because the
+    # documentation says a folder without .claude-plugin is read through its own .claude folder, or as it stands when it is named
+    # skills, agents or commands (Claude Code 2.1.292 also reads <folder>/skills, which the documentation does not promise). Whatever
+    # the version, claude plugin validate never reads the Codex manifest (plugins/sorted/.codex-plugin/plugin.json): the Codex
+    # copy check covers its version, so the plugin folder itself is not listed as if it were validated here.
+    targets = [".", ".claude-plugin/plugin.json", "plugins/sorted/skills"]
     failed = []
     for t in targets:
         code, _ = run([claude, "plugin", "validate", t, "--strict"])
         if code != 0:
             failed.append(t)
-    return not failed, "claude plugin validate --strict: %d of %d passed%s" % (
-        len(targets) - len(failed), len(targets), (" (failed: " + ", ".join(failed) + ")") if failed else "")
+    version = claude_version(claude)
+    note = ""
+    if version is None or version < (2, 1, 289):  # older versions validate only the marketplace when given the repository folder
+        note = "; NOTE: before Claude Code 2.1.289 the run on '.' checks the marketplace only, not the plugin manifest and its files"
+    return not failed, "claude plugin validate --strict (Claude Code %s): %d of %d passed%s%s" % (
+        ".".join(map(str, version)) if version else "version unknown", len(targets) - len(failed), len(targets),
+        (" (failed: " + ", ".join(failed) + ")") if failed else "", note)
 
 
 def main():

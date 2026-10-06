@@ -5,106 +5,102 @@ description: Read the owner's Meta ads results (Facebook and Instagram ads) with
 
 # Meta ads into Sorted, through a feed
 
-Sorted does not read Meta ads itself. You can: you read the numbers with the owner's own read-only Meta access, then send them to Sorted with the feed tools. A **feed** is a named area on the owner's dashboard that you may send numbers into. The owner approves it once.
+Sorted does not read Meta ads itself. You read the numbers with the owner's read-only Meta access, then send them with the feed tools. A **feed** is a named area on their dashboard that you may send numbers into; the owner approves it once.
 
 Sorted cannot check these numbers. The dashboard labels them "sent by your assistant, not read by Sorted", and the owner is responsible for them. Say this to the owner in plain words before you start.
 
-If `define_feed` and `feed_numbers` are not among your Sorted tools, feeds are not switched on for this company. Say so plainly and stop.
+If `define_feed` and `feed_numbers` are not among your Sorted tools, feeds are not switched on for this company. Say so and stop.
 
 ## What to ask the owner
 
-1. Which ad account (its name, or its account number) and which currency it reports in.
-2. Which numbers they want on the dashboard (offer the list under "Numbers to read") and for which period. Yesterday is the usual choice.
+1. Which ad account (its name or number) and which currency it reports in.
+2. Which numbers they want (offer the list below) and for which period. Yesterday is the usual choice.
 3. Whether this is once, now, or every morning (only if your app can run scheduled tasks).
-4. Whether they are an owner of their company in Sorted. Only an owner can create, send to or end a feed. If `define_feed` refuses because of that, stop and say so.
+4. Whether they are an owner of their company in Sorted: only an owner can create, send to or end a feed. If `define_feed` refuses for that reason, stop and say so.
 
 ## Read-only access first
 
 You need a way to read their Meta ads that cannot change anything. In this order:
 
 1. A Meta ads connector the owner has already added to this assistant app, signed in as themselves. Use only its reading tools (list ad accounts, read results or insights). Never call a tool that creates, edits, pauses, deletes or spends, even when the connector offers one.
-2. No connector: the owner exports a report from Ads Manager themselves (Reports, Export, CSV) and shares the file, or they read the numbers from their own screen and type the numbers (only numbers) into the chat.
+2. No connector: the owner exports a report from Ads Manager (Reports, Export table data, choose CSV, Export) and shares the file, or reads the numbers from their own screen and types only the numbers into the chat.
 
 If neither is possible, say so and stop. Do not look for another way in.
 
 ## Make a read-only connection
 
-Use this when someone other than the owner (a teammate, or a teammate's assistant) will do the reading:
+Use this when someone other than the owner (a teammate, or their assistant) will do the reading. The owner needs full control of their business portfolio and opens https://business.facebook.com, then Settings.
 
-1. The owner opens https://business.facebook.com, then Settings, Accounts, Ad accounts, and picks the account.
-2. They assign the person (or partner business) and give **View performance** only. Not "Manage campaigns", not full control.
-3. That person signs in to the Meta connector of their own assistant app with that account.
+1. Person: People, Invite people if not listed; then Accounts, Ad accounts, the account, Assign people, **View performance** only. Not "Manage campaigns", not full control.
+2. Partner business: Users, Partners, Add, Give a partner access to your assets (needs their business portfolio ID), then **View performance** only.
+3. No business portfolio (not listed above): in Ads Manager, Ad account settings, Ad account roles, Add people, **Analyst**, Meta's view-only role there (not called View performance). Meta says the person needs an active Facebook account and must be the owner's Facebook friend.
+4. That person signs in to the Meta connector of their own assistant app with that account.
 
-The owner makes every click that grants access, in their own window. You only say which screen comes next. Meta renames its menus often: if the screen does not match, say what you see and let the owner find it. Do not guess.
+The owner makes every click that grants access, in their own window; you only say which screen comes next. Meta renames its menus often: if the screen does not match, say what you see and let the owner find it. Do not guess.
 
 ## Numbers to read
 
-For the period the owner chose, for the whole ad account unless they asked per campaign:
+For the period chosen, for the whole ad account unless they asked per campaign:
 
 - Amount spent: money, in the ad account's currency.
 - Impressions: count.
 - Link clicks: count.
-- Click-through rate: percent, written as the percent number (1.8 means 1.8%).
+- Link click-through rate: percent as the percent number (1.8 means 1.8%). Never "CTR (all)": read inline_link_click_ctr, or "CTR (link click-through rate)" in an export.
 - Cost per link click: money.
-- Results: count. Name the result the campaigns aim for (purchases, leads, messages).
-- Purchase value: money. Only if the account tracks purchases.
-- Return on ad spend: ratio (3.2 means 3.2 times). Only if both amount spent and purchase value exist.
+- Results: count. It follows each campaign's objective: name it (purchases, leads, messages).
+- Purchases (count) and Purchase value (money), only if the account tracks purchases. In the API read only the omni_purchase entry of actions and action_values, never several entries added together.
+- Return on ad spend: ratio (3.2 means 3.2 times). Read Meta's Purchase ROAS (purchase_roas, omni_purchase entry; "Purchase ROAS" in an export). Meta may not calculate it: then send `null`, never 0, and do not work it out yourself.
 
-Read each one from the same report and the same period. If a number is not there, leave it out of the feed or send `null` for it. Never estimate.
+Read each one from the same report and the same period. If a number is not there, leave it out of the feed or send `null` for it. Tell the owner that Meta's spend is an estimate and purchases can still change for days.
 
 ## The feed
 
 1. Call `list_feeds`. If a feed for this ad account already carries the same labels, use it and go to step 4.
-2. Call `define_feed` with a short name (40 characters at most) and the exact numbers, each with a label and a unit. Nothing is saved yet: you get a preview and a `confirm_token`.
+2. Call `define_feed` with a short name and the exact numbers, each with a label and a unit. Nothing is saved yet: you get a preview and a `confirm_token`.
 
 ```json
 {"name": "Meta ads, main account",
  "numbers": [
   {"label": "Amount spent", "unit": "money", "currency": "USD"},
-  {"label": "Impressions", "unit": "count"},
   {"label": "Link clicks", "unit": "count"},
-  {"label": "Click-through rate", "unit": "percent"},
-  {"label": "Cost per link click", "unit": "money", "currency": "USD"},
+  {"label": "Link click-through rate", "unit": "percent"},
   {"label": "Purchases", "unit": "count"},
   {"label": "Purchase value", "unit": "money", "currency": "USD"},
-  {"label": "Return on ad spend", "unit": "ratio"}],
- "fresh_hours": 36, "daily_cap": 4}
+  {"label": "Return on ad spend", "unit": "ratio"}]}
 ```
 
 3. Show the owner the preview in plain words and wait for their yes. Only then call `define_feed` again with nothing but the `confirm_token` (it works once, for 10 minutes).
-4. Call `feed_numbers` with the feed's name, `as_of` (the date the numbers are about, such as yesterday's date) and one entry per label you read:
+4. Call `feed_numbers` with the feed's name, `as_of` (the date the numbers are about, such as yesterday) and one entry per label you read:
 
 ```json
 {"feed": "Meta ads, main account", "as_of": "2026-10-05",
  "values": [
   {"label": "Amount spent", "value": 412.37},
-  {"label": "Impressions", "value": 58210},
   {"label": "Link clicks", "value": 1043},
-  {"label": "Click-through rate", "value": 1.79},
-  {"label": "Cost per link click", "value": 0.4},
+  {"label": "Link click-through rate", "value": 1.79},
   {"label": "Purchases", "value": 27},
   {"label": "Purchase value", "value": 1310.5},
   {"label": "Return on ad spend", "value": 3.18}]}
 ```
 
-Per campaign, define one small table instead of a list. The rows are fixed when the feed is made, so a new campaign needs a new feed:
+Per campaign, define a table instead (its rows are fixed, so a new campaign needs a new feed):
 
 ```json
 {"name": "Meta ads by campaign",
  "table": {"rows": ["Spring sale", "Retargeting"],
-  "columns": [{"label": "Amount spent", "unit": "money", "currency": "USD"}, {"label": "Purchases", "unit": "count"}]}}
+  "columns": [{"label": "Amount spent", "unit": "money", "currency": "USD"}]}}
 ```
 
 ```json
 {"feed": "Meta ads by campaign", "as_of": "2026-10-05",
- "values": [{"label": "Spring sale", "values": [250.1, 18]}, {"label": "Retargeting", "values": [162.27, 9]}]}
+ "values": [{"label": "Spring sale", "values": [250.1]}, {"label": "Retargeting", "values": [162.27]}]}
 ```
 
 Limits Sorted enforces: at most 40 numbers, or one table of at most 40 numbers and 8 columns; labels 60 characters, name 40; units `money` (with a three-letter currency code), `count` (whole, 0 or more), `percent`, `ratio`, `days`, `number`; `null` means "no number", never zero; `as_of` at most 10 minutes in the future, not older than 45 days, newer than the last send; at most `daily_cap` sends a day (default 4); grey after `fresh_hours` (default 36); a feed lasts 90 days. Sending the same `as_of` with the same numbers again is safe.
 
 5. Tell the owner what you sent and how to stop it: `end_feed` removes the feed and deletes every number it sent, at once.
 
-Every morning: if your app runs scheduled tasks, it can repeat step 4 daily. Not every app keeps its sign-in in an unattended run, so check the first days with `list_feeds` (it shows the last send).
+Every morning: repeat step 4 daily. Not every app keeps its sign-in in an unattended run, so check the first days with `list_feeds` (it shows the last send).
 
 ## Never
 

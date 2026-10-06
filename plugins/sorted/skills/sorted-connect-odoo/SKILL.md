@@ -1,11 +1,11 @@
 ---
 name: sorted-connect-odoo
-description: Read the owner's Odoo numbers (invoiced sales, who owes the company, what it owes, bank and cash) with read-only access and send them to their Sorted dashboard through a feed. Use when the owner asks their own assistant to send Odoo numbers into Sorted, for example when their Odoo plan gives no programming access so Sorted cannot connect to it. Not for connecting a system so that Sorted reads it itself, which is sorted-connect-systems.
+description: Read the owner's Odoo numbers (invoiced sales, who owes the company, what it owes, bank and cash) with read-only access and send them to their Sorted dashboard through a feed. Use when the owner asks their own assistant to send Odoo numbers into Sorted, for example when Sorted cannot connect to their Odoo. Not for connecting a system so that Sorted reads it itself, which is sorted-connect-systems.
 ---
 
 # Odoo into Sorted, through a feed
 
-Sorted can read Odoo itself (Connections page, https://sortedos.com/connections), every hour, with the records behind each number. **Offer that first.** Use this skill when Sorted cannot connect (some Odoo plans give no programming access), for a number Sorted does not show, or when the owner prefers their own assistant to read.
+Sorted can read Odoo itself (Connections page, https://sortedos.com/connections), every hour, with the records behind each number. **Offer that first.** Use this skill when Sorted cannot connect, for a number Sorted does not show, or when the owner prefers their own assistant to read.
 
 Here you read the numbers with the owner's read-only access and send them through a **feed**: a named area on their dashboard that you may send numbers into, approved by them once. Sorted cannot check these numbers: the dashboard labels them "sent by your assistant, not read by Sorted", and the owner is responsible for them. Tell them so before you start.
 
@@ -13,17 +13,17 @@ If `define_feed` and `feed_numbers` are not among your Sorted tools, feeds are n
 
 ## What to ask the owner
 
-1. Their Odoo address (like https://yourcompany.odoo.com) and, if the database holds several companies, **which company**. One feed carries one company's numbers.
-2. Which numbers they want (offer the list under "Numbers to read"), and for sales, which period. Yesterday or the last 30 days are the usual choices.
+1. Their Odoo address (like https://yourcompany.odoo.com), which Odoo plan they are on and, if the database holds several companies, **which company**. One feed carries one company's numbers.
+2. Which numbers they want (offer the list under "Numbers to read") and, for sales, which period (yesterday or the last 30 days are usual).
 3. Whether this is once, now, or every morning (only if your app can run scheduled tasks).
 4. Whether they are an owner of their company in Sorted. Only an owner can create, send to or end a feed.
 
 ## Read-only access first
 
-You need a way to read the books that cannot change anything. In this order:
+You need a way to read the books that cannot change anything. Odoo's documentation says Odoo Online's One App Free and Standard plans have no external API, so option 1 will not work there: start at option 2. If they do not know their plan, they find out before making a user or key. In this order:
 
-1. An Odoo connector the owner added to this assistant app, connected as a read-only user (below). Use only its reading calls. Never call anything that creates, writes, posts, confirms, pays or deletes.
-2. A browser your app controls, signed in **as the read-only user**; the owner types that user's password themselves. You open reports and read them, and never press a button that changes a record.
+1. An Odoo connector the owner added to this assistant app, connected as a read-only user (below). Use only its reading calls.
+2. A browser your app controls, signed in **as the read-only user**; the owner types that user's password themselves. You only read reports, never pressing a button that changes a record.
 3. Neither: the owner exports the reports themselves and shares the file, or types the numbers (only numbers) into the chat.
 
 If none is possible, say so and stop. Do not look for another way in.
@@ -33,10 +33,10 @@ If none is possible, say so and stop. Do not look for another way in.
 A dedicated read-only Odoo user is the safe way. The owner does this themselves:
 
 1. They open Settings, then Users & Companies, then Users, and look for an existing read-only user first (a new user may cost a paid seat).
-2. If there is none and they agree: New user, named for the assistant, with Accounting set to its **read-only** option (in recent versions it is called "Show Accounting Features - Readonly"; names differ by version) and no other rights. Only the company or companies the owner chose.
-3. For a connector: they open that user's profile, then Account Security, then New API Key, and put it into their assistant app's Odoo connector settings themselves, in that app's own settings screen, never in the chat.
+2. If there is none and they agree: they turn on developer mode (Settings, Activate the developer mode), then make a New user named for the assistant. In Access Rights they leave Accounting blank (none of its choices is read-only: not Invoicing, Accountant or Administrator) and tick the technical right "Show Accounting Features - Readonly" (it may sit under Technical or Extra Rights; names differ by version). No other rights; only the company or companies the owner chose. Signed in as that user, they check it cannot create or edit an invoice.
+3. For a connector: the read-only user makes the key, not an administrator opening that user from Settings. The owner signs in as that user and types that user's password themselves, then opens Preferences (or My Profile), Account Security, New API Key, adds a clear description and puts the key into their assistant app's Odoo connector settings, never in the chat.
 
-Never use the owner's administrator account for this, and never give a user more rights than the owner chose. The owner makes every click that grants access; you only say which screen comes next. If the menus differ, say what you see. Do not guess.
+Never use the owner's administrator account for this or give a user more rights than the owner chose. The owner makes every click that grants access; you only say which screen comes next. If the menus differ, say what you see; do not guess.
 
 ## Numbers to read
 
@@ -49,49 +49,49 @@ All money is in the company's currency:
 - Overdue to suppliers: that total minus its "not due" part.
 - Bank and cash: each bank and cash journal's balance on the Accounting dashboard, in a table (below), never added together.
 
-Only posted entries count, never drafts. If a number is not there, leave it out or send `null`. Never estimate.
+Only posted entries count, never drafts. If a number is not there, leave it out or send `null`.
 
 ## The feed
 
 1. Call `list_feeds`. If a feed for this company already carries the same labels, use it and go to step 4.
-2. Call `define_feed` with a short name (40 characters at most) and the exact numbers, each with a label and a unit. Nothing is saved yet: you get a preview and a `confirm_token`.
+2. Call `define_feed` with a short name and the exact numbers, each with a label and a unit. Nothing is saved yet: you get a preview and a `confirm_token`.
 
 ```json
-{"name": "Odoo books, main company",
- "numbers": [
-  {"label": "Invoiced sales, last 30 days", "unit": "money", "currency": "EGP"},
-  {"label": "Customers owe us", "unit": "money", "currency": "EGP"},
-  {"label": "Overdue from customers", "unit": "money", "currency": "EGP"},
-  {"label": "We owe suppliers", "unit": "money", "currency": "EGP"},
-  {"label": "Overdue to suppliers", "unit": "money", "currency": "EGP"}],
- "fresh_hours": 36, "daily_cap": 4}
+{"name":"Odoo books, main company",
+ "numbers":[
+  {"label":"Invoiced sales, last 30 days","unit":"money","currency":"EGP"},
+  {"label":"Customers owe us","unit":"money","currency":"EGP"},
+  {"label":"Overdue from customers","unit":"money","currency":"EGP"},
+  {"label":"We owe suppliers","unit":"money","currency":"EGP"},
+  {"label":"Overdue to suppliers","unit":"money","currency":"EGP"}],
+ "fresh_hours":36,"daily_cap":4}
 ```
 
 3. Show the owner the preview in plain words and wait for their yes. Only then call `define_feed` again with nothing but the `confirm_token` (it works once, for 10 minutes).
 4. Call `feed_numbers` with the feed's name, `as_of` (the date and time you read the numbers) and one entry per label you read:
 
 ```json
-{"feed": "Odoo books, main company", "as_of": "2026-10-06T07:00:00Z",
- "values": [
-  {"label": "Invoiced sales, last 30 days", "value": 1284500},
-  {"label": "Customers owe us", "value": 642300.75},
-  {"label": "Overdue from customers", "value": 118900},
-  {"label": "We owe suppliers", "value": 301120.4},
-  {"label": "Overdue to suppliers", "value": 22400}]}
+{"feed":"Odoo books, main company","as_of":"2026-10-06T07:00:00Z",
+ "values":[
+  {"label":"Invoiced sales, last 30 days","value":1284500},
+  {"label":"Customers owe us","value":642300.75},
+  {"label":"Overdue from customers","value":118900},
+  {"label":"We owe suppliers","value":301120.4},
+  {"label":"Overdue to suppliers","value":22400}]}
 ```
 
 Bank and cash, one row per journal and one column per currency (an empty cell is `null`, never zero):
 
 ```json
-{"name": "Odoo bank and cash",
- "table": {"rows": ["Main bank", "Second bank", "Cash"],
-  "columns": [{"label": "Balance EGP", "unit": "money", "currency": "EGP"}, {"label": "Balance USD", "unit": "money", "currency": "USD"}]}}
+{"name":"Odoo bank and cash",
+ "table":{"rows":["Main bank","Second bank","Cash"],
+  "columns":[{"label":"Balance EGP","unit":"money","currency":"EGP"},{"label":"Balance USD","unit":"money","currency":"USD"}]}}
 ```
 
 ```json
-{"feed": "Odoo bank and cash", "as_of": "2026-10-06T07:00:00Z",
- "values": [{"label": "Main bank", "values": [905400.2, null]}, {"label": "Second bank", "values": [null, 12040.5]},
-  {"label": "Cash", "values": [18250, null]}]}
+{"feed":"Odoo bank and cash","as_of":"2026-10-06T07:00:00Z",
+ "values":[{"label":"Main bank","values":[905400.2,null]},{"label":"Second bank","values":[null,12040.5]},
+  {"label":"Cash","values":[18250,null]}]}
 ```
 
 Limits Sorted enforces: at most 40 numbers, or one table of at most 40 numbers and 8 columns; labels 60 characters, name 40; units `money` (with a three-letter currency code), `count` (whole, 0 or more), `percent`, `ratio`, `days`, `number`; `null` means "no number", never zero; `as_of` at most 10 minutes in the future, not older than 45 days, newer than the last send; at most `daily_cap` sends a day (default 4); grey after `fresh_hours` (default 36); a feed lasts 90 days. Sending the same `as_of` with the same numbers again is safe.
