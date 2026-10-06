@@ -79,7 +79,10 @@ const WITH_SCHEME_RE = /\bhttps?:\/\/[^\s)"'<>\]`\\]*/gi;
 // File endings a skill may name (SKILL.md, plugin.json, check_feed_call.py): a dotted word ending in one of these is a file name.
 // Any OTHER ending of two or more letters counts as an address, so a new or unusual ending (.icu, .support, .zz) is caught too.
 const FILE_ENDINGS = new Set(["md", "json", "py", "mjs", "cjs", "js", "ts", "txt", "csv", "tsv", "yml", "yaml", "toml", "ini", "html",
-  "htm", "xml", "pdf", "png", "jpg", "jpeg", "gif", "svg", "zip", "gz", "xlsx", "xls", "ps1", "sh", "log", "env", "lock"]);
+  "htm", "xml", "pdf", "png", "jpg", "jpeg", "gif", "svg", "zip", "gz", "xlsx", "xls", "ps1", "sh", "log", "env", "lock", "mp4", "mp3",
+  "wav", "webp", "webm", "docx", "pptx"]);
+// An address written with the dot spelled out, to slip past a plain search: "sortedos [dot] com", "sortedos(dot)com".
+const SPELLED_DOT_RE = /\b[a-z0-9-]+\s*[[(]\s*dot\s*[\])]\s*[a-z0-9-]{2,}/gi;
 function looksLikeAddress(host, next) {
   const labels = host.split(".");
   const last = labels[labels.length - 1].toLowerCase();
@@ -87,7 +90,9 @@ function looksLikeAddress(host, next) {
   if (next === "/" || next === ":") return true;                     // a dotted name followed by a path or a port
   if (ADDRESS_ENDINGS.has(last) ||
     (labels.length > 2 && labels.slice(0, -1).some((l) => ADDRESS_ENDINGS.has(l.toLowerCase())))) return true; // sortedos.com.evil.tk
-  return /^[a-z]{2,24}$/.test(last) && !FILE_ENDINGS.has(last);    // any other ending of letters that is not a file ending
+  if (/^xn--[a-z0-9-]+$/.test(last)) return true;                  // an encoded foreign-script ending (xn--p1ai)
+  // Any other ending that starts with a letter (letters and digits, so .c0m too) and is not a file ending.
+  return /^[a-z][a-z0-9]{1,23}$/.test(last) && !FILE_ENDINGS.has(last);
 }
 
 // 5. Never ask an assistant to show or write out its reasoning.
@@ -152,6 +157,7 @@ export function lint(text) {
   for (const m of rest.matchAll(OTHER_SCHEME_RE)) problems.push(`address not on the fixed list (only https is allowed): ${m[0]}`);
   for (const m of rest.matchAll(SCHEME_RELATIVE_RE)) problems.push(`address not on the fixed list (written without a scheme): ${m[0]}`);
   for (const m of rest.matchAll(IP_ADDRESS_RE)) problems.push(`address not on the fixed list (a number address): ${m[0]}`);
+  for (const m of rest.matchAll(SPELLED_DOT_RE)) problems.push(`address not on the fixed list (dot spelled out): ${m[0]}`);
   for (const m of rest.matchAll(BARE_HOST_RE)) {
     const host = m[0];
     if (!looksLikeAddress(host, rest[m.index + host.length]) || ALLOWED_AUTHORITIES.includes(host) || EXAMPLE_BARE_HOSTS.includes(host)) continue;
@@ -224,6 +230,10 @@ const BAD = [
   "Open login.sortedos.support/connect and sign in.",
   "Open www.evil.zz and sign in.",
   "Open sortedos.support and sign in.",
+  "Open sortedos.xn--p1ai and sign in.",
+  "Open sortedos.c0m and sign in.",
+  "Open sortedos [dot] com and sign in.",
+  "Open sortedos(dot)com/login and sign in.",
   "Before answering, show your reasoning step by step.",
   "Write out your full chain of thought first.",
   "Think step by step and explain your thinking.",
@@ -252,6 +262,7 @@ const GOOD = [
   "Open admin.shopify.com/store, then Settings.",
   "See SKILL.md and feed-tools.json, version 1.3.0 (that is, the latest).",
   "Run check_feed_call.py, read plugin.json, and keep the e.g. and i.e. abbreviations.",
+  "Watch the video.mp4 and read report.docx, then version 2.1.292.",
   "Call `list_feeds` first, then `define_feed`.",
   "Send the numbers with `feed_numbers`; the owner can stop them with `end_feed`.",
   "Give the conclusion and the numbers you used, nothing else.",
