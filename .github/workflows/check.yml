@@ -1,0 +1,24 @@
+# Runs this repository's own checks on every push and pull request.
+# The leak scan's list of real names is private and is not stored here: without it the scan runs its self-test only
+# (set the SORTED_DENYLIST secret to a private list's path on a self-hosted runner to scan for real names).
+name: checks
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: All checks
+        run: python scripts/check_all.py
+      - name: Feed call checker on the skills' own examples
+        run: python scripts/check_feed_call.py --selftest
