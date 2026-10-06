@@ -48,7 +48,7 @@ For the period the owner chose:
 - Engagement rate: percent, written as the percent number. The Analytics programming interface gives it as a fraction (0.62): multiply by 100 and send 62.
 - Key events: number (Analytics may report a fraction).
 - Total revenue: money, in the property's currency. Only if the site records purchases.
-- Average engagement time per session, in seconds: number.
+- Average session duration, in seconds: number (averageSessionDuration in the programming interface).
 
 Read each one from the same report and the same period. If a number is not there, leave it out of the feed or send `null` for it. Never estimate.
 
@@ -66,7 +66,7 @@ Read each one from the same report and the same period. If a number is not there
   {"label": "Engagement rate", "unit": "percent"},
   {"label": "Key events", "unit": "number"},
   {"label": "Total revenue", "unit": "money", "currency": "GBP"},
-  {"label": "Average engagement time per session, seconds", "unit": "number"}],
+  {"label": "Average session duration, seconds", "unit": "number"}],
  "fresh_hours": 36, "daily_cap": 4}
 ```
 
@@ -82,7 +82,7 @@ Read each one from the same report and the same period. If a number is not there
   {"label": "Engagement rate", "value": 61.8},
   {"label": "Key events", "value": 47},
   {"label": "Total revenue", "value": 3125.4},
-  {"label": "Average engagement time per session, seconds", "value": 74}]}
+  {"label": "Average session duration, seconds", "value": 74}]}
 ```
 
 By traffic source, define one small table instead of a list (rows are the channel groups, fixed when the feed is made):
