@@ -29,14 +29,14 @@ If neither is possible, say so and stop. Do not look for another way in.
 
 ## Make a read-only connection
 
-Use this when someone other than the owner (a teammate, or their assistant) will do the reading. The owner needs full control of their business portfolio and opens https://business.facebook.com, then Settings.
+For a reader other than the owner (a teammate, or their assistant). The owner needs full control of their business portfolio and opens https://business.facebook.com, then Settings.
 
 1. Person: People, Invite people if not listed; then Accounts, Ad accounts, the account, Assign people, **View performance** only. Not "Manage campaigns", not full control.
 2. Partner business: Users, Partners, Add, Give a partner access to your assets (needs their business portfolio ID), then **View performance** only.
 3. No business portfolio (not listed above): in Ads Manager, Ad account settings, Ad account roles, Add people, **Analyst**, Meta's view-only role there (not called View performance). Meta says the person needs an active Facebook account and must be the owner's Facebook friend.
 4. That person signs in to the Meta connector of their own assistant app with that account.
 
-The owner makes every click that grants access, in their own window; you only say which screen comes next. Meta renames its menus often: if the screen does not match, say what you see and let the owner find it. Do not guess.
+The owner makes every click that grants access, in their own window; you only say which screen comes next. Meta renames menus often: if the screen differs, say what you see. Do not guess.
 
 ## Numbers to read
 
@@ -51,7 +51,7 @@ For the period chosen, for the whole ad account unless they asked per campaign:
 - Purchases (count) and Purchase value (money), only if the account tracks purchases. In the API read one purchase entry of actions and action_values (omni_purchase if present), never several added together.
 - Return on ad spend: ratio (3.2 means 3.2 times). Read Meta's Purchase ROAS (purchase_roas, omni_purchase entry; "Purchase ROAS" in an export). Meta may not calculate it: then send `null`, never 0, and do not work it out yourself.
 
-Read each one from the same report and the same period. If a number is not there, leave it out of the feed or send `null` for it. Tell the owner that Meta's spend is an estimate and purchases can still change for days.
+Read each from the same report and period. If a number is not there, leave it out of the feed or send `null` for it. Tell the owner Meta's spend is an estimate and purchases can change for days.
 
 ## The feed
 
@@ -100,7 +100,7 @@ Limits Sorted enforces: at most 40 numbers, or one table of at most 40 numbers a
 
 5. Tell the owner what you sent and how to stop it: `end_feed` removes the feed and deletes every number it sent, at once.
 
-Every morning: repeat step 4 daily. Not every app keeps its sign-in in an unattended run, so check the first days with `list_feeds` (it shows the last send).
+Every morning: repeat step 4 daily. In a test (7 October 2026) a Meta connector sign-in worked unattended and was valid for 60 days, with no automatic renewal; then the owner signs in again. Check the first days with `list_feeds` (it shows the last send).
 
 ## Never
 
