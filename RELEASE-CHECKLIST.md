@@ -14,7 +14,7 @@ Every decision below belongs to the repository owner. None of them has been made
 
 ## Checks to run on the exact commit being published
 
-- [ ] `python scripts/scan_public.py --denylist <private list>` prints `hits: 0` (it scans every file and the git history).
+- [ ] `python scripts/scan_public.py --denylist <private list>` prints `hits: 0` (it scans every file and every change in the git history).
 - [ ] `python scripts/scan_public.py --selftest` passes (the scan can still catch a planted secret).
 - [ ] `node scripts/lint_skills.mjs` ends with `ok - all skill checks passed`.
 - [ ] `python scripts/sync_codex_plugin.py --check` prints `drift: 0`.

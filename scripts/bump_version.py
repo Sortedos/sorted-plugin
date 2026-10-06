@@ -31,15 +31,21 @@ def main():
         return 2
     for rel, setter, getter in PLACES:
         path = os.path.join(ROOT, rel)
-        with open(path, encoding="utf-8") as fh:
-            data = json.load(fh)
+        with open(path, encoding="utf-8", newline="") as fh:
+            text = fh.read()
+        data = json.loads(text)
         old = getter(data)
         print("%s: %s -> %s%s" % (rel.replace("\\", "/"), old, a.version, " (dry run, unchanged)" if a.dry_run else ""))
-        if not a.dry_run:
+        if a.dry_run:
+            continue
+        # Change only the version text, so the rest of the file keeps its layout and the change stays one line.
+        pattern = re.compile(r'("version"\s*:\s*")' + re.escape(str(old)) + r'"')
+        new_text, n = pattern.subn(lambda m: m.group(1) + a.version + '"', text)
+        if n != 1 or getter(json.loads(new_text)) != a.version:  # not exactly one place: rewrite the whole file instead
             setter(data, a.version)
-            with open(path, "w", encoding="utf-8", newline="\n") as fh:  # no byte-order mark
-                json.dump(data, fh, indent=2, ensure_ascii=False)
-                fh.write("\n")
+            new_text = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
+        with open(path, "w", encoding="utf-8", newline="") as fh:  # no byte-order mark
+            fh.write(new_text)
     return 0
 
 

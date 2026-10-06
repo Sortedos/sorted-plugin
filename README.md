@@ -18,7 +18,7 @@ Owners and teams who already use Sorted, or who are trying it, and who work with
 - List who owes the company money and draft polite reminders.
 - Find where two systems disagree (for example the books and the bank) and list the exact records behind the gap.
 - Help the owner connect Odoo, Shopify, Google Ads or Google Analytics, so that Sorted reads them itself.
-- **Send in numbers from systems Sorted does not read itself** (Meta ads, a point-of-sale system, a delivery app, anything else), through a **feed**: a named area on the dashboard that the owner approves once. Six skills teach this, one per system: `sorted-connect-odoo`, `sorted-connect-shopify`, `sorted-connect-google-ads`, `sorted-connect-google-analytics`, `sorted-connect-meta-ads` and `sorted-connect-any-system`.
+- **Send in numbers from systems Sorted does not read itself** (Meta ads, a point-of-sale system, a delivery app, anything else), through a **feed**: a named area on the dashboard that the owner approves once. Six skills teach this, one per system: `sorted-connect-odoo`, `sorted-connect-shopify`, `sorted-connect-google-ads`, `sorted-connect-google-analytics`, `sorted-connect-meta-ads` and `sorted-connect-any-system`. Sorted reads Odoo, Shopify, Google Ads and Google Analytics itself, and each of those skills offers that first; the feed is for when Sorted's own connection cannot reach the account, or for a number Sorted does not show.
 
 Two things to know about feeds:
 
@@ -32,10 +32,11 @@ The tools, their limits and examples: [docs/feed-tools.md](docs/feed-tools.md).
 You need Codex installed and signed in, and a personal Sorted plugin key (it starts with `srt_`). Sorted gives you one: ask through the contact link on the Sorted website. The key belongs to you and your company; keep it to yourself.
 
 1. Download this repository and open a terminal in its folder.
-2. Save your key where Codex can read it, as the environment variable `SORTED_TOKEN`. On Windows, in PowerShell:
+2. Save your key where Codex can read it, as the environment variable `SORTED_TOKEN`. On Windows, in PowerShell (the key stays hidden while you paste it):
 
    ```powershell
-   [Environment]::SetEnvironmentVariable("SORTED_TOKEN", (Read-Host "Paste your Sorted key"), "User")
+   $key = Read-Host "Paste your Sorted key" -AsSecureString
+   [Environment]::SetEnvironmentVariable("SORTED_TOKEN", [Net.NetworkCredential]::new("", $key).Password, "User")
    ```
 
    On macOS or Linux, add `export SORTED_TOKEN=...` with your key to your shell's start-up file.
@@ -58,14 +59,14 @@ You need Claude Code installed. No key: Claude Code signs in to Sorted with your
 2. Add the plugin:
 
    ```
-   claude plugin marketplace add .
+   claude plugin marketplace add ./
    claude plugin install sorted@sorted
    ```
 
 3. Start Claude Code, type `/mcp`, choose **sorted** and sign in with your Sorted account when the browser opens.
 4. Ask: "Do a quick business review using Sorted."
 
-Tested on: Windows 11 with Claude Code 2.1.291, 6 October 2026 (the plugin, its 13 skills and the Sorted server entry installed; the sign-in step was not run in that test). Not tested: macOS, Linux.
+Tested on: Windows 11 with Claude Code 2.1.291 and 2.1.292, 6 October 2026 (the plugin, its 13 skills and the Sorted server entry installed; the sign-in step was not run in that test). Not tested: macOS, Linux.
 
 Using Claude on the web or the desktop app instead: add a custom connector with the address `https://sortedos.com/api/mcp` and sign in with Sorted, following Claude's own guide (https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp). The skills can then be pasted into a conversation, or added as skills where your Claude plan allows it.
 
@@ -84,11 +85,13 @@ Tested on: the steps were checked against OpenAI's own help article on 6 October
 
 ## For contributors
 
-The checks this repository runs on itself. One command runs them all (`python scripts/check_all.py`); one by one:
+How to propose a new system skill or report a problem: [CONTRIBUTING.md](CONTRIBUTING.md). What changed in each version: [CHANGELOG.md](CHANGELOG.md). Notes that prepare future system skills: [docs/research/](docs/research/). This page in Arabic: [docs/ar/README.md](docs/ar/README.md).
+
+The checks this repository runs on itself (on macOS or Linux, type `python3` where it says `python`). One command runs them all (`python scripts/check_all.py`); one by one:
 
 ```
 python scripts/scan_public.py --selftest                     # the leak scan can catch a planted secret
-python scripts/scan_public.py --denylist <your private list> # leak scan of every file and the git history
+python scripts/scan_public.py --denylist <your private list> # leak scan of every file and every change in the git history
 node scripts/lint_skills.mjs                                 # skill lint: rules, limits, word cap, no secrets
 python scripts/sync_codex_plugin.py --check                  # the Codex copy of the skills has not drifted
 ```

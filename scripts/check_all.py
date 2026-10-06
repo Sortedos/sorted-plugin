@@ -6,14 +6,17 @@
 Checks, in order:
   1. leak scan            scripts/scan_public.py with the private deny-list named in the SORTED_DENYLIST environment
                           variable (the list stays outside the repository); without it, only the scan's self-test runs
+                          and the check is reported as skipped
   2. skill lint           scripts/lint_skills.mjs
   3. Codex copy           scripts/sync_codex_plugin.py --check (no drift, same version in every manifest)
   4. tool names           every feed tool named in the docs and skills is one of the four in docs/feed-tools.json
   5. byte-order marks     no JSON file starts with one (Claude Code then loads no servers from .mcp.json)
   6. feed call checker    scripts/check_feed_call.py --selftest (the offline checker still decides its own examples right)
-  7. plugin validation    claude plugin validate . --strict (skipped, with a notice, when Claude Code is not installed)
+  7. plugin validation    claude plugin validate --strict on the marketplace, the plugin manifest and the Codex plugin folder
+                          (skipped, with a notice, when Claude Code is not installed)
 Exit code 1 if any check failed.
 """
+import argparse
 import glob
 import json
 import os
@@ -37,7 +40,10 @@ def check_leaks():
         code, last = run([sys.executable, "scripts/scan_public.py", "--denylist", deny, ROOT])
         return code == 0, last
     code, last = run([sys.executable, "scripts/scan_public.py", "--selftest"])
-    return code == 0, "self-test only (set SORTED_DENYLIST to scan for real names): " + last
+    if code != 0:
+        return False, "the scan's self-test failed: " + last
+    # Without the private list the real scan has not run, so this is a skip, never a pass.
+    return None, "skipped: the self-test passed, but the real scan needs SORTED_DENYLIST (the path of the private list of names)"
 
 
 def check_lint():
@@ -85,11 +91,18 @@ def check_validate():
     claude = shutil.which("claude")
     if not claude:
         return None, "skipped: Claude Code is not installed"
-    code, last = run([claude, "plugin", "validate", ".", "--strict"])
-    return code == 0, last
+    targets = [".", ".claude-plugin/plugin.json", "plugins/sorted"]  # the marketplace, the plugin manifest, the Codex plugin folder
+    failed = []
+    for t in targets:
+        code, _ = run([claude, "plugin", "validate", t, "--strict"])
+        if code != 0:
+            failed.append(t)
+    return not failed, "claude plugin validate --strict: %d of %d passed%s" % (
+        len(targets) - len(failed), len(targets), (" (failed: " + ", ".join(failed) + ")") if failed else "")
 
 
 def main():
+    argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     checks = [("leak scan", check_leaks), ("skill lint", check_lint), ("Codex copy", check_codex_copy),
               ("tool names", check_tool_names), ("byte-order marks", check_bom), ("feed call checker", check_feed_checker),
               ("plugin validation", check_validate)]
@@ -113,4 +126,7 @@ def main():
 
 
 if __name__ == "__main__":
+    for stream in (sys.stdout, sys.stderr):  # the checks print marks such as a tick; a Windows console or pipe would otherwise fail on them
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
     sys.exit(main())

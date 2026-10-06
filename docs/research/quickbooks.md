@@ -23,7 +23,7 @@ This is a research note, not a skill. It records what Intuit's own public docume
 | Q11 | QuickBooks Online release notes, https://developer.intuit.com/app/developer/qbo/docs/release-notes/general-release-notes (whole page searched for "scope", "read-only" and "MCP"; entries run to September 2026) | checked 6 October 2026 | Whether anything recent changed access or scopes |
 | Q12 | Intuit help article "User roles and access rights in QuickBooks Online", https://quickbooks.intuit.com/community/help-articles-128/user-roles-and-access-rights-in-quickbooks-online-284649 (on Intuit's community help site) | checked 6 October 2026 | Which user roles can only view reports |
 
-Q1 to Q11 are script-built pages, so they were rendered in a browser with no sign-in and the parts used in this note were read. **Q12 was read through the fetch tool, which returns a summary, so its quoted phrases are UNVERIFIED word for word.** The "Accounting API release notes" page lists nothing newer than December 2023, so Q11 is the page that carries recent changes. The API Explorer (Intuit's try-it tool) shows "Sign in to explore our APIs"; the reference pages above were readable without signing in.
+Q1 to Q11 are script-built pages, so they were rendered in a browser with no sign-in and the parts used in this note were read. **Q12 could only be read as a short summary, not as the full page, so its quoted phrases are UNVERIFIED word for word.** The "Accounting API release notes" page lists nothing newer than December 2023, so Q11 is the page that carries recent changes. The API Explorer (Intuit's try-it tool) shows "Sign in to explore our APIs"; the reference pages above were readable without signing in.
 
 ## 2. How read-only access is made
 

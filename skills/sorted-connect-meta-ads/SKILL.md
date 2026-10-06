@@ -100,7 +100,7 @@ Per campaign, define one small table instead of a list. The rows are fixed when 
  "values": [{"label": "Spring sale", "values": [250.1, 18]}, {"label": "Retargeting", "values": [162.27, 9]}]}
 ```
 
-Limits Sorted enforces: at most 40 numbers, or one table of at most 40 numbers and 8 columns; labels 60 characters, name 40; units `money` (with a three-letter currency code), `count` (whole, 0 or more), `percent`, `ratio`, `days`, `number`; `null` means "no number", never zero; `as_of` not in the future, not older than 45 days, newer than the last send; at most `daily_cap` sends a day (default 4); grey after `fresh_hours` (default 36); a feed lasts 90 days. Sending the same `as_of` with the same numbers again is safe.
+Limits Sorted enforces: at most 40 numbers, or one table of at most 40 numbers and 8 columns; labels 60 characters, name 40; units `money` (with a three-letter currency code), `count` (whole, 0 or more), `percent`, `ratio`, `days`, `number`; `null` means "no number", never zero; `as_of` at most 10 minutes in the future, not older than 45 days, newer than the last send; at most `daily_cap` sends a day (default 4); grey after `fresh_hours` (default 36); a feed lasts 90 days. Sending the same `as_of` with the same numbers again is safe.
 
 5. Tell the owner what you sent and how to stop it: `end_feed` removes the feed and deletes every number it sent, at once.
 

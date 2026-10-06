@@ -40,8 +40,17 @@
     "table_cells_max": 40,
     "table_columns_max": 8,
     "units": ["money", "count", "percent", "ratio", "days", "number"],
-    "money_needs_currency": "a three-letter code such as USD, EUR, EGP, SAR, AED",
+    "money_needs_currency": "a three-letter code from the currencies list",
+    "currencies": ["AED", "AUD", "BHD", "BRL", "CAD", "CHF", "CNY", "CZK", "DKK", "DZD", "EGP", "EUR", "GBP", "HKD", "IDR", "ILS", "INR", "JOD", "JPY", "KES", "KRW", "KWD", "LBP", "MAD", "MXN", "MYR", "NGN", "NOK", "NZD", "OMR", "PKR", "PLN", "QAR", "RUB", "SAR", "SEK", "SGD", "THB", "TND", "TRY", "USD", "ZAR"],
     "count": "a whole number, 0 or more",
+    "ranges": {
+      "money": [-10000000000000, 10000000000000],
+      "count": [0, 1000000000000],
+      "percent": [-1000, 1000],
+      "ratio": [-1000000, 1000000],
+      "days": [0, 36500],
+      "number": [-10000000000000, 10000000000000]
+    },
     "percent_range": [-1000, 1000],
     "days_range": [0, 36500],
     "null_means": "no number (never shown as zero)",

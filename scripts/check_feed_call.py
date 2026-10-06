@@ -17,6 +17,7 @@ Prints ACCEPT or REFUSE: <rule>, and exits 1 on a refusal.
 import argparse
 import datetime
 import json
+import os
 import re
 import sys
 import unicodedata
@@ -89,7 +90,7 @@ def check_item(item, what):
     if unit not in UNITS:
         raise Refused("unit must be one of %s" % ", ".join(sorted(UNITS)))
     if unit == "money" and item.get("currency") not in CURRENCIES:
-        raise Refused("money needs a three-letter currency code from the supported list")
+        raise Refused("money needs a three-letter currency code from the list in docs/feed-tools.md")
     if unit != "money" and "currency" in item:
         raise Refused("only money has a currency")
     return label, unit
@@ -187,7 +188,7 @@ def check_feed(f, name, shape, now):
     if t is None:
         raise Refused("as_of must be a date or a date and time, such as 2026-10-06 or 2026-10-06T07:00:00Z")
     if t > now + datetime.timedelta(minutes=10):
-        raise Refused("as_of is in the future")
+        raise Refused("as_of is more than 10 minutes in the future")
     if t < now - datetime.timedelta(days=45):
         raise Refused("as_of is older than 45 days")
     values = f.get("values")
@@ -273,6 +274,7 @@ def selftest():
         ("definition over 4 KB", {"name": "x", "numbers": [{"label": ("Label number %02d " % i).ljust(60, "x"), "unit": "money", "currency": "USD"}
                                                           for i in range(40)]}, good_feed, False),
     ]
+    docs_ok = docs_agree()
     ok = 0
     for name, de, fe, expect in cases:
         got = judge(de, fe, now)
@@ -281,7 +283,30 @@ def selftest():
         if not right:
             print("selftest WRONG: %s -> %s" % (name, got))
     print("selftest: %d of %d cases decided as expected (%d accept, %d refuse)" % (ok, len(cases), sum(c[3] for c in cases), sum(not c[3] for c in cases)))
-    return 0 if ok == len(cases) else 1
+    return 0 if ok == len(cases) and docs_ok else 1
+
+
+def docs_agree():
+    """The currencies and unit ranges this checker applies must be the ones published in docs/feed-tools.json."""
+    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "docs", "feed-tools.json")
+    if not os.path.exists(path):
+        print("selftest: docs/feed-tools.json not found next to this script, so the published limits were not compared")
+        return True
+    with open(path, encoding="utf-8") as fh:
+        limits = json.load(fh)["limits"]
+    problems = []
+    if set(limits["currencies"]) != CURRENCIES:
+        problems.append("currencies differ: %s" % ", ".join(sorted(set(limits["currencies"]) ^ CURRENCIES)))
+    for unit, (lo, hi) in limits["ranges"].items():
+        if not (RANGES[unit](lo) and RANGES[unit](hi) and not RANGES[unit](lo - 1) and not RANGES[unit](hi + 1)):
+            problems.append("the %s range differs from %s to %s" % (unit, lo, hi))
+    if set(limits["ranges"]) != UNITS:
+        problems.append("ranges are published for %s, units are %s" % (sorted(limits["ranges"]), sorted(UNITS)))
+    for p in problems:
+        print("selftest WRONG: docs/feed-tools.json and this checker disagree: %s" % p)
+    print("selftest: docs/feed-tools.json agrees with this checker: %s (%d currencies, %d unit ranges)"
+          % ("yes" if not problems else "no", len(limits["currencies"]), len(limits["ranges"])))
+    return not problems
 
 
 def main():
@@ -297,14 +322,22 @@ def main():
         print("--define and --feed are required")
         return 2
     now = parse_as_of(a.now) if a.now else datetime.datetime.now(datetime.timezone.utc)
-    with open(a.define, encoding="utf-8") as fh:
-        define = json.load(fh)
-    with open(a.feed, encoding="utf-8") as fh:
-        feed = json.load(fh)
+    calls = []
+    for path in (a.define, a.feed):
+        try:
+            with open(path, encoding="utf-8-sig") as fh:  # utf-8-sig also reads files that Windows saved with a byte-order mark
+                calls.append(json.load(fh))
+        except (OSError, ValueError) as e:
+            print("could not read %s as JSON: %s" % (path, e))
+            return 2
+    define, feed = calls
     verdict = judge(define, feed, now)
     print(verdict)
     return 0 if verdict == "ACCEPT" else 1
 
 
 if __name__ == "__main__":
+    for stream in (sys.stdout, sys.stderr):  # labels may be Arabic; a Windows console or pipe would otherwise fail to print them
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
     sys.exit(main())

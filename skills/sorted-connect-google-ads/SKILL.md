@@ -47,7 +47,7 @@ For the period the owner chose, for the whole account unless he asked per campai
 - Clicks: count.
 - Click-through rate: percent, written as the percent number (4.2 means 4.2%). The programming interface gives it as a fraction (0.042): multiply by 100.
 - Average cost per click: money.
-- Conversions: count. Google may report a fraction (12.5): send it with the unit `number`, never rounded.
+- Conversions: number, never rounded. Google may report a fraction (12.5), so this is not a `count`.
 - Conversion value: money. Only if the account tracks values.
 
 Read each one from the same report and the same period. If a number is not there, leave it out of the feed or send `null` for it. Never estimate.
@@ -98,7 +98,7 @@ Per campaign, define one small table instead of a list (rows are campaign names,
  "values": [{"label": "Search, brand", "values": [80.2, 7]}, {"label": "Search, generic", "values": [206.2, 5.5]}]}
 ```
 
-Limits Sorted enforces: at most 40 numbers, or one table of at most 40 numbers and 8 columns; labels 60 characters, name 40; units `money` (with a three-letter currency code), `count` (whole, 0 or more), `percent`, `ratio`, `days`, `number`; `null` means "no number", never zero; `as_of` not in the future, not older than 45 days, newer than the last send; at most `daily_cap` sends a day (default 4); grey after `fresh_hours` (default 36); a feed lasts 90 days. Sending the same `as_of` with the same numbers again is safe.
+Limits Sorted enforces: at most 40 numbers, or one table of at most 40 numbers and 8 columns; labels 60 characters, name 40; units `money` (with a three-letter currency code), `count` (whole, 0 or more), `percent`, `ratio`, `days`, `number`; `null` means "no number", never zero; `as_of` at most 10 minutes in the future, not older than 45 days, newer than the last send; at most `daily_cap` sends a day (default 4); grey after `fresh_hours` (default 36); a feed lasts 90 days. Sending the same `as_of` with the same numbers again is safe.
 
 5. Tell the owner what you sent and how to stop it: `end_feed` removes the feed and deletes every number it sent, at once.
 

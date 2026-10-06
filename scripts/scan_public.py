@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Leak scan for this repository: run it before every commit and before the repository is ever made public.
 
-What it looks for, in every file and in the git history (commit authors and messages):
+What it looks for, in every file and in the whole git history (commit authors, messages, and every change ever committed,
+including lines deleted later):
   1. Things shaped like secrets: API keys, webhook secrets, access tokens, "Bearer" tokens.
   2. Absolute paths into someone's personal folder on their computer (Windows, Linux or Mac user folders).
   3. Private hostnames: database, hosting, store and accounting addresses other than the public examples.
@@ -10,7 +11,8 @@ What it looks for, in every file and in the git history (commit authors and mess
      --denylist and must live OUTSIDE this repository: a list of real names inside a public repository would itself be a leak.
 
 It prints one line per hit (file, line, which rule) and never prints the matched text itself, so running the scan
-cannot leak a secret into a log. It ends with "hits: N" and exits 1 when N > 0.
+cannot leak a secret into a log. It ends with "hits: N" and exits 1 when N > 0, and 2 when the git history exists but
+cannot be read (an incomplete scan never passes).
 
 Usage:
   python scripts/scan_public.py --denylist <private list> [folder]   # folder defaults to the repository root
@@ -106,18 +108,28 @@ def iter_files(root):
 
 
 def git_history(root):
-    """Commit authors, committers and messages: a public repository publishes all of them."""
-    if not os.path.isdir(os.path.join(root, ".git")):
-        return ""
+    """Everything a public repository publishes besides its current files: commit authors, committers and messages, and
+    the content of every commit (a secret committed once and deleted later is still in the history).
+    Returns (text, status); text is None when the history exists but could not be read."""
+    if not os.path.exists(os.path.join(root, ".git")):  # .git is a folder, or a file in a git worktree
+        return "", "not scanned (this folder is not a git repository)"
+    git = ["git", "-c", "core.quotePath=false", "-C", root]
+    texts = []
     try:
-        out = subprocess.run(["git", "-C", root, "log", "--all", "--format=%an <%ae>%n%cn <%ce>%n%B"],
-                             capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=60)
-        return out.stdout
-    except (OSError, subprocess.SubprocessError):
-        return ""
+        for args in (["log", "--all", "--format=%an <%ae>%n%cn <%ce>%n%B"],
+                     ["log", "--all", "-p", "--format=", "--no-color", "--no-ext-diff", "--no-textconv"],
+                     ["rev-list", "--all", "--count"]):
+            out = subprocess.run(git + args, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=300)
+            if out.returncode != 0:
+                return None, "could not be read (git %s ended with code %d)" % (args[0], out.returncode)
+            texts.append(out.stdout)
+    except (OSError, subprocess.SubprocessError) as e:
+        return None, "could not be read (%s)" % e.__class__.__name__
+    return texts[0] + "\n" + texts[1], "scanned (%s commits, with every file change)" % texts[2].strip()
 
 
 def scan(root, terms):
+    """Returns (files scanned, hits, history status, history readable)."""
     hits = []
     files = 0
     for path in iter_files(root):
@@ -135,14 +147,17 @@ def scan(root, terms):
         # The file NAME is published too.
         hits.extend(scan_text("(file name) " + os.path.relpath(path, root).replace("\\", "/"),
                               os.path.relpath(path, root), terms))
-    hits.extend(scan_text("(git history)", git_history(root), terms))
-    return files, hits
+    history, status = git_history(root)
+    if history:
+        hits.extend(scan_text("(git history)", history, terms))
+    return files, hits, status, history is not None
 
 
-def report(files, hits):
+def report(files, hits, status):
     for name, line, rule in hits:
         print("HIT  %s:%d  %s" % (name, line, rule))
     print("files scanned: %d" % files)
+    print("git history: %s" % status)
     print("hits: %d" % len(hits))
 
 
@@ -155,14 +170,35 @@ def selftest():
         with open(os.path.join(tmp, "clean.md"), "w", encoding="utf-8") as fh:
             fh.write("Your key starts with srt_ and you paste it yourself.\nhttps://yourcompany.odoo.com\n")
         terms = ["plantedcustomer"]
-        files, hits = scan(tmp, terms)
-        report(files, hits)
+        files, hits, status, _ = scan(tmp, terms)
+        report(files, hits, status)
         rules = {r for _, _, r in hits}
         planted_ok = "secret-key" in rules and "denylist-term-1" in rules
         clean_ok = not any(n == "clean.md" for n, _, _ in hits)
-        print("selftest: planted secret found=%s, planted name found=%s, clean file clean=%s"
-              % ("secret-key" in rules, "denylist-term-1" in rules, clean_ok))
-        return 0 if planted_ok and clean_ok else 1
+    history_ok = history_selftest(fake)
+    print("selftest: planted secret found=%s, planted name found=%s, clean file clean=%s, deleted secret found in history=%s"
+          % ("secret-key" in rules, "denylist-term-1" in rules, clean_ok, history_ok))
+    return 0 if planted_ok and clean_ok and history_ok is not False else 1
+
+
+def history_selftest(fake):
+    """A secret committed and then deleted must still be found in the history. Returns None when git is not installed."""
+    with tempfile.TemporaryDirectory() as tmp:
+        git = ["git", "-c", "user.name=Selftest", "-c", "user.email=selftest@example.com", "-c", "commit.gpgsign=false", "-C", tmp]
+        try:
+            subprocess.run(git + ["init", "-q"], check=True, capture_output=True, timeout=60)
+            with open(os.path.join(tmp, "notes.md"), "w", encoding="utf-8") as fh:
+                fh.write("key = '%s'\n" % fake)
+            subprocess.run(git + ["add", "notes.md"], check=True, capture_output=True, timeout=60)
+            subprocess.run(git + ["commit", "-q", "-m", "add notes"], check=True, capture_output=True, timeout=60)
+            with open(os.path.join(tmp, "notes.md"), "w", encoding="utf-8") as fh:
+                fh.write("no key here\n")
+            subprocess.run(git + ["commit", "-q", "-am", "remove the key"], check=True, capture_output=True, timeout=60)
+        except (OSError, subprocess.SubprocessError):
+            return None
+        _, hits, _, readable = scan(tmp, [])
+        return readable and any(n == "(git history)" and r == "secret-key" for n, _, r in hits) \
+            and not any(n == "notes.md" for n, _, _ in hits)
 
 
 def main():
@@ -181,10 +217,16 @@ def main():
     if denylist.lower().startswith(folder.lower() + os.sep):
         print("The deny-list must live OUTSIDE the folder being scanned.")
         return 2
-    files, hits = scan(folder, load_denylist(denylist))
-    report(files, hits)
+    files, hits, status, readable = scan(folder, load_denylist(denylist))
+    report(files, hits, status)
+    if not readable:
+        print("The git history could not be read, so the scan is incomplete.")
+        return 2
     return 1 if hits else 0
 
 
 if __name__ == "__main__":
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
     sys.exit(main())

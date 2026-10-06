@@ -1,6 +1,6 @@
 # The feed tools, in one page
 
-A **feed** is a named area on a company's Sorted dashboard that the owner's own assistant may send numbers into. Sorted reads systems such as Odoo, Shopify, Google Ads and Google Analytics itself; feeds are for numbers it does not read. The same facts in machine-readable form: [`feed-tools.json`](feed-tools.json).
+A **feed** is a named area on a company's Sorted dashboard that the owner's own assistant may send numbers into. Sorted reads systems such as Odoo, Shopify, Google Ads and Google Analytics itself; feeds are for numbers it does not read, and for those systems when Sorted's own connection cannot reach the account. The same facts in machine-readable form: [`feed-tools.json`](feed-tools.json).
 
 **Sorted cannot check numbers that arrive through a feed.** They are what the assistant read, and the dashboard labels them as sent by the assistant, not read by Sorted.
 
@@ -18,7 +18,7 @@ The four tools appear only when Sorted has switched feeds on for the company. Th
 ## Defining a feed: two calls
 
 1. `define_feed` with the definition. Nothing is saved. The answer is a preview in plain words and a `confirm_token`.
-2. Show the owner the preview and wait for his yes. Then `define_feed` again with only the `confirm_token` (valid 10 minutes, usable once).
+2. Show the owner the preview and wait for their yes. Then `define_feed` again with only the `confirm_token` (valid 10 minutes, usable once).
 
 A list of numbers, each with a label and a unit:
 
@@ -49,14 +49,16 @@ For a table feed, each row carries one value per column, in the declared order:
 
 ## Units
 
-| Unit | Meaning | Example |
-|---|---|---|
-| `money` | An amount, with a three-letter `currency` (USD, EUR, EGP, SAR, AED and others). May be negative (refunds). | `1234.5` |
-| `count` | A whole number of things, 0 or more. | `431` |
-| `percent` | The percent number: 12.5 means 12.5%. Between -1000 and 1000. | `12.5` |
-| `ratio` | One number divided by another. | `3.2` |
-| `days` | A number of days, 0 to 36,500. | `14` |
-| `number` | Any other plain number, including fractional counts. | `12.5` |
+| Unit | Meaning | Allowed values | Example |
+|---|---|---|---|
+| `money` | An amount, with a three-letter `currency` from the list below. May be negative (refunds). | -10 trillion to 10 trillion | `1234.5` |
+| `count` | A whole number of things. | 0 to 1 trillion, whole | `431` |
+| `percent` | The percent number: 12.5 means 12.5%. | -1000 to 1000 | `12.5` |
+| `ratio` | One number divided by another. | -1 million to 1 million | `3.2` |
+| `days` | A number of days. | 0 to 36,500 | `14` |
+| `number` | Any other plain number, including fractional counts. | -10 trillion to 10 trillion | `12.5` |
+
+Currencies Sorted accepts: AED, AUD, BHD, BRL, CAD, CHF, CNY, CZK, DKK, DZD, EGP, EUR, GBP, HKD, IDR, ILS, INR, JOD, JPY, KES, KRW, KWD, LBP, MAD, MXN, MYR, NGN, NOK, NZD, OMR, PKR, PLN, QAR, RUB, SAR, SEK, SGD, THB, TND, TRY, USD, ZAR. A feed in another currency is refused; ask Sorted to add it.
 
 ## Limits Sorted enforces
 

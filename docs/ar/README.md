@@ -32,10 +32,11 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 محتاج Codex متسطّب ومسجّل دخول، ومفتاح إضافة Sorted شخصي (بيبدأ بـ `srt_`). Sorted بيديك واحد: اطلبه من رابط التواصل على موقع Sorted. المفتاح بتاعك وبتاع شركتك؛ ماتديهوش لحد.
 
 1. نزّل المستودع وافتح الـ terminal جوه الفولدر بتاعه.
-2. احفظ المفتاح في مكان Codex يقدر يقراه، في متغير البيئة `SORTED_TOKEN`. على Windows، في PowerShell:
+2. احفظ المفتاح في مكان Codex يقدر يقراه، في متغير البيئة `SORTED_TOKEN`. على Windows، في PowerShell (المفتاح بيفضل مستخبي وانت بتلزقه):
 
    ```powershell
-   [Environment]::SetEnvironmentVariable("SORTED_TOKEN", (Read-Host "Paste your Sorted key"), "User")
+   $key = Read-Host "Paste your Sorted key" -AsSecureString
+   [Environment]::SetEnvironmentVariable("SORTED_TOKEN", [Net.NetworkCredential]::new("", $key).Password, "User")
    ```
 
 3. ضيف الإضافة لـ Codex:
@@ -47,6 +48,8 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 
 4. افتح terminal جديد واسأل Codex: "Do a quick business review using Sorted."
 
+اتجرّب على: Windows 11 مع Codex 0.155.1، يوم 6 أكتوبر 2026. ما اتجرّبش على: macOS و Linux.
+
 ## التركيب: إضافة Claude Code
 
 محتاج Claude Code متسطّب. مفيش مفتاح: Claude Code بيسجّل دخول على Sorted بحسابك.
@@ -55,12 +58,14 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 2. ضيف الإضافة:
 
    ```
-   claude plugin marketplace add .
+   claude plugin marketplace add ./
    claude plugin install sorted@sorted
    ```
 
 3. شغّل Claude Code، واكتب `/mcp`، واختار **sorted**، وسجّل دخول بحساب Sorted لما المتصفح يفتح.
 4. اسأل: "Do a quick business review using Sorted."
+
+اتجرّب على: Windows 11 مع Claude Code، يوم 6 أكتوبر 2026 (من غير خطوة تسجيل الدخول). ما اتجرّبش على: macOS و Linux.
 
 ## التركيب: دليل ChatGPT
 
@@ -68,7 +73,7 @@ ChatGPT بيتوصل بـ Sorted مباشرة كـ app، بتسجيل دخول �
 
 ## الأمان، بكلام بسيط
 
-- Sorted بيقرا بس من أنظمة الشركة. الـ skills بتقول للمساعد يستخدم صلاحية قراءة بس وماي غيرش أي حاجة في أنظمة صاحب الشركة.
-- صاحب الشركة هو اللي بيتعامل مع كل باسورد ومفتاح. الـ skills بتقول للمساعد مايطلبش مفتاح، وماي كررهوش، ومايحفظهوش، وماي بصّش على مفتاح على الشاشة.
+- Sorted بيقرا بس من أنظمة الشركة. الـ skills بتقول للمساعد يستخدم صلاحية قراءة بس ومايغيّرش أي حاجة في أنظمة صاحب الشركة.
+- صاحب الشركة هو اللي بيتعامل مع كل باسورد ومفتاح. الـ skills بتقول للمساعد مايطلبش مفتاح، ومايكررهوش، ومايحفظهوش، ومايبصّش على مفتاح على الشاشة.
 - الـ feed بيتعمل بس بعد ما صاحب الشركة يشوف المعاينة ويقول آه، و`end_feed` بيمسح كل اللي اتبعت.
 - الأسماء والتسميات اللي جاية من أنظمة تانية بتتعامل كبيانات، مش كأوامر.

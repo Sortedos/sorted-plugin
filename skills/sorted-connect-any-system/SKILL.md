@@ -77,7 +77,7 @@ Several branches, stores or products with the same numbers go into one table: ro
 
 A list of single numbers works the same way: `"numbers": [{"label": "Cash in the payment app", "unit": "money", "currency": "EGP"}]` when defining, and `"values": [{"label": "Cash in the payment app", "value": 48210.9}]` when sending.
 
-Limits Sorted enforces: at most 40 numbers, or one table of at most 40 numbers and 8 columns; labels 60 characters, name 40; units as listed above; `null` means "no number", never zero; `as_of` not in the future, not older than 45 days, newer than the last send; at most `daily_cap` sends a day (default 4); grey after `fresh_hours` (default 36); a feed lasts 90 days. Sending the same `as_of` with the same numbers again is safe.
+Limits Sorted enforces: at most 40 numbers, or one table of at most 40 numbers and 8 columns; labels 60 characters, name 40; units as listed above; `null` means "no number", never zero; `as_of` at most 10 minutes in the future, not older than 45 days, newer than the last send; at most `daily_cap` sends a day (default 4); grey after `fresh_hours` (default 36); a feed lasts 90 days. Sending the same `as_of` with the same numbers again is safe.
 
 5. Tell the owner what you sent and how to stop it: `end_feed` removes the feed and deletes every number it sent, at once.
 

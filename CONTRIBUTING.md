@@ -17,7 +17,7 @@ The limits every feed must respect are in [docs/feed-tools.md](docs/feed-tools.m
 
 ## Before you open a pull request
 
-- Run `python scripts/check_all.py`. Every check must pass.
+- Run `python scripts/check_all.py` (on macOS or Linux, `python3`). Every check must pass, except the leak scan, which reports itself skipped: it needs the maintainers' private list of names, and the maintainers run it before merging.
 - Save your skill's two example calls as JSON files and run `python scripts/check_feed_call.py --define <file> --feed <file>`. It must print `ACCEPT`. (It checks the published limits; the Sorted service also refuses labels that read like instructions to an assistant.)
 - Run `python scripts/sync_codex_plugin.py` after editing anything under `skills/`, so the Codex plugin carries the same text.
 - Keep each `SKILL.md` at 1,300 words or fewer.
