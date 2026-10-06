@@ -1,6 +1,6 @@
 ---
 name: sorted-organise-dashboard
-description: Organise the connected company's Sorted dashboard into useful pages and cards, using existing numbers and confirmed layout changes.
+description: Organise the connected company's Sorted dashboard into useful pages and cards, using existing numbers and confirmed layout changes. Use when the owner asks to hide, show, move, group or add cards or pages on his dashboard. Not for bringing in new numbers from another system, which are the sorted-connect skills.
 ---
 
 # Organise a Sorted dashboard
