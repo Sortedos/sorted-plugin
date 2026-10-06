@@ -48,7 +48,7 @@ For the period chosen, for the whole ad account unless they asked per campaign:
 - Link click-through rate: percent as the percent number (1.8 means 1.8%). Never "CTR (all)": read inline_link_click_ctr, or "CTR (link click-through rate)" in an export.
 - Cost per link click: money.
 - Results: count. It follows each campaign's objective: name it (purchases, leads, messages).
-- Purchases (count) and Purchase value (money), only if the account tracks purchases. In the API read only the omni_purchase entry of actions and action_values, never several entries added together.
+- Purchases (count) and Purchase value (money), only if the account tracks purchases. In the API read one purchase entry of actions and action_values (omni_purchase if present), never several added together.
 - Return on ad spend: ratio (3.2 means 3.2 times). Read Meta's Purchase ROAS (purchase_roas, omni_purchase entry; "Purchase ROAS" in an export). Meta may not calculate it: then send `null`, never 0, and do not work it out yourself.
 
 Read each one from the same report and the same period. If a number is not there, leave it out of the feed or send `null` for it. Tell the owner that Meta's spend is an estimate and purchases can still change for days.
