@@ -1,3 +1,5 @@
+# Blank issues are off: the two forms ask for exactly what is needed to act (which system and numbers, or what went wrong
+# and on which assistant), and they remind the writer to remove keys, account numbers and real names before posting.
 blank_issues_enabled: false
 contact_links:
   - name: Security problem or account question
