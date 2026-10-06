@@ -48,6 +48,8 @@ You need Codex installed and signed in, and a personal Sorted plugin key (it sta
 
 4. Open a new terminal and ask Codex: "Do a quick business review using Sorted."
 
+Tested on: Windows 11 with Codex 0.155.1, 6 October 2026 (the plugin and its 13 skills installed). Not tested: macOS, Linux.
+
 ## Install: Claude Code plugin
 
 You need Claude Code installed. No key: Claude Code signs in to Sorted with your own Sorted account.
@@ -63,11 +65,15 @@ You need Claude Code installed. No key: Claude Code signs in to Sorted with your
 3. Start Claude Code, type `/mcp`, choose **sorted** and sign in with your Sorted account when the browser opens.
 4. Ask: "Do a quick business review using Sorted."
 
+Tested on: Windows 11 with Claude Code 2.1.291, 6 October 2026 (the plugin, its 13 skills and the Sorted server entry installed; the sign-in step was not run in that test). Not tested: macOS, Linux.
+
 Using Claude on the web or the desktop app instead: add a custom connector with the address `https://sortedos.com/api/mcp` and sign in with Sorted, following Claude's own guide (https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp). The skills can then be pasted into a conversation, or added as skills where your Claude plan allows it.
 
 ## Install: ChatGPT connector guide
 
 ChatGPT connects to Sorted directly, as an app, with sign-in and no key. Which ChatGPT plans can do this, the steps, and how to give ChatGPT the skills: [docs/chatgpt-connector.md](docs/chatgpt-connector.md).
+
+Tested on: the steps were checked against OpenAI's own help article on 6 October 2026, and Sorted's server answered with its four feed tools in a local test. Not tested: a real ChatGPT workspace connecting to Sorted.
 
 ## Safety, in plain words
 
@@ -78,7 +84,7 @@ ChatGPT connects to Sorted directly, as an app, with sign-in and no key. Which C
 
 ## For contributors
 
-The checks this repository runs on itself:
+The checks this repository runs on itself. One command runs them all (`python scripts/check_all.py`); one by one:
 
 ```
 python scripts/scan_public.py --selftest                     # the leak scan can catch a planted secret
