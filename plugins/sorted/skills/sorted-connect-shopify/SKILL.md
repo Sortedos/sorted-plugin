@@ -1,42 +1,42 @@
 ---
 name: sorted-connect-shopify
-description: Read the owner's Shopify store numbers (orders, sales, returns, visits, conversion rate) with read-only access and send them to his Sorted dashboard through a feed. Use when the owner asks his own assistant to send Shopify numbers into Sorted, especially store numbers Sorted does not read itself, such as visits and conversion rate. Not for connecting a system so that Sorted reads it itself, which is sorted-connect-systems.
+description: Read the owner's Shopify store numbers (orders, sales, returns, visits, conversion rate) with read-only access and send them to their Sorted dashboard through a feed. Use when the owner asks their own assistant to send Shopify numbers into Sorted, especially store numbers Sorted does not read itself, such as visits and conversion rate. Not for connecting a system so that Sorted reads it itself, which is sorted-connect-systems.
 ---
 
 # Shopify into Sorted, through a feed
 
-Sorted can read a Shopify store's sales itself: on Sorted's Connections page (https://sortedos.com/connections) the owner connects his store with a read-only app, and Sorted reads and checks the numbers every hour. **Offer that first** for orders and sales. Use this skill for store numbers Sorted does not read (visits, conversion rate, returning customers), or when the owner prefers his own assistant to do the reading.
+Sorted can read a Shopify store's sales itself: on Sorted's Connections page (https://sortedos.com/connections) the owner connects their store with a read-only app, and Sorted reads and checks the numbers every hour. **Offer that first** for orders and sales. Use this skill for store numbers Sorted does not read (visits, conversion rate, returning customers), or when the owner prefers their own assistant to do the reading.
 
-Here you read the numbers with the owner's read-only access and send them through a **feed**: a named area on his dashboard that you may send numbers into, approved by him once. Sorted cannot check these numbers: the dashboard labels them "sent by your assistant, not read by Sorted", and the owner is responsible for them. Tell him so before you start.
+Here you read the numbers with the owner's read-only access and send them through a **feed**: a named area on their dashboard that you may send numbers into, approved by them once. Sorted cannot check these numbers: the dashboard labels them "sent by your assistant, not read by Sorted", and the owner is responsible for them. Tell them so before you start.
 
 If `define_feed` and `feed_numbers` are not among your Sorted tools, feeds are not switched on for this company. Say so plainly and stop.
 
 ## What to ask the owner
 
 1. Which store: its address (like yourstore.myshopify.com) and its currency.
-2. Which numbers he wants (offer the list under "Numbers to read") and for which period. Yesterday is the usual choice.
+2. Which numbers they want (offer the list under "Numbers to read") and for which period. Yesterday is the usual choice.
 3. Whether this is once, now, or every morning (only if your app can run scheduled tasks).
-4. Whether he is an owner of his company in Sorted. Only an owner can create, send to or end a feed.
+4. Whether they are an owner of their company in Sorted. Only an owner can create, send to or end a feed.
 
 ## Read-only access first
 
 You need a way to read the store that cannot change anything. In this order:
 
 1. A Shopify connector the owner has already added to this assistant app, connected with read-only access (below). Use only its reading tools (orders, products, reports). Never call a tool that creates, edits, refunds, cancels, fulfils or deletes anything, even when the connector offers one.
-2. No connector: the owner exports a report himself (Shopify admin, Analytics, Reports, Export) and shares the file, or he reads the numbers from his own screen and types the numbers (only numbers) into the chat.
+2. No connector: the owner exports a report themselves (Shopify admin, Analytics, Reports, Export) and shares the file, or they read the numbers from their own screen and type the numbers (only numbers) into the chat.
 
 If neither is possible, say so and stop. Do not look for another way in.
 
 ## Make a read-only credential
 
-A Shopify app can be limited to reading. The owner of the store does this himself:
+A Shopify app can be limited to reading. The owner of the store does this themselves:
 
-1. He opens https://dev.shopify.com, signed in as the **owner of the store**, and creates an app in the same Shopify account as the store (otherwise Shopify refuses it).
-2. Under the Admin API access scopes he adds only reading scopes: `read_orders`, `read_products` and, for visits and conversion rate, `read_reports`. No scope that starts with write.
-3. He releases the version and installs the app on his store.
-4. He puts the app's access details into his assistant app's Shopify connector settings himself, in that app's own settings screen, never in the chat.
+1. They open https://dev.shopify.com, signed in as the **owner of the store**, and creates an app in the same Shopify account as the store (otherwise Shopify refuses it).
+2. Under the Admin API access scopes they add only reading scopes: `read_orders`, `read_products` and, for visits and conversion rate, `read_reports`. No scope that starts with write.
+3. They release the version and install the app on their store.
+4. They put the app's access details into their assistant app's Shopify connector settings themselves, in that app's own settings screen, never in the chat.
 
-The owner makes every click that grants access, in his own window; you only say which screen comes next. If the menus differ, say what you see. Do not guess.
+The owner makes every click that grants access, in their own window; you only say which screen comes next. If the menus differ, say what you see. Do not guess.
 
 ## Numbers to read
 
@@ -74,7 +74,7 @@ Read each one from the same report and the same period, in the store's own time 
  "fresh_hours": 36, "daily_cap": 4}
 ```
 
-3. Show the owner the preview in plain words and wait for his yes. Only then call `define_feed` again with nothing but the `confirm_token` (it works once, for 10 minutes).
+3. Show the owner the preview in plain words and wait for their yes. Only then call `define_feed` again with nothing but the `confirm_token` (it works once, for 10 minutes).
 4. Call `feed_numbers` with the feed's name, `as_of` (the date the numbers are about, such as yesterday's date) and one entry per label you read:
 
 ```json
@@ -113,7 +113,7 @@ Every morning: if your app runs scheduled tasks, it can repeat step 4 daily. Not
 
 ## Never
 
-- Never ask for a key, password, secret or token in the chat, and never ask the owner to type or paste one there. If he does by mistake, do not repeat it; tell him to revoke it and make a new one.
+- Never ask for a key, password, secret or token in the chat, and never ask the owner to type or paste one there. If they do by mistake, do not repeat it; tell them to revoke it and make a new one.
 - Never write, change, refund, cancel or delete anything in the owner's Shopify store: you only read.
 - Never read or send customer names, emails, phone numbers or addresses. Feeds carry totals, never people.
 - Only send numbers you actually read, for the period you name. Never estimate, and send each one as a plain number (412.37), never as text ("412.37") or words.

@@ -1,6 +1,6 @@
 ---
 name: sorted-connect-meta-ads
-description: Read the owner's Meta ads results (Facebook and Instagram ads) with read-only access and send the numbers to his Sorted dashboard through a feed. Use when the owner asks to add Meta, Facebook or Instagram ads to Sorted, or to send his ad spend and results every day.
+description: Read the owner's Meta ads results (Facebook and Instagram ads) with read-only access and send the numbers to their Sorted dashboard through a feed. Use when the owner asks to add Meta, Facebook or Instagram ads to Sorted, or to send their ad spend and results every day.
 ---
 
 # Meta ads into Sorted, through a feed
@@ -14,16 +14,16 @@ If `define_feed` and `feed_numbers` are not among your Sorted tools, feeds are n
 ## What to ask the owner
 
 1. Which ad account (its name, or its account number) and which currency it reports in.
-2. Which numbers he wants on the dashboard (offer the list under "Numbers to read") and for which period. Yesterday is the usual choice.
+2. Which numbers they want on the dashboard (offer the list under "Numbers to read") and for which period. Yesterday is the usual choice.
 3. Whether this is once, now, or every morning (only if your app can run scheduled tasks).
-4. Whether he is an owner of his company in Sorted. Only an owner can create, send to or end a feed. If `define_feed` refuses because of that, stop and say so.
+4. Whether they are an owner of their company in Sorted. Only an owner can create, send to or end a feed. If `define_feed` refuses because of that, stop and say so.
 
 ## Read-only access first
 
-You need a way to read his Meta ads that cannot change anything. In this order:
+You need a way to read their Meta ads that cannot change anything. In this order:
 
-1. A Meta ads connector the owner has already added to this assistant app, signed in as himself. Use only its reading tools (list ad accounts, read results or insights). Never call a tool that creates, edits, pauses, deletes or spends, even when the connector offers one.
-2. No connector: the owner exports a report from Ads Manager himself (Reports, Export, CSV) and shares the file, or he reads the numbers from his own screen and types the numbers (only numbers) into the chat.
+1. A Meta ads connector the owner has already added to this assistant app, signed in as themselves. Use only its reading tools (list ad accounts, read results or insights). Never call a tool that creates, edits, pauses, deletes or spends, even when the connector offers one.
+2. No connector: the owner exports a report from Ads Manager themselves (Reports, Export, CSV) and shares the file, or they read the numbers from their own screen and type the numbers (only numbers) into the chat.
 
 If neither is possible, say so and stop. Do not look for another way in.
 
@@ -32,14 +32,14 @@ If neither is possible, say so and stop. Do not look for another way in.
 Use this when someone other than the owner (a teammate, or a teammate's assistant) will do the reading:
 
 1. The owner opens https://business.facebook.com, then Settings, Accounts, Ad accounts, and picks the account.
-2. He assigns the person (or partner business) and gives **View performance** only. Not "Manage campaigns", not full control.
+2. They assign the person (or partner business) and give **View performance** only. Not "Manage campaigns", not full control.
 3. That person signs in to the Meta connector of their own assistant app with that account.
 
-The owner makes every click that grants access, in his own window. You only say which screen comes next. Meta renames its menus often: if the screen does not match, say what you see and let the owner find it. Do not guess.
+The owner makes every click that grants access, in their own window. You only say which screen comes next. Meta renames its menus often: if the screen does not match, say what you see and let the owner find it. Do not guess.
 
 ## Numbers to read
 
-For the period the owner chose, for the whole ad account unless he asked per campaign:
+For the period the owner chose, for the whole ad account unless they asked per campaign:
 
 - Amount spent: money, in the ad account's currency.
 - Impressions: count.
@@ -71,7 +71,7 @@ Read each one from the same report and the same period. If a number is not there
  "fresh_hours": 36, "daily_cap": 4}
 ```
 
-3. Show the owner the preview in plain words and wait for his yes. Only then call `define_feed` again with nothing but the `confirm_token` (it works once, for 10 minutes).
+3. Show the owner the preview in plain words and wait for their yes. Only then call `define_feed` again with nothing but the `confirm_token` (it works once, for 10 minutes).
 4. Call `feed_numbers` with the feed's name, `as_of` (the date the numbers are about, such as yesterday's date) and one entry per label you read:
 
 ```json
@@ -108,7 +108,7 @@ Every morning: if your app runs scheduled tasks, it can repeat step 4 daily. Not
 
 ## Never
 
-- Never ask for a key, password, secret or token in the chat, and never ask the owner to type or paste one there. If he does by mistake, do not repeat it; tell him to revoke it and make a new one.
+- Never ask for a key, password, secret or token in the chat, and never ask the owner to type or paste one there. If they do by mistake, do not repeat it; tell them to revoke it and make a new one.
 - Never write, change, pause or delete anything in the owner's Meta ad account: you only read.
 - Only send numbers you actually read, for the period you name. Never estimate, and send each one as a plain number (412.37), never as text ("412.37") or words.
 - Never create a feed before the owner has seen the preview and said yes.

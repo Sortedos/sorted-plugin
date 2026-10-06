@@ -7,8 +7,8 @@ Thank you for helping. This repository holds instructions for AI assistants ("sk
 A skill teaches an assistant to read numbers from one outside system with read-only access and send them to Sorted through a feed. Copy the shape of an existing one, for example `skills/sorted-connect-any-system/SKILL.md`, and keep its parts in this order:
 
 1. **What to ask the owner**: which account, which numbers, which period, how often.
-2. **Read-only access first**: the system's own connector with read-only rights, or a report the owner exports himself.
-3. **Make a read-only credential**: the exact screens, in the system's own words, for a read-only role or read-only scopes. The owner makes every click that grants access and puts any access details into his assistant app's own settings, never in a chat.
+2. **Read-only access first**: the system's own connector with read-only rights, or a report the owner exports themselves.
+3. **Make a read-only credential**: the exact screens, in the system's own words, for a read-only role or read-only scopes. The owner makes every click that grants access and puts any access details into their assistant app's own settings, never in a chat.
 4. **Numbers to read**: each with a plain label and one unit (`money` with a currency, `count`, `percent`, `ratio`, `days`, `number`), plus the traps of that system (numbers arriving as text, amounts in millionths, rates as fractions).
 5. **The feed**: a worked `define_feed` call and a worked `feed_numbers` call, with fake data.
 6. **Never**: never ask for a secret in a chat, never write to the owner's system, only send numbers actually read.

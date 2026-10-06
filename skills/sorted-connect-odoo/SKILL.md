@@ -1,40 +1,40 @@
 ---
 name: sorted-connect-odoo
-description: Read the owner's Odoo numbers (invoiced sales, who owes the company, what it owes, bank and cash) with read-only access and send them to his Sorted dashboard through a feed. Use when the owner asks his own assistant to send Odoo numbers into Sorted, for example when his Odoo plan gives no programming access so Sorted cannot connect to it. Not for connecting a system so that Sorted reads it itself, which is sorted-connect-systems.
+description: Read the owner's Odoo numbers (invoiced sales, who owes the company, what it owes, bank and cash) with read-only access and send them to their Sorted dashboard through a feed. Use when the owner asks their own assistant to send Odoo numbers into Sorted, for example when their Odoo plan gives no programming access so Sorted cannot connect to it. Not for connecting a system so that Sorted reads it itself, which is sorted-connect-systems.
 ---
 
 # Odoo into Sorted, through a feed
 
-Sorted can read Odoo itself (Connections page, https://sortedos.com/connections), every hour, with the records behind each number. **Offer that first.** Use this skill when Sorted cannot connect (some Odoo plans give no programming access), for a number Sorted does not show, or when the owner prefers his own assistant to read.
+Sorted can read Odoo itself (Connections page, https://sortedos.com/connections), every hour, with the records behind each number. **Offer that first.** Use this skill when Sorted cannot connect (some Odoo plans give no programming access), for a number Sorted does not show, or when the owner prefers their own assistant to read.
 
-Here you read the numbers with the owner's read-only access and send them through a **feed**: a named area on his dashboard that you may send numbers into, approved by him once. Sorted cannot check these numbers: the dashboard labels them "sent by your assistant, not read by Sorted", and the owner is responsible for them. Tell him so before you start.
+Here you read the numbers with the owner's read-only access and send them through a **feed**: a named area on their dashboard that you may send numbers into, approved by them once. Sorted cannot check these numbers: the dashboard labels them "sent by your assistant, not read by Sorted", and the owner is responsible for them. Tell them so before you start.
 
 If `define_feed` and `feed_numbers` are not among your Sorted tools, feeds are not switched on for this company. Say so plainly and stop.
 
 ## What to ask the owner
 
-1. His Odoo address (like https://yourcompany.odoo.com) and, if the database holds several companies, **which company**. One feed carries one company's numbers.
-2. Which numbers he wants (offer the list under "Numbers to read"), and for sales, which period. Yesterday or the last 30 days are the usual choices.
+1. Their Odoo address (like https://yourcompany.odoo.com) and, if the database holds several companies, **which company**. One feed carries one company's numbers.
+2. Which numbers they want (offer the list under "Numbers to read"), and for sales, which period. Yesterday or the last 30 days are the usual choices.
 3. Whether this is once, now, or every morning (only if your app can run scheduled tasks).
-4. Whether he is an owner of his company in Sorted. Only an owner can create, send to or end a feed.
+4. Whether they are an owner of their company in Sorted. Only an owner can create, send to or end a feed.
 
 ## Read-only access first
 
 You need a way to read the books that cannot change anything. In this order:
 
 1. An Odoo connector the owner added to this assistant app, connected as a read-only user (below). Use only its reading calls. Never call anything that creates, writes, posts, confirms, pays or deletes.
-2. A browser your app controls, signed in **as the read-only user**; the owner types that user's password himself. You open reports and read them, and never press a button that changes a record.
-3. Neither: the owner exports the reports himself and shares the file, or types the numbers (only numbers) into the chat.
+2. A browser your app controls, signed in **as the read-only user**; the owner types that user's password themselves. You open reports and read them, and never press a button that changes a record.
+3. Neither: the owner exports the reports themselves and shares the file, or types the numbers (only numbers) into the chat.
 
 If none is possible, say so and stop. Do not look for another way in.
 
 ## Make a read-only credential
 
-A dedicated read-only Odoo user is the safe way. The owner does this himself:
+A dedicated read-only Odoo user is the safe way. The owner does this themselves:
 
-1. He opens Settings, then Users & Companies, then Users, and looks for an existing read-only user first (a new user may cost a paid seat).
-2. If there is none and he agrees: New user, named for the assistant, with Accounting set to its **read-only** option (in recent versions it is called "Show Accounting Features - Readonly"; names differ by version) and no other rights. Only the company or companies the owner chose.
-3. For a connector: he opens that user's profile, then Account Security, then New API Key, and puts it into his assistant app's Odoo connector settings himself, in that app's own settings screen, never in the chat.
+1. They open Settings, then Users & Companies, then Users, and look for an existing read-only user first (a new user may cost a paid seat).
+2. If there is none and they agree: New user, named for the assistant, with Accounting set to its **read-only** option (in recent versions it is called "Show Accounting Features - Readonly"; names differ by version) and no other rights. Only the company or companies the owner chose.
+3. For a connector: they open that user's profile, then Account Security, then New API Key, and put it into their assistant app's Odoo connector settings themselves, in that app's own settings screen, never in the chat.
 
 Never use the owner's administrator account for this, and never give a user more rights than the owner chose. The owner makes every click that grants access; you only say which screen comes next. If the menus differ, say what you see. Do not guess.
 
@@ -67,7 +67,7 @@ Only posted entries count, never drafts. If a number is not there, leave it out 
  "fresh_hours": 36, "daily_cap": 4}
 ```
 
-3. Show the owner the preview in plain words and wait for his yes. Only then call `define_feed` again with nothing but the `confirm_token` (it works once, for 10 minutes).
+3. Show the owner the preview in plain words and wait for their yes. Only then call `define_feed` again with nothing but the `confirm_token` (it works once, for 10 minutes).
 4. Call `feed_numbers` with the feed's name, `as_of` (the date and time you read the numbers) and one entry per label you read:
 
 ```json
@@ -100,7 +100,7 @@ Limits Sorted enforces: at most 40 numbers, or one table of at most 40 numbers a
 
 ## Never
 
-- Never ask for a key, password, secret or token in the chat, and never ask the owner to type or paste one there. If he does by mistake, do not repeat it; tell him to revoke it and make a new one.
+- Never ask for a key, password, secret or token in the chat, and never ask the owner to type or paste one there. If they do by mistake, do not repeat it; tell them to revoke it and make a new one.
 - Never write, post, confirm, pay or delete anything in the owner's Odoo: you only read. Never open the database manager page.
 - Only send numbers you actually read, for the period you name. Never estimate, and send each one as a plain number (412.37), never as text ("412.37") or words.
 - Never send names of customers, suppliers or employees. Feeds carry totals.

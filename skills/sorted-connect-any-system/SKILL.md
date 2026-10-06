@@ -5,27 +5,27 @@ description: Send numbers from any system Sorted does not read itself (a point-o
 
 # Any other system into Sorted, through a feed
 
-You read the numbers with the owner's read-only access and send them through a **feed**: a named area on his dashboard that you may send numbers into, approved by him once. Sorted cannot check these numbers: the dashboard labels them "sent by your assistant, not read by Sorted", and the owner is responsible for them. Tell him so before you start.
+You read the numbers with the owner's read-only access and send them through a **feed**: a named area on their dashboard that you may send numbers into, approved by them once. Sorted cannot check these numbers: the dashboard labels them "sent by your assistant, not read by Sorted", and the owner is responsible for them. Tell them so before you start.
 
 If `define_feed` and `feed_numbers` are not among your Sorted tools, feeds are not switched on for this company. Say so plainly and stop.
 
-First check whether Sorted already reads this system: call `list_connections`, and look at Sorted's Connections page (https://sortedos.com/connections). If Sorted offers it there, **offer that first**, because Sorted then reads and checks the numbers itself. If Sorted does not offer it and the owner would rather have Sorted read it, he can ask for it through the connector-request form on that page.
+First check whether Sorted already reads this system: call `list_connections`, and look at Sorted's Connections page (https://sortedos.com/connections). If Sorted offers it there, **offer that first**, because Sorted then reads and checks the numbers itself. If Sorted does not offer it and the owner would rather have Sorted read it, they can ask for it through the connector-request form on that page.
 
 ## What to ask the owner
 
 1. Which system, and which account, branch, store or company inside it. One feed carries one company's numbers.
-2. Which numbers matter to him, in his words ("daily sales per branch", "cash in the payment app"). Turn them into the list under "Numbers to read" and read it back to him.
+2. Which numbers matter to them, in their words ("daily sales per branch", "cash in the payment app"). Turn them into the list under "Numbers to read" and read it back to them.
 3. For each number: the period (yesterday, this month, as of now) and the currency for money.
 4. Whether this is once, now, or every morning (only if your app can run scheduled tasks).
-5. Whether he is an owner of his company in Sorted. Only an owner can create, send to or end a feed.
+5. Whether they are an owner of their company in Sorted. Only an owner can create, send to or end a feed.
 
 ## Read-only access first
 
 You need a way to read the system that cannot change anything. In this order:
 
 1. A connector for that system that the owner has already added to this assistant app, with read-only access. Use only its reading tools. Never call a tool that creates, edits, refunds, cancels, sends, pays or deletes, even when the connector offers one.
-2. A browser your app controls, signed in as a read-only user of that system; the owner types the password himself. You open reports and read them, and never press a button that changes anything.
-3. Neither: the owner exports a report himself (most systems have an export to CSV or a spreadsheet) and shares the file, or types the numbers (only numbers) into the chat.
+2. A browser your app controls, signed in as a read-only user of that system; the owner types the password themselves. You open reports and read them, and never press a button that changes anything.
+3. Neither: the owner exports a report themselves (most systems have an export to CSV or a spreadsheet) and shares the file, or types the numbers (only numbers) into the chat.
 
 If none is possible, say so and stop. Do not look for another way in, and do not use a stronger access than the owner chose.
 
@@ -35,9 +35,9 @@ Most systems offer at least one of these. Look for them in this order, in the sy
 
 1. A **read-only role** for a user: often called Viewer, Read only, Reporting, Analyst or Auditor. Prefer a separate user for the assistant over the owner's own account.
 2. An **access key or app with read-only scopes**: scopes or permissions whose names start with read or view, and nothing that writes.
-3. A **report export** the owner runs himself, if the system has neither.
+3. A **report export** the owner runs themselves, if the system has neither.
 
-The owner makes every click that grants access and puts any access details into his assistant app's own settings screen himself, never in the chat. If there is no read-only option, tell him plainly that the only access available can change things, and let him decide.
+The owner makes every click that grants access and puts any access details into their assistant app's own settings screen themselves, never in the chat. If there is no read-only option, tell them plainly that the only access available can change things, and let them decide.
 
 ## Numbers to read
 
@@ -65,7 +65,7 @@ Several branches, stores or products with the same numbers go into one table: ro
  "fresh_hours": 36, "daily_cap": 4}
 ```
 
-3. Show the owner the preview in plain words and wait for his yes. Only then call `define_feed` again with nothing but the `confirm_token` (it works once, for 10 minutes).
+3. Show the owner the preview in plain words and wait for their yes. Only then call `define_feed` again with nothing but the `confirm_token` (it works once, for 10 minutes).
 4. Call `feed_numbers` with the feed's name, `as_of` (the date or the date and time the numbers are about) and the numbers:
 
 ```json
@@ -85,7 +85,7 @@ Every morning: if your app runs scheduled tasks, it can repeat step 4 daily. Not
 
 ## Never
 
-- Never ask for a key, password, secret or token in the chat, and never ask the owner to type or paste one there. If he does by mistake, do not repeat it; tell him to revoke it and make a new one.
+- Never ask for a key, password, secret or token in the chat, and never ask the owner to type or paste one there. If they do by mistake, do not repeat it; tell them to revoke it and make a new one.
 - Never write, change, refund, send or delete anything in the owner's system: you only read.
 - Never send names, phone numbers, emails or addresses of customers or staff. Feeds carry totals.
 - Only send numbers you actually read, for the period you name. Never estimate, and send each one as a plain number (412.37), never as text ("412.37") or words.

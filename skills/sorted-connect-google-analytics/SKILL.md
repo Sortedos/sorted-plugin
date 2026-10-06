@@ -1,29 +1,29 @@
 ---
 name: sorted-connect-google-analytics
-description: Read the owner's Google Analytics 4 numbers (visitors, sessions, conversions, revenue) with read-only access and send them to his Sorted dashboard through a feed. Use when the owner asks his own assistant to send website traffic or Analytics numbers into Sorted. Not for connecting a system so that Sorted reads it itself, which is sorted-connect-systems.
+description: Read the owner's Google Analytics 4 numbers (visitors, sessions, conversions, revenue) with read-only access and send them to their Sorted dashboard through a feed. Use when the owner asks their own assistant to send website traffic or Analytics numbers into Sorted. Not for connecting a system so that Sorted reads it itself, which is sorted-connect-systems.
 ---
 
 # Google Analytics into Sorted, through a feed
 
-Sorted can read Google Analytics 4 itself: on Sorted's Connections page (https://sortedos.com/connections) the owner adds Sorted's reader as a Viewer of his property, and Sorted reads and checks the numbers every hour. **Offer that first.** Use this skill when the owner prefers his own assistant to do the reading, or wants a number Sorted does not show.
+Sorted can read Google Analytics 4 itself: on Sorted's Connections page (https://sortedos.com/connections) the owner adds Sorted's reader as a Viewer of their property, and Sorted reads and checks the numbers every hour. **Offer that first.** Use this skill when the owner prefers their own assistant to do the reading, or wants a number Sorted does not show.
 
-Here you read the numbers with the owner's read-only access and send them through a **feed**: a named area on his dashboard that you may send numbers into, approved by him once. Sorted cannot check these numbers: the dashboard labels them "sent by your assistant, not read by Sorted", and the owner is responsible for them. Tell him so before you start.
+Here you read the numbers with the owner's read-only access and send them through a **feed**: a named area on their dashboard that you may send numbers into, approved by them once. Sorted cannot check these numbers: the dashboard labels them "sent by your assistant, not read by Sorted", and the owner is responsible for them. Tell them so before you start.
 
 If `define_feed` and `feed_numbers` are not among your Sorted tools, feeds are not switched on for this company. Say so plainly and stop.
 
 ## What to ask the owner
 
 1. Which Analytics property: its name and its Property ID (a number like 123456789, under Admin, Property details).
-2. Which numbers he wants (offer the list under "Numbers to read") and for which period. Yesterday is the usual choice.
+2. Which numbers they want (offer the list under "Numbers to read") and for which period. Yesterday is the usual choice.
 3. Whether this is once, now, or every morning (only if your app can run scheduled tasks).
-4. Whether he is an owner of his company in Sorted. Only an owner can create, send to or end a feed.
+4. Whether they are an owner of their company in Sorted. Only an owner can create, send to or end a feed.
 
 ## Read-only access first
 
 You need a way to read the property that cannot change anything. In this order:
 
-1. A Google Analytics connector the owner has already added to this assistant app, signed in as himself or as a Viewer (below). Use only its reading tools (property list, reports). Never call a tool that changes a property, a data stream, an event, a key event setting or anyone's access, even when the connector offers one.
-2. No connector: the owner exports a report himself (Reports, the share icon, Download file, CSV) and shares the file, or he reads the numbers from his own screen and types the numbers (only numbers) into the chat.
+1. A Google Analytics connector the owner has already added to this assistant app, signed in as themselves or as a Viewer (below). Use only its reading tools (property list, reports). Never call a tool that changes a property, a data stream, an event, a key event setting or anyone's access, even when the connector offers one.
+2. No connector: the owner exports a report themselves (Reports, the share icon, Download file, CSV) and shares the file, or they read the numbers from their own screen and type the numbers (only numbers) into the chat.
 
 If neither is possible, say so and stop. Do not look for another way in.
 
@@ -32,11 +32,11 @@ If neither is possible, say so and stop. Do not look for another way in.
 Google Analytics has a **Viewer** role, which can see reports and change nothing. Use it whenever someone other than the owner, or a separate Google account for the assistant, will do the reading:
 
 1. The owner opens https://analytics.google.com and the right property.
-2. He goes to Admin, then Property access management, then the plus button, then Add users.
-3. He enters the email of the Google account that will read and chooses the role **Viewer**. Not Analyst, Editor or Administrator.
+2. They go to Admin, then Property access management, then the plus button, then Add users.
+3. They enter the email of the Google account that will read and choose the role **Viewer**. Not Analyst, Editor or Administrator.
 4. That person signs in to the assistant app's Google Analytics connector with that Google account.
 
-The owner makes every click that grants access, in his own window; you only say which screen comes next. If the menus differ, say what you see. Do not guess.
+The owner makes every click that grants access, in their own window; you only say which screen comes next. If the menus differ, say what you see. Do not guess.
 
 ## Numbers to read
 
@@ -70,7 +70,7 @@ Read each one from the same report and the same period. If a number is not there
  "fresh_hours": 36, "daily_cap": 4}
 ```
 
-3. Show the owner the preview in plain words and wait for his yes. Only then call `define_feed` again with nothing but the `confirm_token` (it works once, for 10 minutes).
+3. Show the owner the preview in plain words and wait for their yes. Only then call `define_feed` again with nothing but the `confirm_token` (it works once, for 10 minutes).
 4. Call `feed_numbers` with the feed's name, `as_of` (the date the numbers are about, such as yesterday's date) and one entry per label you read:
 
 ```json
@@ -108,7 +108,7 @@ Every morning: if your app runs scheduled tasks, it can repeat step 4 daily. Not
 
 ## Never
 
-- Never ask for a key, password, secret or token in the chat, and never ask the owner to type or paste one there. If he does by mistake, do not repeat it; tell him to revoke it and make a new one.
+- Never ask for a key, password, secret or token in the chat, and never ask the owner to type or paste one there. If they do by mistake, do not repeat it; tell them to revoke it and make a new one.
 - Never write, change or delete anything in the owner's Analytics account: you only read.
 - Only send numbers you actually read, for the period you name. Never estimate, and send each one as a plain number (412.37), never as text ("412.37") or words.
 - Never create a feed before the owner has seen the preview and said yes.
