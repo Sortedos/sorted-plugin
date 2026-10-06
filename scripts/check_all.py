@@ -10,7 +10,8 @@ Checks, in order:
   3. Codex copy           scripts/sync_codex_plugin.py --check (no drift, same version in every manifest)
   4. tool names           every feed tool named in the docs and skills is one of the four in docs/feed-tools.json
   5. byte-order marks     no JSON file starts with one (Claude Code then loads no servers from .mcp.json)
-  6. plugin validation    claude plugin validate . --strict (skipped, with a notice, when Claude Code is not installed)
+  6. feed call checker    scripts/check_feed_call.py --selftest (the offline checker still decides its own examples right)
+  7. plugin validation    claude plugin validate . --strict (skipped, with a notice, when Claude Code is not installed)
 Exit code 1 if any check failed.
 """
 import glob
@@ -75,6 +76,11 @@ def check_bom():
     return not with_bom, "JSON files without a byte-order mark: %d of %d%s" % (len(files) - len(with_bom), len(files), (" (" + ", ".join(with_bom) + ")") if with_bom else "")
 
 
+def check_feed_checker():
+    code, last = run([sys.executable, "scripts/check_feed_call.py", "--selftest"])
+    return code == 0, last
+
+
 def check_validate():
     claude = shutil.which("claude")
     if not claude:
@@ -85,7 +91,8 @@ def check_validate():
 
 def main():
     checks = [("leak scan", check_leaks), ("skill lint", check_lint), ("Codex copy", check_codex_copy),
-              ("tool names", check_tool_names), ("byte-order marks", check_bom), ("plugin validation", check_validate)]
+              ("tool names", check_tool_names), ("byte-order marks", check_bom), ("feed call checker", check_feed_checker),
+              ("plugin validation", check_validate)]
     passed = failed = skipped = 0
     for name, fn in checks:
         try:
