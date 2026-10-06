@@ -12,6 +12,15 @@ This repository lets an AI assistant work with Sorted. It holds:
 
 Owners and teams who already use Sorted, or who are trying it, and who work with an AI assistant: Codex, Claude Code, Claude, or ChatGPT. Nothing here needs programming. Each install path takes a few minutes.
 
+Pick the path for the assistant you use. A terminal is the text window where you type commands (PowerShell on Windows, Terminal on a Mac).
+
+| You use | Terminal needed? | Follow |
+|---|---|---|
+| Codex | Yes | [Install: Codex plugin](#install-codex-plugin) |
+| Claude Code | Yes | [Install: Claude Code plugin](#install-claude-code-plugin) |
+| Claude on the web or the desktop app | No | [Claude on the web or the desktop app](#claude-on-the-web-or-the-desktop-app) |
+| ChatGPT | No | [Install: ChatGPT connector guide](#install-chatgpt-connector-guide) |
+
 ## What an assistant can do with Sorted
 
 - Answer "how is the business doing?" from live numbers, with the time of each snapshot.
@@ -27,19 +36,49 @@ Two things to know about feeds:
 
 The tools, their limits and examples: [docs/feed-tools.md](docs/feed-tools.md).
 
+## The 13 skills
+
+Each skill is one instruction file. The plugins install all of them; in an assistant without the plugin, open the file, copy all of its text and paste it as your first message.
+
+| Skill | What it is for |
+|---|---|
+| [sorted-about](skills/sorted-about/SKILL.md) | What Sorted is, what it does and what it does not do |
+| [sorted-business-review](skills/sorted-business-review/SKILL.md) | A business review from the live numbers: sales, cash, who owes whom, what disagrees |
+| [sorted-cash-and-collections](skills/sorted-cash-and-collections/SKILL.md) | Cash, who owes the business money, what is overdue, polite reminder drafts |
+| [sorted-fix-conflicts](skills/sorted-fix-conflicts/SKILL.md) | Where two systems report different numbers, and the exact records behind the gap |
+| [sorted-organise-dashboard](skills/sorted-organise-dashboard/SKILL.md) | Hide, show, move or add cards and pages on the dashboard |
+| [sorted-subscription](skills/sorted-subscription/SKILL.md) | The trial, the plan and the payment link |
+| [sorted-connect-systems](skills/sorted-connect-systems/SKILL.md) | Connect Odoo, Shopify, Google Ads or Google Analytics so Sorted reads them itself |
+| [sorted-connect-odoo](skills/sorted-connect-odoo/SKILL.md) | Send Odoo numbers through a feed |
+| [sorted-connect-shopify](skills/sorted-connect-shopify/SKILL.md) | Send Shopify store numbers through a feed |
+| [sorted-connect-google-ads](skills/sorted-connect-google-ads/SKILL.md) | Send Google Ads numbers through a feed |
+| [sorted-connect-google-analytics](skills/sorted-connect-google-analytics/SKILL.md) | Send Google Analytics numbers through a feed |
+| [sorted-connect-meta-ads](skills/sorted-connect-meta-ads/SKILL.md) | Send Meta ads (Facebook and Instagram) numbers through a feed |
+| [sorted-connect-any-system](skills/sorted-connect-any-system/SKILL.md) | Send numbers from any other system through a feed |
+
 ## Install: Codex plugin
 
 You need Codex installed and signed in, and a personal Sorted plugin key (it starts with `srt_`). Sorted gives you one: ask through the contact link on the Sorted website. The key belongs to you and your company; keep it to yourself.
 
-1. Download this repository and open a terminal in its folder.
-2. Save your key where Codex can read it, as the environment variable `SORTED_TOKEN`. On Windows, in PowerShell (the key stays hidden while you paste it):
+1. Get this repository's files onto your computer: on its GitHub page, click the green **Code** button, then **Download ZIP**, and unzip the file. Then open a terminal in the unzipped folder: on Windows, right-click inside the folder in File Explorer and choose **Open in Terminal**; on a Mac, right-click the folder and choose **Services**, then **New Terminal at Folder**.
+2. Save your key where Codex can read it, as the environment variable `SORTED_TOKEN` (a named setting your computer keeps for programs).
 
-   ```powershell
-   $key = Read-Host "Paste your Sorted key" -AsSecureString
-   [Environment]::SetEnvironmentVariable("SORTED_TOKEN", [Net.NetworkCredential]::new("", $key).Password, "User")
-   ```
+   On Windows, in PowerShell (the window's title or prompt says PowerShell, not Command Prompt), one line at a time:
 
-   On macOS or Linux, add `export SORTED_TOKEN=...` with your key to your shell's start-up file.
+   a. Paste this line and press Enter:
+
+      ```powershell
+      $key = Read-Host "Paste your Sorted key" -AsSecureString
+      ```
+
+   b. Paste your key when it asks, and press Enter. Nothing shows on screen while you paste: that is normal.
+   c. Paste this line and press Enter:
+
+      ```powershell
+      [Environment]::SetEnvironmentVariable("SORTED_TOKEN", [Net.NetworkCredential]::new("", $key).Password, "User")
+      ```
+
+   On a Mac, type `touch ~/.zshrc; open -e ~/.zshrc` to open your terminal's start-up file in TextEdit; on Linux, type `nano ~/.bashrc`. Add a new last line: `export SORTED_TOKEN=` followed by your key, with no spaces. Save and close the file. Typing the key into the file, not into the terminal, keeps it out of the terminal's history.
 3. Add the plugin to Codex:
 
    ```
@@ -47,7 +86,7 @@ You need Codex installed and signed in, and a personal Sorted plugin key (it sta
    codex plugin add sorted@sorted
    ```
 
-4. Open a new terminal and ask Codex: "Do a quick business review using Sorted."
+4. Close every Codex window, including the Codex desktop app if it is open, so that Codex sees the new key. Open a new terminal, type `codex` and press Enter, then ask: "Do a quick business review using Sorted." A working answer quotes your company's numbers with the time they were read.
 
 Tested on: Windows 11 with Codex 0.155.1, 6 October 2026 (the plugin and its 13 skills installed). Not tested: macOS, Linux.
 
@@ -55,7 +94,7 @@ Tested on: Windows 11 with Codex 0.155.1, 6 October 2026 (the plugin and its 13 
 
 You need Claude Code installed. No key: Claude Code signs in to Sorted with your own Sorted account.
 
-1. Download this repository and open a terminal in its folder.
+1. Get this repository's files and open a terminal in their folder, as in step 1 of the Codex section above.
 2. Add the plugin:
 
    ```
@@ -68,7 +107,15 @@ You need Claude Code installed. No key: Claude Code signs in to Sorted with your
 
 Tested on: Windows 11 with Claude Code 2.1.291 and 2.1.292, 6 October 2026 (the plugin, its 13 skills and the Sorted server entry installed; the sign-in step was not run in that test). Not tested: macOS, Linux.
 
-Using Claude on the web or the desktop app instead: add a custom connector with the address `https://sortedos.com/api/mcp` and sign in with Sorted, following Claude's own guide (https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp). The skills can then be pasted into a conversation, or added as skills where your Claude plan allows it.
+### Claude on the web or the desktop app
+
+No terminal and no key: Claude connects to Sorted directly, with your Sorted account.
+
+1. In Claude, open **Customize**, then **Connectors**, click **+ Add**, then **Add custom connector**. Name it Sorted and enter the address `https://sortedos.com/api/mcp`. On a Team or Enterprise plan, an owner of the Claude organisation adds it first under **Organization settings**, **Connectors**; members then find it under **Customize**, **Connectors** and click **Connect**. Claude's own guide shows each screen: https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp
+2. Sign in with your Sorted account when Claude asks.
+3. To use a skill, open its file from [the list of skills](#the-13-skills), copy all of its text and paste it as your first message, or add it as a skill where your Claude plan allows it.
+
+Tested on: nothing yet; only the menu names were checked, against Claude's guide on 7 October 2026. Not tested: connecting Claude on the web or the desktop app to Sorted.
 
 ## Install: ChatGPT connector guide
 

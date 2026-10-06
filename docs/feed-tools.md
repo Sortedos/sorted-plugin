@@ -63,7 +63,9 @@ Currencies Sorted accepts: AED, AUD, BHD, BRL, CAD, CHF, CNY, CZK, DKK, DZD, EGP
 ## Limits Sorted enforces
 
 - Name 40 characters, labels 60. Labels and names are cleaned to one plain line, and text that reads like an instruction is refused.
-- Up to 40 numbers in a feed, or one table of at most 40 cells and 8 columns. Each label once.
+- Up to 40 numbers in a feed, or one table of at most 40 cells and 8 columns. Each label once, ignoring capitals ("Spent" and "spent" are the same label); table row names follow the same 60-character rule as labels.
+- When sending, write each label exactly as it was declared, capitals included ("spent" does not match a declared "Spent").
+- Only `money` takes a `currency`; any other unit with a `currency` is refused.
 - Values are JSON numbers only, never text (`"12.40"` is refused). `null` means "no number" and is never shown as zero.
 - `as_of`: a date or a date and time, at most 10 minutes in the future, at most 45 days old, and newer than the feed's last send. Sending the same `as_of` with the same numbers again is accepted and stores nothing; the same `as_of` with other numbers is refused.
 - `fresh_hours` 1 to 120 (default 36): after that the dashboard shows the numbers grey. After 7 days without a send, the numbers are removed.
