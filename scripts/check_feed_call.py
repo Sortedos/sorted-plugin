@@ -33,8 +33,12 @@ RANGES = {
     "days": lambda v: 0 <= v <= 36_500,
     "number": lambda v: abs(v) <= 10_000_000_000_000,
 }
-NOT_PLAIN = re.compile(r"[^\w\s.,:'’()\-–—/&%+#]", re.UNICODE)
 AS_OF = re.compile(r"^(\d{4})-(\d{2})-(\d{2})(?:[T ](\d{2}):(\d{2})(?::(\d{2})(?:\.\d{1,9})?)?(Z|[+-]\d{2}:\d{2})?)?$")
+# Web addresses are removed from names and labels before they are checked, as the service does.
+URL_LIKE = re.compile(r"\b(?:https?|ftp|file)://\S*|\b(?:javascript|mailto|data):\S+|\bwww\.\S+|"
+                      r"\b[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:com|net|org|io|ai|co|app|dev|ly|me|info|xyz|gov|edu|eg|sa)\b(?:[/:?#]\S*)?", re.I)
+PLAIN_MARKS = set(" .,:'’()-–—/&%+_#")
+MAX_CALL_BYTES = 4096
 
 
 class Refused(Exception):
@@ -42,20 +46,36 @@ class Refused(Exception):
 
 
 def plain_text(v, limit, what):
-    """The name and labels must be one short plain line once cleaned (the service also removes web addresses and odd marks)."""
+    """The name and labels must be one short plain line once cleaned: line breaks become spaces; invisible characters and web
+    addresses are removed; only letters (any language, with their marks), digits, spaces and a few marks stay. Returns the cleaned
+    text with its capitals kept: the service matches sent labels exactly as they were declared."""
     if not isinstance(v, str):
         raise Refused("%s must be text" % what)
     t = unicodedata.normalize("NFKC", v)
-    t = re.sub(r"\s+", " ", NOT_PLAIN.sub("", t)).strip()
+    t = re.sub(r"[\t-\r\x85  ]", " ", t)
+    t = "".join(ch for ch in t if unicodedata.category(ch) not in ("Cc", "Cf"))
+    t = URL_LIKE.sub(" ", t)
+    t = "".join(ch for ch in t if ch in PLAIN_MARKS or unicodedata.category(ch)[0] in "LNM")
+    t = re.sub(r"\s+", " ", t).strip()
     if not t:
-        raise Refused("%s has nothing left once odd characters are removed" % what)
+        raise Refused("%s has nothing left once odd characters and web addresses are removed" % what)
     if len(t) > limit:
         raise Refused("%s is longer than %d characters" % (what, limit))
-    return t.lower()
+    return t
 
 
 def is_number(v):
     return isinstance(v, (int, float)) and not isinstance(v, bool) and v == v and v not in (float("inf"), float("-inf"))
+
+
+def is_whole(v):
+    """A whole number as JSON sees it: 36 and 36.0 are the same number."""
+    return is_number(v) and float(v).is_integer()
+
+
+def too_big(call):
+    """The service measures a call as compact JSON in UTF-8."""
+    return len(json.dumps(call, separators=(",", ":"), ensure_ascii=False).encode("utf-8")) > MAX_CALL_BYTES
 
 
 def check_item(item, what):
@@ -81,10 +101,16 @@ def check_define(d):
     extra = set(d) - {"name", "numbers", "table", "fresh_hours", "daily_cap", "confirm_token"}
     if extra:
         raise Refused("unknown field %s (the company always comes from the sign-in)" % sorted(extra)[0])
+    if "confirm_token" in d:
+        if len(d) > 1:
+            raise Refused("send either the definition (to get a preview) or confirm_token (to create the feed), not both")
+        raise Refused("this is the confirm step; check the definition call (the first define_feed call) instead")
+    if too_big(d):
+        raise Refused("the call is larger than 4 KB")
     name = plain_text(d.get("name"), 40, "the name")
     if ("numbers" in d) == ("table" in d):
         raise Refused("send either numbers or table, not both and not neither")
-    seen = set()
+    seen = set()  # duplicates are found regardless of capitals, as the service does
     if "numbers" in d:
         items = d["numbers"]
         if not isinstance(items, list) or not 1 <= len(items) <= 40:
@@ -92,9 +118,9 @@ def check_define(d):
         spec = []
         for it in items:
             label, unit = check_item(it, "number")
-            if label in seen:
+            if label.lower() in seen:
                 raise Refused("the label %r appears twice" % label)
-            seen.add(label)
+            seen.add(label.lower())
             spec.append((label, unit))
         shape = ("numbers", spec, None)
     else:
@@ -109,21 +135,21 @@ def check_define(d):
         row_names = []
         for r in rows:
             n = plain_text(r, 60, "a row name")
-            if n in seen:
+            if n.lower() in seen:
                 raise Refused("the row name %r appears twice" % n)
-            seen.add(n)
+            seen.add(n.lower())
             row_names.append(n)
         seen = set()
         spec = []
         for c in cols:
             label, unit = check_item(c, "column")
-            if label in seen:
+            if label.lower() in seen:
                 raise Refused("the column label %r appears twice" % label)
-            seen.add(label)
+            seen.add(label.lower())
             spec.append((label, unit))
         shape = ("table", spec, row_names)
     for key, lo, hi in (("fresh_hours", 1, 120), ("daily_cap", 1, 24)):
-        if key in d and not (isinstance(d[key], int) and not isinstance(d[key], bool) and lo <= d[key] <= hi):
+        if key in d and not (is_whole(d[key]) and lo <= d[key] <= hi):
             raise Refused("%s must be a whole number from %d to %d" % (key, lo, hi))
     return name, shape
 
@@ -153,8 +179,10 @@ def check_feed(f, name, shape, now):
     extra = set(f) - {"feed", "as_of", "values"}
     if extra:
         raise Refused("unknown field %s" % sorted(extra)[0])
-    if not isinstance(f.get("feed"), str) or plain_text(f["feed"], 60, "the feed") != name:
+    if not isinstance(f.get("feed"), str) or plain_text(f["feed"], 60, "the feed").lower() != name.lower():
         raise Refused("feed must be the name of the feed that was defined")
+    if too_big(f):
+        raise Refused("the call is larger than 4 KB")
     t = parse_as_of(f.get("as_of"))
     if t is None:
         raise Refused("as_of must be a date or a date and time, such as 2026-10-06 or 2026-10-06T07:00:00Z")
@@ -172,9 +200,10 @@ def check_feed(f, name, shape, now):
         if not isinstance(el, dict) or "label" not in el:
             raise Refused("every entry needs a label")
         label = plain_text(el["label"], 60, "a label")
-        if label in sent:
+        if label.lower() in sent:
             raise Refused("the label %r is sent twice" % label)
-        sent.add(label)
+        sent.add(label.lower())
+        # A sent label must match its declared label exactly, capitals included.
         if kind == "numbers":
             if set(el) - {"label", "value"} or "value" not in el:
                 raise Refused("a numbers feed takes {label, value} entries, nothing else")
@@ -198,8 +227,6 @@ def check_feed(f, name, shape, now):
                     raise Refused("values must be plain numbers or null, not text (row %r)" % label)
                 if v is not None and not RANGES[unit](v):
                     raise Refused("row %r, column %r is outside the range of its unit %s" % (label, col, unit))
-    if len(json.dumps(f, ensure_ascii=False).encode("utf-8")) > 4096:
-        raise Refused("the call is larger than 4 KB")
 
 
 def judge(define, feed, now):
@@ -233,6 +260,18 @@ def selftest():
         ("table too wide", {"name": "x", "table": {"rows": ["a"], "columns": [{"label": "c%d" % i, "unit": "count"} for i in range(9)]}}, good_feed, False),
         ("percent out of range", d, dict(good_feed, values=[{"label": "Click rate", "value": 5000}]), False),
         ("label sent twice", d, dict(good_feed, values=[{"label": "Spent", "value": 1}, {"label": "Spent", "value": 2}]), False),
+        # Cases found by comparing this checker with the service itself:
+        ("label in other capitals", d, dict(good_feed, values=[{"label": "spent", "value": 1}]), False),
+        ("row in other capitals", table, {"feed": "Branches", "as_of": "2026-10-05", "values": [{"label": "north", "values": [1]}]}, False),
+        ("feed name in other capitals", d, dict(good_feed, feed="EXAMPLE ADS"), True),
+        ("label that is only a web address", {"name": "x", "numbers": [{"label": "www.example.com", "unit": "count"}]}, good_feed, False),
+        ("definition with a confirm token", dict(d, confirm_token="abc"), good_feed, False),
+        ("fresh_hours written as 36.0", dict(d, fresh_hours=36.0), good_feed, True),
+        ("labels differing by a vowel mark", {"name": "x", "numbers": [{"label": "كتاب", "unit": "count"},
+                                                                       {"label": "كُتاب", "unit": "count"}]},
+         {"feed": "x", "as_of": "2026-10-05", "values": [{"label": "كتاب", "value": 1}]}, True),
+        ("definition over 4 KB", {"name": "x", "numbers": [{"label": ("Label number %02d " % i).ljust(60, "x"), "unit": "money", "currency": "USD"}
+                                                          for i in range(40)]}, good_feed, False),
     ]
     ok = 0
     for name, de, fe, expect in cases:
