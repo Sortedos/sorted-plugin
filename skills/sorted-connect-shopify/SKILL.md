@@ -31,7 +31,7 @@ If neither is possible, say so and stop. Do not look for another way in.
 
 A Shopify app can be limited to reading. The owner of the store does this themselves:
 
-1. They open https://dev.shopify.com, signed in as the **owner of the store**, and creates an app in the same Shopify account as the store (otherwise Shopify refuses it).
+1. They open https://dev.shopify.com, signed in as the **owner of the store**, and create an app in the same Shopify account as the store (otherwise Shopify refuses it).
 2. Under the Admin API access scopes they add only reading scopes: `read_orders`, `read_products` and, for visits and conversion rate, `read_reports`. No scope that starts with write.
 3. They release the version and install the app on their store.
 4. They put the app's access details into their assistant app's Shopify connector settings themselves, in that app's own settings screen, never in the chat.
