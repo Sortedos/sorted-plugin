@@ -103,7 +103,7 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 
 ChatGPT بيتوصل بـ Sorted مباشرة كـ app، بتسجيل دخول ومن غير مفتاح. أنهي باقات ChatGPT تقدر تعمل ده، والخطوات، وإزاي تدي ChatGPT الـ skills: [docs/chatgpt-connector.md](../chatgpt-connector.md) (بالإنجليزي).
 
-اتجرّب: الخطوات اتراجعت على مقال المساعدة بتاع OpenAI يوم 6 أكتوبر 2026، وسيرفر Sorted رد بأدوات الـ feed الأربعة في اختبار محلي. ما اتجرّبش: workspace حقيقي في ChatGPT بيتوصل بـ Sorted.
+اتجرّب: الخطوات اتراجعت على صفحات OpenAI نفسها يوم 7 أكتوبر 2026 (OpenAI غيّرت الشاشات دي يوم 1 أكتوبر 2026؛ الدليل بيدي الطريقة الجديدة الأول والشاشات القديمة كبديل)، وسيرفر Sorted رد بأدوات الـ feed الأربعة في اختبار محلي. ما اتجرّبش: workspace حقيقي في ChatGPT بيتوصل بـ Sorted.
 
 ## الأمان، بكلام بسيط
 

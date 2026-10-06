@@ -121,7 +121,7 @@ Tested on: nothing yet; only the menu names were checked, against Claude's guide
 
 ChatGPT connects to Sorted directly, as an app, with sign-in and no key. Which ChatGPT plans can do this, the steps, and how to give ChatGPT the skills: [docs/chatgpt-connector.md](docs/chatgpt-connector.md).
 
-Tested on: the steps were checked against OpenAI's own help article on 6 October 2026, and Sorted's server answered with its four feed tools in a local test. Not tested: a real ChatGPT workspace connecting to Sorted.
+Tested on: the steps were checked against OpenAI's own pages on 7 October 2026 (OpenAI changed these screens on 1 October 2026; the guide gives the new way first and the older screens as a fallback), and Sorted's server answered with its four feed tools in a local test. Not tested: a real ChatGPT workspace connecting to Sorted.
 
 ## Safety, in plain words
 
