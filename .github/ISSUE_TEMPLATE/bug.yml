@@ -1,0 +1,28 @@
+name: Something does not work
+description: A skill gave a wrong instruction, an install step failed, or a check fails.
+title: "Problem: "
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where?
+      options:
+        - A skill
+        - Codex plugin install
+        - Claude Code plugin install
+        - ChatGPT connector guide
+        - A check script
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+      description: Copy the exact message you saw. Remove any key, password, account number or real name before posting.
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Assistant app and version, operating system

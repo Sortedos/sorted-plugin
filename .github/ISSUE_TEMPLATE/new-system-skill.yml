@@ -1,0 +1,35 @@
+name: New system skill
+description: Propose a skill that lets an assistant send numbers from another system into Sorted.
+title: "Skill: "
+labels: ["skill"]
+body:
+  - type: input
+    id: system
+    attributes:
+      label: Which system?
+      description: The product name, for example a point-of-sale system or a delivery app.
+    validations:
+      required: true
+  - type: textarea
+    id: numbers
+    attributes:
+      label: Which numbers should the feed carry?
+      description: One per line, each with its unit (money with a currency, count, percent, ratio, days or number).
+    validations:
+      required: true
+  - type: textarea
+    id: read-only
+    attributes:
+      label: How does an owner give read-only access?
+      description: A read-only role, read-only scopes, or a report export. Link the system's own help page if you can.
+    validations:
+      required: true
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Checks
+      options:
+        - label: My examples use fake data only (no real names, accounts, keys or paths).
+          required: true
+        - label: The skill never asks for a secret in a chat and never writes to the owner's system.
+          required: true
