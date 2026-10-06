@@ -1,0 +1,8 @@
+{
+  "name": "sorted",
+  "version": "1.2.0",
+  "description": "Your business on one screen: live numbers from every connected system, the places where systems disagree, the records behind each gap, and feeds that let the assistant send in numbers from systems Sorted does not read itself.",
+  "author": { "name": "Sorted" },
+  "homepage": "https://sortedos.com",
+  "keywords": ["business", "dashboard", "accounting", "odoo", "shopify", "google-ads", "google-analytics", "meta-ads", "kpi", "reconciliation"]
+}

@@ -1,0 +1,16 @@
+{
+  "name": "sorted",
+  "version": "1.2.0",
+  "description": "Your business on one screen, inside Codex: live numbers from every connected system, the places where systems disagree, the records behind each gap, and feeds that let the assistant send in numbers from systems Sorted does not read itself.",
+  "author": { "name": "Sorted" },
+  "homepage": "https://sortedos.com",
+  "keywords": ["business", "dashboard", "accounting", "odoo", "shopify", "google-ads", "google-analytics", "meta-ads", "kpi", "reconciliation"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Sorted",
+    "shortDescription": "Your business numbers, live",
+    "longDescription": "Ask about sales, cash, receivables and payables across every connected system. Sorted spots where two systems report different numbers and shows the exact records behind the gap. With the owner's yes, the assistant can also send numbers from Odoo, Shopify, Google Ads, Google Analytics, Meta ads or any other system into the dashboard, clearly labelled as sent by the assistant.",
+    "developerName": "Sorted",
+    "category": "Productivity"
+  }
+}

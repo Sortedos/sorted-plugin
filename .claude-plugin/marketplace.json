@@ -1,0 +1,13 @@
+{
+  "name": "sorted",
+  "owner": { "name": "Sorted" },
+  "description": "The Sorted plugin: your business numbers, live, inside your AI assistant.",
+  "plugins": [
+    {
+      "name": "sorted",
+      "source": "./",
+      "description": "Your business numbers, live: reviews, cash and collections, mismatches between systems, and assistant-sent numbers from systems Sorted does not read itself.",
+      "version": "1.2.0"
+    }
+  ]
+}

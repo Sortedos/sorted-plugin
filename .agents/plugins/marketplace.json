@@ -1,0 +1,12 @@
+{
+  "name": "sorted",
+  "interface": { "displayName": "Sorted" },
+  "plugins": [
+    {
+      "name": "sorted",
+      "source": { "source": "local", "path": "./plugins/sorted" },
+      "policy": { "installation": "AVAILABLE", "authentication": "ON_INSTALL" },
+      "category": "Productivity"
+    }
+  ]
+}

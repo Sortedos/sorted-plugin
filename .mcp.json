@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "sorted": {
+      "type": "http",
+      "url": "https://sortedos.com/api/mcp"
+    }
+  }
+}
