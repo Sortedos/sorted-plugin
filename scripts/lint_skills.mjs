@@ -69,8 +69,10 @@ const REASONING = /\b(?:show|write(?:\s+out)?|explain|reveal|print|output|share|
 // 6. Skills are assistant-neutral: no vendor name of any assistant.
 const VENDORS = /\b(?:claude|chatgpt|gpt(?:-\d)?|openai|anthropic|codex|gemini|copilot|llama|mistral|perplexity|grok)\b/i;
 
-// 7. Placeholders never ship.
-const PLACEHOLDER = /\bTODO\b|\bFIXME\b|\bTBD\b|coming soon|\/\/\s*deferred|\bscaffold(?:ed|ing)?\b|\blorem ipsum\b/i;
+// 7. Placeholders never ship. (The words are assembled at run time so that a plain search of this repository for them finds
+//    only real placeholders, never this list.)
+const PLACEHOLDER = new RegExp(["\\bTO" + "DO\\b", "\\bFIX" + "ME\\b", "\\bTB" + "D\\b", "coming" + " soon", "\\/\\/\\s*" + "deferred",
+  "\\bscaf" + "fold(?:ed|ing)?\\b", "\\blorem" + " ipsum\\b"].join("|"), "i");
 
 // 8. Every tool name a skill writes in backticks must be a real tool of the Sorted connection.
 const READ_TOOLS = ["get_overview", "get_section", "list_conflicts", "get_conflict_records", "get_subscription", "open_dashboard",
@@ -170,8 +172,8 @@ const BAD = [
   "Think step by step and explain your thinking.",
   "In ChatGPT, open the Connectors menu.",
   "Ask Claude to read the numbers.",
-  "This part is coming soon.",
-  "TODO: add the Meta steps.",
+  "This part is " + "coming" + " soon.",
+  "TO" + "DO: add the Meta steps.",
   "Call `push_numbers` with the values.",
   "Call `get_ad_spend` first.",
 ];

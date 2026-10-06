@@ -1,0 +1,63 @@
+{
+  "server": "https://sortedos.com/api/mcp",
+  "sign_in": "OAuth (Sign in with Sorted) for ChatGPT and Claude; a personal Sorted key held in the SORTED_TOKEN environment variable for the Codex plugin",
+  "switched_on": "Only when Sorted has switched feeds on for the company; otherwise these four tools are not in the tool list",
+  "tools": [
+    {
+      "name": "list_feeds",
+      "changes_data": false,
+      "required": [],
+      "optional": [],
+      "who": "any member of the company"
+    },
+    {
+      "name": "define_feed",
+      "changes_data": true,
+      "required": [],
+      "optional": ["name", "numbers", "table", "fresh_hours", "daily_cap", "confirm_token"],
+      "rule": "First call with name and numbers (or table): returns a preview and a confirm_token, saves nothing. After the owner's yes, call again with only confirm_token.",
+      "who": "an owner of the company"
+    },
+    {
+      "name": "feed_numbers",
+      "changes_data": true,
+      "required": ["feed", "as_of", "values"],
+      "optional": [],
+      "who": "an owner of the company"
+    },
+    {
+      "name": "end_feed",
+      "changes_data": true,
+      "required": ["feed"],
+      "optional": [],
+      "who": "an owner of the company"
+    }
+  ],
+  "limits": {
+    "name_max_characters": 40,
+    "label_max_characters": 60,
+    "numbers_per_feed_max": 40,
+    "table_cells_max": 40,
+    "table_columns_max": 8,
+    "units": ["money", "count", "percent", "ratio", "days", "number"],
+    "money_needs_currency": "a three-letter code such as USD, EUR, EGP, SAR, AED",
+    "count": "a whole number, 0 or more",
+    "percent_range": [-1000, 1000],
+    "days_range": [0, 36500],
+    "null_means": "no number (never shown as zero)",
+    "values_must_be": "JSON numbers, never text such as \"12.40\"",
+    "fresh_hours": {"min": 1, "max": 120, "default": 36},
+    "daily_cap": {"min": 1, "max": 24, "default": 4},
+    "as_of": "a date (2026-10-05) or a date and time; at most 10 minutes in the future, at most 45 days old, newer than the feed's last send",
+    "same_as_of_same_numbers": "accepted again, stores nothing (safe to retry)",
+    "same_as_of_other_numbers": "refused",
+    "confirm_token": "valid 10 minutes, usable once",
+    "feed_lifetime_days": 90,
+    "numbers_removed_after_silence_days": 7,
+    "live_feeds_per_company_max": 20,
+    "new_feeds_per_day_max": 10,
+    "sends_per_company_per_hour_max": 30,
+    "sends_per_company_per_day_max": 100,
+    "call_size_max_bytes": 4096
+  }
+}
