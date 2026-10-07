@@ -13,9 +13,9 @@ If `define_feed` and `feed_numbers` are not among your Sorted tools, feeds are n
 
 ## What to ask the owner
 
-1. Which store: its address (like yourstore.myshopify.com) and its currency.
+1. Which store, if they have several. Read its address and currency from the Shopify admin after the owner signs in; never ask for them.
 2. Which numbers they want (offer the list under "Numbers to read") and for which period. Yesterday is the usual choice.
-3. Whether this is once, now, or every morning (only if your app can run scheduled tasks).
+3. Whether this is once or every morning (if your app can run scheduled tasks).
 4. Whether they are an owner of their company in Sorted. Only an owner can create, send to or end a feed.
 
 ## Read-only access first
@@ -29,14 +29,14 @@ If neither is possible, say so and stop. Do not look for another way in.
 
 ## Make a read-only credential
 
-A Shopify app can be limited to reading. The store owner does this themselves:
+A Shopify app can be limited to reading. Once the store owner has signed in, you do the clicks:
 
-1. They open https://dev.shopify.com, signed in as the **owner of the store**, and create an app in the same Shopify account as the store (otherwise Shopify refuses it).
-2. Under the Admin API access scopes they add only reading scopes: `read_orders`, `read_products` and, for visits and conversion rate, `read_reports`. No scope that starts with write.
-3. They release the version and install the app on their store.
-4. They put the app's access details into their assistant app's Shopify connector settings themselves, never in the chat.
+1. Open https://dev.shopify.com, signed in as the **owner of the store**, and create an app in the same Shopify account as the store (otherwise Shopify refuses it).
+2. Under the Admin API access scopes add only reading scopes: `read_orders`, `read_products` and, for visits and conversion rate, `read_reports`. No scope that starts with write.
+3. Release the version and install the app on the store.
+4. The app's access details go into the assistant app's Shopify connector settings, never into the chat (you, if you can reach that screen; otherwise the owner).
 
-The owner makes every click that grants access, in their own window; you only say which screen comes next. If the menus differ, say what you see. Do not guess.
+The owner types every password and 2-step code. If menus differ, say what you see; do not guess.
 
 ## Numbers to read
 
@@ -91,7 +91,7 @@ Read each one from the same report and the same period, in the store's own time 
   {"label": "Returning customer rate", "value": 31.5}]}
 ```
 
-Top products, as one small table (rows are product names, fixed when the feed is made):
+Top products, as one small table (rows are fixed when the feed is made):
 
 ```json
 {"name": "Shopify top products",
@@ -107,15 +107,15 @@ Top products, as one small table (rows are product names, fixed when the feed is
 
 Limits Sorted enforces: at most 40 numbers, or one table of at most 40 numbers and 8 columns; labels 60 characters, name 40; units `money` (with a three-letter currency code), `count` (whole, 0 or more), `percent`, `ratio`, `days`, `number`; `null` means "no number", never zero; `as_of` at most 10 minutes in the future, not older than 45 days, newer than the last send; at most `daily_cap` sends a day (default 4); grey after `fresh_hours` (default 36); a feed lasts 90 days. Sending the same `as_of` with the same numbers again is safe.
 
-5. Tell the owner what you sent and how to stop it: `end_feed` removes the feed and deletes every number it sent, at once.
+5. Tell the owner what you sent and how to stop it: `end_feed` deletes the feed and every number it sent.
 
-Every morning: if your app runs scheduled tasks, repeat step 4 daily. Not every app keeps its sign-in in an unattended run, so check the first days with `list_feeds` (it shows the last send).
+Every morning: if your app runs scheduled tasks, repeat step 4 daily; not every app keeps its sign-in when unattended, so check `list_feeds` (it shows the last send) the first days.
 
 ## Never
 
 - Never ask for a key, password, secret or token in the chat, and never ask the owner to type or paste one there. If they do by mistake, do not repeat it; tell them to revoke it and make a new one.
 - Never write, change, refund, cancel or delete anything in the owner's Shopify store: you only read.
-- Never read or send customer names, emails, phone numbers or addresses. Feeds carry totals, never people.
+- Never read or send customer names, emails, phone numbers or addresses: feeds carry totals.
 - Only send numbers you actually read, for the period you name. Never estimate, and send each one as a plain number (412.37), never as text ("412.37") or words.
 - Never create a feed before the owner has seen the preview and said yes.
 - Never send another company's numbers. Sorted always uses the company the owner signed in to.

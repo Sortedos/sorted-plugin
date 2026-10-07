@@ -13,30 +13,29 @@ If `define_feed` and `feed_numbers` are not among your Sorted tools, feeds are n
 
 ## What to ask the owner
 
-1. Their Odoo address (like https://yourcompany.odoo.com), which Odoo plan they are on and, if the database holds several companies, **which company**. One feed carries one company's numbers.
+1. Which kind of Odoo: Odoo Online (sign in at odoo.com; the account page lists the databases and plans), Odoo.sh (its dashboard shows the production address) or self-hosted (the company's own address). Then look up the plan, version, database name and address yourself; never ask for them. If the database holds several companies, read the list and let the owner pick **which company**: one feed carries one company's numbers.
 2. Which numbers they want (offer the list under "Numbers to read") and, for sales, which period (yesterday or the last 30 days are usual).
 3. Whether this is once, now, or every morning (only if your app can run scheduled tasks).
 4. Whether they are an owner of their company in Sorted. Only an owner can create, send to or end a feed.
 
 ## Read-only access first
 
-You need a way to read the books that cannot change anything. Odoo's documentation says Odoo Online's One App Free and Standard plans have no external API, so option 1 will not work there: start at option 2. If they do not know their plan, they find out before making a user or key. In this order:
+You need a way to read the books that cannot change anything. Odoo's documentation says Odoo Online's One App Free and Standard plans have no external API, so option 1 will not work there: start at option 2. In this order:
 
-1. An Odoo connector the owner added to this assistant app, connected as a read-only user (below). Use only its reading calls.
-2. A browser your app controls, signed in **as the read-only user**; the owner types that user's password themselves. You only read reports, never pressing a button that changes a record.
+1. An Odoo connector the owner added to this assistant app, with a key (below). Use only its reading calls.
+2. A browser your app controls, signed in to Odoo as the owner, who types the password themselves. You only read reports, never pressing a button that changes a record.
 3. Neither: the owner exports the reports themselves and shares the file, or types the numbers (only numbers) into the chat.
 
 If none is possible, say so and stop. Do not look for another way in.
 
 ## Make a read-only credential
 
-A dedicated read-only Odoo user is the safe way. The owner does this themselves:
+Odoo has no read-only key: a key carries the rights of its user. No new Odoo user is needed (it may cost a paid seat): a key on the owner's own user will do, and its use stays read-only because you call only reading tools. Say that plainly and get the owner's clear yes before any key is made. Option 2 needs no key.
 
-1. They open Settings, then Users & Companies, then Users, and look for an existing read-only user first (a new user may cost a paid seat).
-2. If there is none and they agree: they turn on developer mode (Settings, Activate the developer mode), then make a New user named for the assistant. In Access Rights they leave Accounting blank (none of its choices is read-only: not Invoicing, Accountant or Administrator) and tick the technical right "Show Accounting Features - Readonly" (it may sit under Technical or Extra Rights; names differ by version). No other rights; only the company or companies the owner chose. Signed in as that user, they check it cannot create or edit an invoice.
-3. For a connector: the read-only user makes the key, not an administrator opening that user from Settings. The owner signs in as that user and types that user's password themselves, then opens Preferences (or My Profile), Account Security, New API Key, adds a clear description and puts the key into their assistant app's Odoo connector settings, never in the chat.
+1. The key is made in the owner's own Odoo session: the user's Preferences (or My Profile), Account Security, New API Key, with a clear description. Odoo asks the user's password to confirm: the owner types it. Odoo shows a key only once and keys expire: pick the longest duration offered (often about three months), record the date, and renew before it.
+2. The key goes into the assistant app's Odoo connector settings, never into the chat: you do it if you can reach that screen, otherwise the owner does.
 
-Never use the owner's administrator account for this or give a user more rights than the owner chose. The owner makes every click that grants access; you only say which screen comes next. If the menus differ, say what you see; do not guess.
+If the menus differ, say what you see; do not guess.
 
 ## Numbers to read
 

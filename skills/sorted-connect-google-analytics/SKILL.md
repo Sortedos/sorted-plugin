@@ -13,9 +13,9 @@ If `define_feed` and `feed_numbers` are not among your Sorted tools, feeds are n
 
 ## What to ask the owner
 
-1. Which Analytics property: its name and Property ID (a number like 123456789, under Admin, Property details).
+1. Which Analytics property, if there are several. Read its name and Property ID (a number like 123456789, under Admin, Property details) after the owner signs in; never ask for them.
 2. Which numbers they want (offer the list below) and for which period. Yesterday is the usual choice.
-3. Whether this is once, now, or every morning (if your app can run scheduled tasks).
+3. Whether this is once or every morning (if your app can run scheduled tasks).
 4. Whether they are an owner of their company in Sorted. Only an owner can create, send to or end a feed.
 
 ## Read-only access first
@@ -29,14 +29,14 @@ If neither is possible, say so and stop. Do not look for another way in.
 
 ## Make a read-only credential
 
-Google Analytics has a **Viewer** role: it sees the property's data and settings and can adjust its own report views, but cannot change settings or who has access. Use it when someone other than the owner, or a separate account for the assistant, will read:
+Google Analytics has a **Viewer** role: it sees the property's data and settings and can adjust its own report views, but cannot change settings or who has access. Use it when someone other than the owner, or a separate account for the assistant, will read. Once the owner has signed in, you do the clicks:
 
-1. The owner opens https://analytics.google.com and the right property.
-2. They go to Admin, Property access management, the plus button, Add users.
-3. They enter the email of the account that will read and choose **Viewer**, not Analyst, Editor or Administrator.
+1. Open https://analytics.google.com and the right property.
+2. Go to Admin, Property access management, the plus button, Add users.
+3. Enter the email of the account that will read and choose **Viewer**, not Analyst, Editor or Administrator.
 4. That person signs in to the assistant app's Google Analytics connector with that Google account.
 
-The owner makes every click that grants access, in their own window; you only say which screen comes next. If the menus differ, say what you see. Do not guess.
+The owner types every password and 2-step code. If menus differ, say what you see; do not guess.
 
 ## Numbers to read
 
@@ -102,9 +102,9 @@ By traffic source, define one small table (rows are channel groups, fixed when t
 
 Limits Sorted enforces: at most 40 numbers, or one table of at most 40 numbers and 8 columns; labels 60 characters, name 40; units `money` (with a three-letter currency code), `count` (whole, 0 or more), `percent`, `ratio`, `days`, `number`; `null` means "no number", never zero; `as_of` at most 10 minutes in the future, not older than 45 days, newer than the last send; at most `daily_cap` sends a day (default 4); grey after `fresh_hours` (default 36); a feed lasts 90 days. Sending the same `as_of` with the same numbers again is safe.
 
-5. Tell the owner what you sent and how to stop it: `end_feed` removes the feed and deletes every number it sent, at once.
+5. Tell the owner what you sent and how to stop it: `end_feed` deletes the feed and every number it sent.
 
-Every morning: an app that runs scheduled tasks can repeat step 4 daily. Not every app keeps its sign-in in an unattended run, so check the first days with `list_feeds` (it shows the last send).
+Every morning: an app that runs scheduled tasks can repeat step 4 daily; not every app keeps its sign-in when unattended, so check `list_feeds` (it shows the last send) the first days.
 
 Yesterday's numbers are provisional: Analytics can take 24 to 48 hours to settle a day, and key event numbers can shift for up to 12 days. Tell the owner; for settled numbers, send the day before yesterday's.
 

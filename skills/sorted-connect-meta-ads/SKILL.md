@@ -7,15 +7,15 @@ description: Read the owner's Meta ads results (Facebook and Instagram ads) with
 
 Sorted does not read Meta ads itself. You read the numbers with the owner's read-only Meta access, then send them with the feed tools. A **feed** is a named area on their dashboard that you may send numbers into; the owner approves it once.
 
-Sorted cannot check these numbers. The dashboard labels them "sent by your assistant, not read by Sorted", and the owner is responsible for them. Say this to the owner in plain words before you start.
+Sorted cannot check these numbers. The dashboard labels them "sent by your assistant, not read by Sorted", and the owner is responsible for them. Tell them so before you start.
 
 If `define_feed` and `feed_numbers` are not among your Sorted tools, feeds are not switched on for this company. Say so and stop.
 
 ## What to ask the owner
 
-1. Which ad account (its name or number) and which currency it reports in.
+1. Which ad account, if there are several. Read its name, number and currency from Ads Manager after the owner signs in; never ask for them.
 2. Which numbers they want (offer the list below) and for which period. Yesterday is the usual choice.
-3. Whether this is once, now, or every morning (only if your app can run scheduled tasks).
+3. Whether this is once or every morning (if your app can run scheduled tasks).
 4. Whether they are an owner of their company in Sorted: only an owner can create, send to or end a feed. If `define_feed` refuses for that reason, stop and say so.
 
 ## Read-only access first
@@ -29,14 +29,14 @@ If neither is possible, say so and stop. Do not look for another way in.
 
 ## Make a read-only connection
 
-For a reader other than the owner (a teammate, or their assistant). The owner needs full control of their business portfolio and opens https://business.facebook.com, then Settings.
+For a reader other than the owner (a teammate, or their assistant). The owner needs full control of their business portfolio. Once they have signed in, open https://business.facebook.com, then Settings.
 
 1. Person: People, Invite people if not listed; then Accounts, Ad accounts, the account, Assign people, **View performance** only. Not "Manage campaigns", not full control.
 2. Partner business: Users, Partners, Add, Give a partner access to your assets (needs their business portfolio ID), then **View performance** only.
 3. No business portfolio (not listed above): in Ads Manager, Ad account settings, Ad account roles, Add people, **Analyst**, Meta's view-only role there (not called View performance). Meta says the person needs an active Facebook account and must be the owner's Facebook friend.
 4. That person signs in to the Meta connector of their own assistant app with that account.
 
-The owner makes every click that grants access, in their own window; you only say which screen comes next. Meta renames menus often: if the screen differs, say what you see. Do not guess.
+You do these clicks; the owner types every password and 2-step code. Meta renames menus often: if the screen differs, say what you see; do not guess.
 
 ## Numbers to read
 
@@ -98,7 +98,7 @@ Per campaign, define a table instead (its rows are fixed, so a new campaign need
 
 Limits Sorted enforces: at most 40 numbers, or one table of at most 40 numbers and 8 columns; labels 60 characters, name 40; units `money` (with a three-letter currency code), `count` (whole, 0 or more), `percent`, `ratio`, `days`, `number`; `null` means "no number", never zero; `as_of` at most 10 minutes in the future, not older than 45 days, newer than the last send; at most `daily_cap` sends a day (default 4); grey after `fresh_hours` (default 36); a feed lasts 90 days. Sending the same `as_of` with the same numbers again is safe.
 
-5. Tell the owner what you sent and how to stop it: `end_feed` removes the feed and deletes every number it sent, at once.
+5. Tell the owner what you sent and how to stop it: `end_feed` deletes the feed and every number it sent.
 
 Every morning: repeat step 4 daily. In a test (7 October 2026) a Meta connector sign-in worked unattended and was valid for 60 days, with no automatic renewal; then the owner signs in again. Check the first days with `list_feeds` (it shows the last send).
 

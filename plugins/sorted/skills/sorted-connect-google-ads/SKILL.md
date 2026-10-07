@@ -13,9 +13,9 @@ If `define_feed` and `feed_numbers` are not among your Sorted tools, feeds are n
 
 ## What to ask the owner
 
-1. Which Google Ads account: its 10-digit customer number (like 123-456-7890) and its name. If an agency manages it, the agency's manager account number too.
+1. Which Google Ads account, if there are several. Read its 10-digit customer number (like 123-456-7890), its name and any agency manager account from Google Ads after the owner signs in; never ask for them.
 2. Which numbers they want (offer the list under "Numbers to read") and for which period. Yesterday is the usual choice.
-3. Whether this is once or every morning (only if your app can run scheduled tasks).
+3. Whether this is once or every morning (if your app can run scheduled tasks).
 4. Whether they are an owner of their company in Sorted. Only an owner can create, send to or end a feed.
 
 ## Read-only access first
@@ -29,14 +29,14 @@ If neither is possible, say so and stop. Do not look for another way in.
 
 ## Make a read-only credential
 
-Google Ads has a "Read-only" access level, for any reader other than the owner. It cannot edit campaigns, budgets, bids or ads, but can see billing information and invite Email-only users, so pick someone the owner trusts:
+Google Ads has a "Read-only" access level, for any reader other than the owner. It cannot edit campaigns, budgets, bids or ads, but can see billing information and invite Email-only users, so pick someone the owner trusts. Once the owner has signed in, you do the clicks:
 
-1. The owner opens https://ads.google.com and the right account.
-2. They go to Admin, then Access and security, then the plus button under Users.
-3. They enter the email of the Google account that will read, and choose the access level **Read-only**. Not Standard, not Admin.
+1. Open https://ads.google.com and the right account.
+2. Go to Admin, then Access and security, then the plus button under Users.
+3. Enter the email of the Google account that will read, and choose the access level **Read-only**. Not Standard, not Admin.
 4. That person accepts the invitation from their email, then signs in to the assistant's Google Ads connector with that account.
 
-The owner makes every click that grants access, in their own window; you only say which screen comes next. If the menus differ, say what you see. Do not guess.
+The owner types every password and 2-step code. If menus differ, say what you see; do not guess.
 
 ## Numbers to read
 
