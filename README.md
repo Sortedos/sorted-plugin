@@ -135,7 +135,7 @@ Tested on: the steps were checked against OpenAI's own pages on 7 October 2026 (
 
 ## For contributors
 
-How to propose a new system skill or report a problem: [CONTRIBUTING.md](CONTRIBUTING.md). What changed in each version: [CHANGELOG.md](CHANGELOG.md). Notes that prepare future system skills: [docs/research/](docs/research/). This page in Arabic: [docs/ar/README.md](docs/ar/README.md).
+How to propose a new system skill or report a problem: [CONTRIBUTING.md](CONTRIBUTING.md). What changed in each version: [CHANGELOG.md](CHANGELOG.md). This page in Arabic: [docs/ar/README.md](docs/ar/README.md).
 
 The checks this repository runs on itself (on macOS or Linux, type `python3` where it says `python`). One command runs them all (`python scripts/check_all.py`); one by one:
 
