@@ -9,7 +9,7 @@ Every decision below belongs to the repository owner. Three were made on 7 Octob
 - [x] **License.** MIT (7 October 2026): `LICENSE` file added, and `"license": "MIT"` in `.claude-plugin/plugin.json` and `plugins/sorted/.codex-plugin/plugin.json`.
 - [x] **Public contact.** info@sortedos.com (7 October 2026), for key requests, account questions and security reports. No phone number is written here.
 - [ ] **Feeds switched on.** The skills that send numbers need the four feed tools (`define_feed`, `feed_numbers`, `list_feeds`, `end_feed`) on the live Sorted service. Until they are on for a company, those six skills tell the assistant to stop and say so.
-- [ ] **Which skills ship.** All 13 in `skills/`, or a subset.
+- [ ] **Which skills ship.** All 14 in `skills/`, or a subset.
 - [x] **Internal files.** Decided (7 October 2026): at publish, this checklist, `docs/video-scripts/` and `docs/research/` move to the Sorted team's private folder, then every check below runs again.
 - [ ] **Any announcement.** Posts, emails, directory listings or messages to anyone outside the team.
 

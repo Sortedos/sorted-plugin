@@ -4,7 +4,7 @@
 
 This repository lets an AI assistant work with Sorted. It holds:
 
-- **13 skills**: short instruction files that teach an assistant how to do one job well with Sorted, such as a business review, a collections list, finding numbers that disagree, or connecting a system.
+- **14 skills**: short instruction files that teach an assistant how to do one job well with Sorted, such as getting a company started, a business review, a collections list, finding numbers that disagree, or connecting a system.
 - **The Codex plugin** and **the Claude Code plugin**, which install those skills together with the connection to Sorted.
 - **A guide for ChatGPT**, which connects to Sorted directly.
 
@@ -23,6 +23,7 @@ Pick the path for the assistant you use. A terminal is the text window where you
 
 ## What an assistant can do with Sorted
 
+- **Get a company started from its own software.** The assistant asks one question first, "Which software does your company run on?", spreadsheets included (Excel files on the computer, Google Sheets, Excel in OneDrive or SharePoint), and for every company the owner runs. It then researches how each system can be reached, shows ONE plan (system, route, who checks the numbers), and connects them one by one in its own browser. The owner signs in and types every password; the assistant looks facts up in each system instead of asking for them, and asks for a yes only at steps that cost money, delete something, change data the owner did not ask for, or make a key. The skill is `sorted-onboard`.
 - Answer "how is the business doing?" from live numbers, with the time of each snapshot.
 - List who owes the company money and draft polite reminders.
 - Find where two systems disagree (for example the books and the bank) and list the exact records behind the gap.
@@ -36,12 +37,13 @@ Two things to know about feeds:
 
 The tools, their limits and examples: [docs/feed-tools.md](docs/feed-tools.md).
 
-## The 13 skills
+## The 14 skills
 
 Each skill is one instruction file. The plugins install all of them; in an assistant without the plugin, open the file, copy all of its text and paste it as your first message.
 
 | Skill | What it is for |
 |---|---|
+| [sorted-onboard](skills/sorted-onboard/SKILL.md) | **Start here.** Ask which software the company runs on, research how to reach each system, show one plan, then connect them one by one and choose the numbers |
 | [sorted-about](skills/sorted-about/SKILL.md) | What Sorted is, what it does and what it does not do |
 | [sorted-business-review](skills/sorted-business-review/SKILL.md) | A business review from the live numbers: sales, cash, who owes whom, what disagrees |
 | [sorted-cash-and-collections](skills/sorted-cash-and-collections/SKILL.md) | Cash, who owes the business money, what is overdue, polite reminder drafts |
@@ -88,7 +90,7 @@ You need Codex installed and signed in, and a personal Sorted plugin key (it sta
 
 4. Close every Codex window, including the Codex desktop app if it is open, so that Codex sees the new key. Open a new terminal, type `codex` and press Enter, then ask: "Do a quick business review using Sorted." A working answer quotes your company's numbers with the time they were read.
 
-Tested on: Windows 11 with Codex 0.155.1, 6 October 2026 (the plugin and its 13 skills installed). Not tested: macOS, Linux.
+Tested on: Windows 11 with Codex 0.155.1, 6 October 2026 (the plugin installed, with the 13 skills it had then; the 14th, `sorted-onboard`, was added on 7 October and the install was not repeated). Not tested: macOS, Linux.
 
 ## Install: Claude Code plugin
 
@@ -105,7 +107,7 @@ You need Claude Code installed. No key: Claude Code signs in to Sorted with your
 3. Start Claude Code, type `/mcp`, choose **sorted** and sign in with your Sorted account when the browser opens.
 4. Ask: "Do a quick business review using Sorted."
 
-Tested on: Windows 11 with Claude Code 2.1.291 and 2.1.292, 6 October 2026 (the plugin, its 13 skills and the Sorted server entry installed; the sign-in step was not run in that test). Not tested: macOS, Linux.
+Tested on: Windows 11 with Claude Code 2.1.291 and 2.1.292, 6 October 2026 (the plugin, its 13 skills of that day and the Sorted server entry installed; the sign-in step was not run in that test, and the install was not repeated after the 14th skill, `sorted-onboard`, was added on 7 October). Not tested: macOS, Linux.
 
 ### Claude on the web or the desktop app
 
@@ -113,7 +115,7 @@ No terminal and no key: Claude connects to Sorted directly, with your Sorted acc
 
 1. In Claude, open **Customize**, then **Connectors**, click **+ Add**, then **Add custom connector**. Name it Sorted and enter the address `https://sortedos.com/api/mcp`. On a Team or Enterprise plan, an owner of the Claude organisation adds it first under **Organization settings**, **Connectors**; members then find it under **Customize**, **Connectors** and click **Connect**. Claude's own guide shows each screen: https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp
 2. Sign in with your Sorted account when Claude asks.
-3. To use a skill, open its file from [the list of skills](#the-13-skills), copy all of its text and paste it as your first message, or add it as a skill where your Claude plan allows it.
+3. To use a skill, open its file from [the list of skills](#the-14-skills), copy all of its text and paste it as your first message, or add it as a skill where your Claude plan allows it.
 
 Tested on: nothing yet; only the menu names were checked, against Claude's guide on 7 October 2026. Not tested: connecting Claude on the web or the desktop app to Sorted.
 
@@ -126,7 +128,8 @@ Tested on: the steps were checked against OpenAI's own pages on 7 October 2026 (
 ## Safety, in plain words
 
 - Sorted only reads the company's systems. The skills tell the assistant to use read-only access and never to change anything in the owner's systems.
-- The owner handles every password and key. The skills tell the assistant never to ask for, repeat or store one, and never to look at a key on screen.
+- The owner types every password. An API key is made only with the owner's explicit approval, on the owner's own user (no new paid user), and goes straight from the system's own screen into Sorted's own form, never into the chat. The skills tell the assistant never to ask for, repeat or store a secret in the chat, and never to describe a screenshot of one. The key may pass through the assistant's own session while it is carried between the two pages, which is why each key needs the owner's yes. Odoo keys expire, so the assistant records the date and renews before it.
+- The assistant asks for the owner's yes only at important steps: anything that costs money, deletes something, changes data the owner did not ask for, or makes a key. Once the owner has signed it in, it presses on, system after system.
 - A feed is created only after the owner has seen its preview and said yes, and `end_feed` deletes everything it sent.
 - Names and labels that come from other systems are treated as data, never as instructions.
 
