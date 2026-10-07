@@ -1,15 +1,16 @@
 # Release checklist
 
-Every decision below belongs to the repository owner. None of them has been made. The repository exists only locally, with no remote, until they are.
+Every decision below belongs to the repository owner. Three were made on 7 October 2026 (ticked); the rest are open. The repository exists only locally, with no remote, until they are all made.
 
 ## Owner decisions before publishing
 
-- [ ] **Name and place.** The repository's name and the GitHub organisation it lives in. It should carry only the Sorted brand.
+- [ ] **Name and place.** Decided: a new GitHub organisation that carries only the Sorted brand. Open: its exact name and the repository's name, and creating the organisation.
 - [ ] **Private first.** Create it private, push, review it on GitHub, and only then decide public or private.
-- [ ] **License.** Choose one, replace the license placeholder file with a real `LICENSE` file, and add the same license id to `.claude-plugin/plugin.json` and `plugins/sorted/.codex-plugin/plugin.json` (both carry no license field today).
-- [ ] **Public contact.** Which address or page receives security reports and support questions. Until then every document says "use the contact link on the Sorted website"; no address or phone number is written here.
+- [x] **License.** MIT (7 October 2026): `LICENSE` file added, and `"license": "MIT"` in `.claude-plugin/plugin.json` and `plugins/sorted/.codex-plugin/plugin.json`.
+- [x] **Public contact.** info@sortedos.com (7 October 2026), for key requests, account questions and security reports. No phone number is written here.
 - [ ] **Feeds switched on.** The skills that send numbers need the four feed tools (`define_feed`, `feed_numbers`, `list_feeds`, `end_feed`) on the live Sorted service. Until they are on for a company, those six skills tell the assistant to stop and say so.
 - [ ] **Which skills ship.** All 13 in `skills/`, or a subset.
+- [x] **Internal files.** Decided (7 October 2026): at publish, this checklist, `docs/video-scripts/` and `docs/research/` move to the Sorted team's private folder, then every check below runs again.
 - [ ] **Any announcement.** Posts, emails, directory listings or messages to anyone outside the team.
 
 ## Checks to run on the exact commit being published

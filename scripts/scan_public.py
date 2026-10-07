@@ -65,7 +65,7 @@ SUBDOMAIN_RULES = [
     ("shopify-host", re.compile(r"\b([a-z0-9-]+)\.myshopify\.com\b", re.I)),
 ]
 EMAIL = re.compile(r"\b[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\.)+[A-Za-z]{2,}\b")
-ALLOWED_EMAILS = {"noreply@sortedos.com", "noreply@anthropic.com"}
+ALLOWED_EMAILS = {"noreply@sortedos.com", "noreply@anthropic.com", "info@sortedos.com"}  # the last one is the public contact
 ALLOWED_EMAIL_DOMAINS = {"example.com", "example.org", "example.net"}
 ALLOWED_IPS = {"127.0.0.1", "0.0.0.0"}
 
@@ -103,8 +103,11 @@ def scan_text(name, text, terms):
             if addr in ALLOWED_EMAILS or addr.split("@", 1)[1] in ALLOWED_EMAIL_DOMAINS:
                 continue
             hits.append((name, n, "email-address"))
+        public = low
+        for addr in ALLOWED_EMAILS:  # a published address is not a leak, even when a private term is part of it
+            public = public.replace(addr, " ")
         for i, term in enumerate(terms):
-            if term in low:
+            if term in public:
                 hits.append((name, n, "denylist-term-%d" % (i + 1)))
     return hits
 

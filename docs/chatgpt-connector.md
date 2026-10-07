@@ -61,7 +61,7 @@ Sorted reads Odoo, Shopify, Google Ads and Google Analytics itself, from its Con
 | `feed_numbers` | Sends one set of numbers into a feed. |
 | `end_feed` | Removes a feed and deletes every number it sent. |
 
-- **If these four tools are not in the Sorted app's tool list, feeds are not switched on for your company.** Ask Sorted, through the contact link on the Sorted website.
+- **If these four tools are not in the Sorted app's tool list, feeds are not switched on for your company.** Ask Sorted at info@sortedos.com.
 - ChatGPT keeps a fixed copy of an app's tool list from the moment the app was created or published (OpenAI's article calls it a "frozen" snapshot). **When Sorted switches feeds on for you, the app must pick up the new tools.** Try these in order, then start a new conversation:
   1. **Refresh first.** In ChatGPT Plugins, open the Sorted connection and select **Refresh**. OpenAI's developer page says this is how a custom server connected directly in ChatGPT picks up changes.
   2. **Enterprise / Edu:** an admin refreshes the app's actions (Workspace settings, Apps, the three-dot menu next to the app, **Action control**, **Refresh**) and then switches the new actions on, because OpenAI says new actions are off by default.
@@ -87,7 +87,7 @@ OpenAI's article says ChatGPT's agent mode does not use custom apps, and that de
 
 - Never paste a Sorted key, a password, or any other system's key into a ChatGPT chat. Sorted's ChatGPT app uses sign-in only.
 - **If you pasted one by mistake, act at once, before anything else:**
-  1. A **Sorted key** (it starts with `srt_`): contact Sorted straight away through the contact link on the Sorted website, and ask for that key to be cancelled and a new one issued.
+  1. A **Sorted key** (it starts with `srt_`): contact Sorted straight away at info@sortedos.com, and ask for that key to be cancelled and a new one issued.
   2. A **key or password for any other system** (Odoo, Shopify, Meta, Google and so on): open that system's own settings page for keys or access and delete or regenerate the key now, or change the password.
   3. Then delete the chat in ChatGPT. Deleting the chat does not make the old key safe; replacing the key does.
 - Never connect a server address other than `https://sortedos.com/api/mcp` for Sorted. OpenAI's article warns that untrusted servers increase the risk of prompt injection (text that tries to give the assistant orders).

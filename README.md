@@ -32,7 +32,7 @@ Pick the path for the assistant you use. A terminal is the text window where you
 Two things to know about feeds:
 
 1. **Sorted cannot check numbers that arrive through a feed.** They are what the assistant read. The dashboard labels them "sent by your assistant, not read by Sorted", and the owner is responsible for them.
-2. **Feeds work only when Sorted has switched them on for your company.** If the tools `define_feed`, `feed_numbers`, `list_feeds` and `end_feed` are not in your assistant's list of Sorted tools, they are not switched on. Ask Sorted through the contact link on the Sorted website.
+2. **Feeds work only when Sorted has switched them on for your company.** If the tools `define_feed`, `feed_numbers`, `list_feeds` and `end_feed` are not in your assistant's list of Sorted tools, they are not switched on. Ask Sorted at info@sortedos.com.
 
 The tools, their limits and examples: [docs/feed-tools.md](docs/feed-tools.md).
 
@@ -58,7 +58,7 @@ Each skill is one instruction file. The plugins install all of them; in an assis
 
 ## Install: Codex plugin
 
-You need Codex installed and signed in, and a personal Sorted plugin key (it starts with `srt_`). Sorted gives you one: ask through the contact link on the Sorted website. The key belongs to you and your company; keep it to yourself.
+You need Codex installed and signed in, and a personal Sorted plugin key (it starts with `srt_`). Sorted gives you one: ask at info@sortedos.com. The key belongs to you and your company; keep it to yourself.
 
 1. Get this repository's files onto your computer: on its GitHub page, click the green **Code** button, then **Download ZIP**, and unzip the file. Then open a terminal in the unzipped folder: on Windows, right-click inside the folder in File Explorer and choose **Open in Terminal**; on a Mac, right-click the folder and choose **Services**, then **New Terminal at Folder**.
 2. Save your key where Codex can read it, as the environment variable `SORTED_TOKEN` (a named setting your computer keeps for programs).
@@ -147,4 +147,4 @@ python scripts/sync_codex_plugin.py --check                  # the Codex copy of
 
 ## License
 
-Not chosen yet. Until a LICENSE file is added, no license is granted and all rights are reserved.
+MIT: anyone may use, change and share this repository, keeping the copyright line. See [LICENSE](LICENSE).

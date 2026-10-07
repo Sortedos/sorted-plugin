@@ -33,4 +33,4 @@ The limits every feed must respect are in [docs/feed-tools.md](docs/feed-tools.m
 
 ## Security
 
-If you find a security problem, do not open a public issue. Use the contact link on the Sorted website (https://sortedos.com).
+If you find a security problem, do not open a public issue. Write to info@sortedos.com instead.
