@@ -17,7 +17,7 @@ Never ask the owner for a fact the system can show: its plan, version, database 
 
 ## 2. See what Sorted already has
 
-Call `list_connections` and read Sorted's Connections page (https://sortedos.com/connections). Connect only what is missing, for example a company that is not yet in an existing Odoo connection. Never create a duplicate. Only the company owner can connect a system: if the page offers no "connect", say so and stop.
+Call `list_connections` and read Sorted's Connections page (https://sortedos.com/connections). Connect only what is missing, for example a company that is not yet in an existing Odoo connection (see Companies in step 4). Never create a duplicate. Only the company owner can connect a system: if the page offers no "connect", say so and stop.
 
 ## 3. Research every system, then show one plan
 
@@ -41,8 +41,8 @@ A spreadsheet works for a daily feed only if its numbers stay in the same tab an
 - **Few confirmations.** Pause for the owner's yes only at important steps: anything that costs money, deletes something, changes data the owner did not ask for, or makes an API key. Do not ask before every click.
 - **Look it up, do not ask.** Read the plan, version, database name, address and list of companies from the system itself.
 - **Ask the kind first** only where it decides where to sign in. Odoo: Odoo Online (sign in at odoo.com; the account page lists the databases and plans), Odoo.sh (sign in to the Odoo.sh dashboard, which shows the production address), or self-hosted Community or Enterprise (the company's own address). Then look up the rest.
-- **Companies.** After sign-in, read the system's own list of companies. If it differs from what the owner said earlier, say so, and let the owner pick which ones to pull.
-- **Keys.** No new Odoo user (it may cost a paid seat). With the owner's explicit yes, a key on their own user is made and goes straight into Sorted's form, as `sorted-connect-systems` describes. A key is never asked for, shown or kept in the chat, and keys expire: record the date and renew before it.
+- **Companies.** After sign-in, read the system's own list of companies. If it differs from what the owner said earlier, say so, and let the owner pick which ones to pull. Sorted cannot change the companies of an existing Odoo connection: to add one, add a second Odoo connection with only the missing companies.
+- **Keys.** No new Odoo user (it may cost a paid seat). With the owner's explicit yes, a key on their own user is made and moved into Sorted's key field in ONE action that returns only a length or "done", as `sorted-connect-systems` describes. While a key shows, read only the box's title and field names, never the page or box text. Take no picture of it, never print it, and never use the clipboard, whose history would hold a copy. Keys expire: record the date and renew before it.
 - **Which skill.** Route 1: `sorted-connect-systems`. Every other route sends numbers through a feed: `sorted-connect-odoo`, `sorted-connect-shopify`, `sorted-connect-google-ads`, `sorted-connect-google-analytics`, `sorted-connect-meta-ads`, or `sorted-connect-any-system` for everything else, spreadsheets and files included.
 - If something fails, report the exact message and the one thing the owner could do next. Do not loop, and never use broader access to make a test pass.
 

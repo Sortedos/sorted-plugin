@@ -1,6 +1,6 @@
 ---
 name: sorted-connect-shopify
-description: Read the owner's Shopify store numbers (orders, sales, returns, visits, conversion rate) with read-only access and send them to their Sorted dashboard through a feed. Use when the owner asks their own assistant to send Shopify numbers into Sorted, especially numbers Sorted does not read itself, such as visits and conversion rate. Not for connecting a system so that Sorted reads it itself, which is sorted-connect-systems.
+description: Read the owner's Shopify store numbers (orders, sales, returns, visits, conversion rate) with read-only access and send them to their Sorted dashboard through a feed. Use when the owner asks to send Shopify numbers into Sorted, especially visits and conversion rate, which Sorted does not read itself. Not for connecting a system Sorted reads itself: that is sorted-connect-systems.
 ---
 
 # Shopify into Sorted, through a feed
@@ -34,7 +34,7 @@ A Shopify app can be limited to reading. Once the store owner has signed in, you
 1. Open https://dev.shopify.com, signed in as the **owner of the store**, and create an app in the same Shopify account as the store (otherwise Shopify refuses it).
 2. Under the Admin API access scopes add only reading scopes: `read_orders`, `read_products` and, for visits and conversion rate, `read_reports`. No scope that starts with write.
 3. Release the version and install the app on the store.
-4. The app's access details go into the assistant app's Shopify connector settings, never into the chat (you, if you can reach that screen; otherwise the owner).
+4. The owner puts the app's access details into the assistant app's Shopify connector settings, never into the chat. While a key shows, read only the box's title and field names, never the page or box text.
 
 The owner types every password and 2-step code. If menus differ, say what you see; do not guess.
 
@@ -52,7 +52,7 @@ For the period the owner chose:
 - Conversion rate: percent, written as the percent number (2.4 means 2.4%).
 - Returning customer rate: percent.
 
-Read each one from the same report and the same period, in the store's own time zone. If a number is not there, leave it out or send `null`. Never estimate.
+Read each one from the same report and period, in the store's time zone. If a number is not there, leave it out or send `null`. Never estimate.
 
 ## The feed
 

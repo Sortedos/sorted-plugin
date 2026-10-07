@@ -9,6 +9,11 @@
 - Companies: the assistant reads the system's own list after sign-in, flags a mismatch with what the owner said, and lets the owner pick. It checks `list_connections` first and connects only what is missing.
 - Keys: no new Odoo user (it may cost a paid seat). With the owner's explicit approval the assistant makes an API key on the owner's own user and carries it straight into Sorted's form, never through the chat. This replaces "the owner makes and pastes every key". Odoo keys expire, so the date is recorded and renewed before it. The lint allows only that wording (new rule 3b).
 - The six feed skills and `sorted-connect-systems` no longer ask the owner for facts the system can show, and the assistant now does the clicks after sign-in.
+- Key box rule: while a system shows a newly made key, the assistant reads only the box's title and field names (never the page or box text), takes no picture, never prints the key and never uses the clipboard, and moves the key from the system's one-time box into Sorted's key field in ONE action that returns only a length or "done". A page-text read once printed a fresh key into a session record; the lint (rules 3c and the required key box lines) now blocks this wording.
+- Odoo steps, from a live trial on Odoo 17: open the key screen through the avatar menu (My Profile or Preferences, Account Security, New API Key), never by typing the action into the address bar (that opened an empty new-user form), and check the profile shows the owner's own name first. New API Key asks for the owner's password, then a description, then shows the key once.
+- Adding a company: Sorted's Connections page cannot change the companies of an existing Odoo connection, so a missing company goes into a second Odoo connection (a new key, the owner's approval); Sorted allows two on one database.
+- Sorted's test step: "This is an administrator's key..." and "already connected to <another company>" are information, not errors; continue to the company list (Step 3 of 3), tick only the companies the owner picked, press Connect, confirm with `list_connections`.
+- The feed skills now say the owner puts a key into the assistant app's connector settings, and the assistant reads nothing off the key box.
 
 ## 1.2.0
 

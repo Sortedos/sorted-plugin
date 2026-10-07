@@ -32,8 +32,8 @@ If none is possible, say so and stop. Do not look for another way in.
 
 Odoo has no read-only key: a key carries the rights of its user. No new Odoo user is needed (it may cost a paid seat): a key on the owner's own user will do, and its use stays read-only because you call only reading tools. Say that plainly and get the owner's clear yes before any key is made. Option 2 needs no key.
 
-1. The key is made in the owner's own Odoo session: the user's Preferences (or My Profile), Account Security, New API Key, with a clear description. Odoo asks the user's password to confirm: the owner types it. Odoo shows a key only once and keys expire: pick the longest duration offered (often about three months), record the date, and renew before it.
-2. The key goes into the assistant app's Odoo connector settings, never into the chat: you do it if you can reach that screen, otherwise the owner does.
+1. The owner makes the key in their own Odoo session. Open the key screen through the avatar menu (My Profile or Preferences, then Account Security, then New API Key), never by typing the action into the address bar (on Odoo 17 that opened an empty new-user form), and check the profile shows the owner's own name first. Odoo asks for the owner's password, which the owner types, then a description (suggest "Sorted - Acme Trading"), then "API Key Ready" shows the key once. Keys expire: record any date shown and renew before it.
+2. The owner puts the key into the assistant app's Odoo connector settings; it never goes into the chat. While a key shows, read only the box's title and field names, never the page or box text, and take no picture of it.
 
 If the menus differ, say what you see; do not guess.
 

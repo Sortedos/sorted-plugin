@@ -62,6 +62,14 @@ const KEY_FLOW_PLACE = /\binto Sorted's (?:connection form|key field)\b/i;
 const KEY_FLOW_NOT_IN_CHAT = /\b(?:never|not|without)\s+(?:\w+\s+){0,3}(?:in|into|through|via|on) the chat\b/i;
 const approvedKeyFlow = (s) => KEY_FLOW_APPROVAL.test(s) && KEY_FLOW_PLACE.test(s) && KEY_FLOW_NOT_IN_CHAT.test(s);
 
+// 3c. While a system shows a secret (a freshly made key), the assistant must not read the page or box text, use the clipboard, or take
+//    a picture. This applies to EVERY sentence that names a secret, the approved key flow of 3b included: a page-text read once printed
+//    a fresh key into a session record, and the clipboard's history (Windows Win+V, a cloud clipboard) would keep a copy.
+const READ_PAGE_TEXT = String.raw`(?:read(?:ing)?|get(?:ting)?|extract(?:ing)?|grab(?:bing)?|fetch(?:ing)?|scrap(?:e|ing)|dump(?:ing)?|print(?:ing)?|pull(?:ing)?)\s+(?:all\s+|any\s+|the\s+|that\s+|this\s+)*(?:whole\s+|full\s+|entire\s+|visible\s+)?(?:page|box|dialog|screen)(?:'s)?\s+(?:text|content|contents|html|source)`;
+const USE_CLIPBOARD = String.raw`(?:via|through|using|use|uses|used|onto|to|into|on|from|with)\s+(?:the\s+|a\s+|your\s+|his\s+|her\s+)?(?:computer's\s+|system\s+|cloud\s+|windows\s+)?clipboard`;
+const TAKE_PICTURE = String.raw`(?:tak(?:e|ing)|took|snap(?:ping)?)\s+(?:a\s+|an\s+|any\s+|the\s+)?(?:picture|photo|image|snapshot|screenshot)s?`;
+const SCREEN_READ_RE = new RegExp(`\\b(?:${READ_PAGE_TEXT}|${USE_CLIPBOARD}|${TAKE_PICTURE})\\b`, "gi");
+
 // 4. Key-shaped text, and every web address: only the fixed list below is allowed (https, lower case, no user part, no port).
 //    The list is the product's own address plus the official pages of the systems these skills teach. Anything else is a hit,
 //    so a skill cannot be edited into sending an owner to a look-alike page. That holds for an address written with http(s)://
@@ -165,6 +173,7 @@ export function lint(text) {
     const flow = approvedKeyFlow(s); // the approved key flow: see 3b above
     if (order(STRONG_RE, true) || (flow ? order(OBJECT_RE_IN_FLOW, false) || order(PRONOUN_RE_IN_FLOW, true) : order(OBJECT_RE, false) || order(PRONOUN_RE, true))) problems.push(`tells the assistant to handle a secret: "${s.slice(0, 90)}"`);
     if (order(PEEK_RE, false)) problems.push(`tells the assistant to look at a screen picture: "${s.slice(0, 90)}"`);
+    if (order(SCREEN_READ_RE, true)) problems.push(`tells the assistant to read page text, use the clipboard or take a picture while a secret shows: "${s.slice(0, 90)}"`);
   }
   if (KEY_SHAPED.test(text)) problems.push("contains a key-shaped string (srf_ or srt_ followed by 8 or more characters)");
   for (const m of text.matchAll(/\bhttps?:\/\/([^\s/?#)"'<>\]`\\]*)/gi)) {
@@ -277,6 +286,14 @@ const BAD = [
   "Open www" + ".odoo.com/my and sign in.", // only the bare odoo.com is on the list (assembled at run time: the leak scan reads this file)
   "Open mcp.foodics.com.evil.example/mcp and sign in.",
   "Open https://odoo.com.evil.example/web and sign in.",
+  // While a key shows: no page or box text, no clipboard, no picture (the approved key flow does not free any of them).
+  "While the key shows, read the page text to find it.",
+  "After the key is made, read all the page content and pull it out.",
+  "Move the key through the clipboard into Sorted's key field.",
+  "With the owner's explicit approval, copy the key into Sorted's key field via the clipboard, never in the chat.",
+  "With the owner's explicit approval, read the box text and copy the key into Sorted's key field, never in the chat.",
+  "Take a picture of the key box so you can read it.",
+  "Take a screenshot of the key box and read the key from it.",
 ];
 const GOOD = [
   "Never ask for, receive, read back, repeat, store or pass on any key, password or token.",
@@ -308,6 +325,12 @@ const GOOD = [
   "Pause for the owner's yes before any key is made, and say what it can do.",
   "Open odoo.com and sign in; the account page lists the databases.",
   "Add Foodics MCP from https://mcp.foodics.com/mcp and sign in with the Foodics owner account.",
+  // The key box rule, written the way the skills write it:
+  "With the owner's explicit approval, you may create an API key on the owner's own user and move it from the system's one-time key box into Sorted's key field yourself, in ONE action that returns only a length or \"done\" (read the box's field into a variable and set Sorted's field from it), without ever showing it in the chat.",
+  "While a key shows, read only the box's title and field names, never the page or box text.",
+  "Take no picture of it, never print it, and never use the clipboard, whose history would hold a copy.",
+  "Never type the action into the address bar; open the key screen through the avatar menu.",
+  "No screenshot, no page text, no clipboard while a key shows.",
 ];
 let caught = 0, passed = 0;
 for (const t of BAD) { assert(lint(t).length > 0, `the lint must catch: ${t}`); caught++; }
@@ -351,6 +374,25 @@ const ONBOARD_RULES = [
   ["says never to ask a fact the system can show", /never ask the owner for a fact the system can show/i],
 ];
 
+// The key box rule must stay in the two skills that move a key into Sorted: sorted-onboard (the entry point) and sorted-connect-systems.
+const KEY_BOX_SKILLS = new Set(["sorted-onboard", "sorted-connect-systems"]);
+const KEY_BOX_RULES = [
+  ["reads only the key box's title and field names", /read only the box's title and field names/],
+  ["never reads the page or box text while a key shows", /never the page or box text/],
+  ["moves a key in ONE action that returns only a length or done", /ONE action that returns only a length or "done"/],
+  ["never uses the clipboard", /never use the clipboard/],
+  ["takes no picture of a key", /[Tt]ake no picture/],
+];
+// What the Odoo steps of sorted-connect-systems must keep (found in a live trial on Odoo 17 and in Sorted's own test step).
+const ODOO_RULES = [
+  ["opens the key screen through the avatar menu", /avatar menu/],
+  ["never opens it by typing the action into the address bar", /never type the action into the address bar/i],
+  ["checks the profile shows the owner's own name first", /owner's own name/],
+  ["adds a company as a SECOND Odoo connection", /SECOND Odoo connection/],
+  ["treats Sorted's administrator-key and already-connected notices as information, not errors", /information, not errors/],
+  ["goes on to the company list (Step 3 of 3) and confirms with list_connections", /Step 3 of 3[^.]*`list_connections`/],
+];
+
 const dirs = readdirSync(SKILLS).filter((d) => statSync(join(SKILLS, d)).isDirectory()).sort();
 assert(JSON.stringify(dirs) === JSON.stringify([...EXPECTED].sort()), `skills/ holds exactly the ${EXPECTED.length} expected skills, found: ${dirs.join(", ")}`);
 let good = 0;
@@ -377,6 +419,8 @@ for (const d of dirs) {
     for (const [why, re] of FEED_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
   }
   if (d === "sorted-onboard") for (const [why, re] of ONBOARD_RULES) if (!re.test(text)) problems.push(`does not ${why}`);
+  if (KEY_BOX_SKILLS.has(d)) for (const [why, re] of KEY_BOX_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
+  if (d === "sorted-connect-systems") for (const [why, re] of ODOO_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
   if (problems.length) bad.push(`${d}:\n    ${problems.join("\n    ")}`); else good++;
 }
 console.log(`skills: ${good} good, ${bad.length} bad (of ${dirs.length})`);

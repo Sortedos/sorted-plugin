@@ -14,7 +14,7 @@ First check whether Sorted already reads this system: call `list_connections` an
 ## What to ask the owner
 
 1. Which system. After the owner signs in, read its accounts, branches, stores or companies yourself and let the owner pick; one feed carries one company's numbers. For a spreadsheet or file, also which tab and columns hold the numbers and whether they stay in the same cells daily: a moved column would send a wrong number, so check the headings each time and stop if they moved.
-2. Which numbers matter to them, in their words ("daily sales per branch"). Turn them into the list under "Numbers to read", read it back, and settle each one's period (yesterday, this month, as of now) and, for money, its currency.
+2. Which numbers matter to them, in their words ("daily sales per branch"). Turn them into the list under "Numbers to read" and settle each one's period (yesterday, this month, as of now) and, for money, its currency.
 3. Whether this is once or every morning.
 4. Whether they are an owner of their company in Sorted. Only an owner can create, send to or end a feed.
 
@@ -33,7 +33,7 @@ If none is possible, say so and stop; use no stronger access than the owner chos
 
 In the system's own help pages look for a **read-only role** for a user (often Viewer, Read only, Reporting or Auditor), or an **access key or app with read-only scopes** (for example read_orders, ORDERS_READ or a Read level) and nothing that writes: a single general scope that also writes is no read-only option. If there is neither, the owner runs a **report export**.
 
-Once the owner has signed in, you do the clicks; the owner types every password. Access details go into the assistant app's settings, never into the chat (you, if you can reach that screen; otherwise the owner). If there is no read-only option, tell them plainly that the only access available can change things, and let them decide.
+Once the owner has signed in, you do the clicks; the owner types every password. The owner puts access details into the assistant app's settings, never into the chat; while a key shows, read only the box's title and field names, never the page or box text. If there is no read-only option, tell them plainly that the only access available can change things, and let them decide.
 
 ## Numbers to read
 
@@ -46,7 +46,7 @@ Choose few numbers that answer the owner's question, each with a plain label and
 - `days`: a number of days.
 - `number`: any other plain number, fractions included.
 
-Several branches, stores or products with the same numbers go into one table: rows are the branches, columns the numbers. Read every number for the same period. If a number is not there, leave it out or send `null`. Never estimate.
+Several branches, stores or products with the same numbers go into one table: rows are the branches, columns the numbers. If a number is not there, leave it out or send `null`. Never estimate.
 
 ## The feed
 
