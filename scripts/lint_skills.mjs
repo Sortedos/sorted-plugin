@@ -128,6 +128,10 @@ const VENDORS = /\b(?:claude|chatgpt|gpt(?:-\d)?|openai|anthropic|codex|gemini|c
 const PLACEHOLDER = new RegExp(["\\bTO" + "DO\\b", "\\bFIX" + "ME\\b", "\\bTB" + "D\\b", "coming" + " soon", "\\/\\/\\s*" + "deferred",
   "\\bscaf" + "fold(?:ed|ing)?\\b", "\\blorem" + " ipsum\\b"].join("|"), "i");
 
+// 7b. A wrong claim that was once written and corrected after a live test: Sorted keeps ONE connection per Odoo address and database,
+//     and connecting again REPLACES it. Nothing may say that a second Odoo connection can be added for the same database.
+const STALE_SECOND_CONNECTION = /\b(?:second|2nd|another|extra)\s+Odoo\s+connection|\btwo\s+Odoo\s+connections/i;
+
 // 8. Every tool name a skill writes in backticks must be a real tool of the Sorted connection.
 const READ_TOOLS = ["get_overview", "get_section", "list_conflicts", "get_conflict_records", "get_subscription", "open_dashboard",
   "daily_brief", "list_connections", "get_dashboard_layout", "update_dashboard_layout", "undo_dashboard_change", "request_new_number",
@@ -194,6 +198,7 @@ export function lint(text) {
   if (REASONING.test(text)) problems.push(`asks the assistant to show its reasoning: "${(text.match(REASONING) || [""])[0]}"`);
   if (VENDORS.test(text)) problems.push(`names an assistant vendor: "${(text.match(VENDORS) || [""])[0]}"`);
   if (PLACEHOLDER.test(text)) problems.push(`contains a placeholder: "${(text.match(PLACEHOLDER) || [""])[0]}"`);
+  if (STALE_SECOND_CONNECTION.test(text)) problems.push(`says a second Odoo connection can be added (connecting again replaces the old one): "${(text.match(STALE_SECOND_CONNECTION) || [""])[0]}"`);
   for (const m of text.matchAll(/`([a-z]+(?:_[a-z]+)+)`/g)) {
     if (!KNOWN_TOOLS.has(m[1]) && !NOT_TOOLS.has(m[1]) && !m[1].startsWith("sorted_")) problems.push(`names a tool that does not exist: ${m[1]}`);
   }
@@ -294,6 +299,9 @@ const BAD = [
   "With the owner's explicit approval, read the box text and copy the key into Sorted's key field, never in the chat.",
   "Take a picture of the key box so you can read it.",
   "Take a screenshot of the key box and read the key from it.",
+  // Connecting an Odoo again replaces its connection: there is no second connection for the same database.
+  "To add a company, add a second Odoo connection with only the missing companies.",
+  "Sorted allows two Odoo connections on one database.",
 ];
 const GOOD = [
   "Never ask for, receive, read back, repeat, store or pass on any key, password or token.",
@@ -331,6 +339,7 @@ const GOOD = [
   "Take no picture of it, never print it, and never use the clipboard, whose history would hold a copy.",
   "Never type the action into the address bar; open the key screen through the avatar menu.",
   "No screenshot, no page text, no clipboard while a key shows.",
+  "Connect again and tick EVERY company Sorted should read, existing ones included; the new connection replaces the old.",
 ];
 let caught = 0, passed = 0;
 for (const t of BAD) { assert(lint(t).length > 0, `the lint must catch: ${t}`); caught++; }
@@ -388,7 +397,10 @@ const ODOO_RULES = [
   ["opens the key screen through the avatar menu", /avatar menu/],
   ["never opens it by typing the action into the address bar", /never type the action into the address bar/i],
   ["checks the profile shows the owner's own name first", /owner's own name/],
-  ["adds a company as a SECOND Odoo connection", /SECOND Odoo connection/],
+  ["says Sorted keeps one connection per Odoo address and database", /one connection per Odoo address and database/],
+  ["says to tick EVERY company when adding one, the new connection replacing the old", /tick EVERY company[^.]*replaces the old/],
+  ["compares the ticked list with list_connections before Connect and confirms every company is still there afterwards", /Compare the ticked list with `list_connections`[^.]*afterwards[^.]*still there/],
+  ["warns that a company's cards are labelled by its exact Odoo name, so its brand label can be lost", /exact Odoo name[^.]*brand label/],
   ["treats Sorted's administrator-key and already-connected notices as information, not errors", /information, not errors/],
   ["goes on to the company list (Step 3 of 3) and confirms with list_connections", /Step 3 of 3[^.]*`list_connections`/],
 ];
