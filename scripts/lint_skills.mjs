@@ -50,6 +50,18 @@ const ON_A_SECRET = [
 // 3. Looking at a screen picture and describing it (a screenshot may show a password or a key).
 const PEEK = String.raw`(?:describ(?:e|ed|ing)|transcrib(?:e|ed|ing)|interpret(?:ed|ing)?|analy[sz](?:e|ed|ing)|extract(?:ed|ing)?|look(?:ed|ing)?\s+at)\s+(?:the\s+|a\s+|any\s+|his\s+|every\s+|each\s+)?(?:screenshots?|screen\s?grabs?|photos?|pictures?|images?)`;
 
+// 3b. The ONE approved exception (the repository owner's decision, 7 October 2026): the assistant may make an API key on the owner's own user and carry it
+//    straight into Sorted's own form, never through the chat. A sentence counts as that exception only when it says ALL THREE of:
+//    the owner's explicit approval, Sorted's own form as the place the key goes, and that it never goes through the chat.
+//    In such a sentence ONLY these four verbs are allowed to act on a secret: copy, paste, enter, type. Everything else stays
+//    forbidden in it: asking for a key, repeating, storing, saving, quoting, sending, showing, reading it out, any screenshot,
+//    and describing a picture (lists 1, 2 and 3 above still apply to the rest of the sentence).
+const KEY_FLOW_VERBS = new Set(["enter(?:ed|ing)?", "typ(?:e|ed|ing)", "past(?:e|ed|ing)", "copy|copied|copying"]);
+const KEY_FLOW_APPROVAL = /\bwith the owner's explicit (?:approval|yes)\b/i;
+const KEY_FLOW_PLACE = /\binto Sorted's (?:connection form|key field)\b/i;
+const KEY_FLOW_NOT_IN_CHAT = /\b(?:never|not|without)\s+(?:\w+\s+){0,3}(?:in|into|through|via|on) the chat\b/i;
+const approvedKeyFlow = (s) => KEY_FLOW_APPROVAL.test(s) && KEY_FLOW_PLACE.test(s) && KEY_FLOW_NOT_IN_CHAT.test(s);
+
 // 4. Key-shaped text, and every web address: only the fixed list below is allowed (https, lower case, no user part, no port).
 //    The list is the product's own address plus the official pages of the systems these skills teach. Anything else is a hit,
 //    so a skill cannot be edited into sending an owner to a look-alike page. That holds for an address written with http(s)://
@@ -63,6 +75,8 @@ const ALLOWED_AUTHORITIES = [
   "ads.google.com", "analytics.google.com", "developers.google.com", "support.google.com", // Google Ads, Analytics
   "business.facebook.com", "adsmanager.facebook.com", "developers.facebook.com", "www.facebook.com", // Meta ads
   "chatgpt.com", "help.openai.com", "platform.openai.com",  // the ChatGPT guide only (vendor names are checked separately)
+  "odoo.com",                                               // Odoo Online: where the owner signs in to see the databases and plans (a subdomain such as yourcompany.odoo.com is still not allowed, except the example above)
+  "mcp.foodics.com",                                        // Foodics' own read-only connector for assistants (the example of a vendor connector in sorted-onboard)
 ];
 // Example hosts the skills may write WITHOUT a scheme to show what an owner's own address looks like. They are not allowed
 // after https://, which stays limited to the list above.
@@ -123,6 +137,10 @@ const STRONG_RE = new RegExp(`\\b(?:${alt(WITH_A_SECRET_IN_THE_SENTENCE)})\\b`, 
 const OBJECT_RE = new RegExp(`\\b(?:${alt(ON_A_SECRET)})\\b(?:\\s+(?:me|you|him|her|us|them|the owner))?(?:\\s+(?:${DET}|${MOD}))*\\s+${SECRET_REF}\\b`, "gi");
 const PRONOUN_RE = new RegExp(`\\b(?:${alt(ON_A_SECRET)})\\b\\s+(?:it|them|that|this)\\b`, "gi");
 const PEEK_RE = new RegExp(`\\b${PEEK}\\b`, "gi");
+// The same two patterns for a sentence that is the approved key flow: the four verbs of KEY_FLOW_VERBS are left out of the list.
+const ON_A_SECRET_IN_FLOW = ON_A_SECRET.filter((v) => !KEY_FLOW_VERBS.has(v));
+const OBJECT_RE_IN_FLOW = new RegExp(`\\b(?:${alt(ON_A_SECRET_IN_FLOW)})\\b(?:\\s+(?:me|you|him|her|us|them|the owner))?(?:\\s+(?:${DET}|${MOD}))*\\s+${SECRET_REF}\\b`, "gi");
+const PRONOUN_RE_IN_FLOW = new RegExp(`\\b(?:${alt(ON_A_SECRET_IN_FLOW)})\\b\\s+(?:it|them|that|this)\\b`, "gi");
 
 // A verb is "negated" only when a negation word sits directly before it, with nothing but other forbidden verbs, "or"/"and",
 // commas and pronouns between ("Never ask for, receive, read back or store any key"). So "Do not forget to read back the key"
@@ -144,7 +162,8 @@ export function lint(text) {
       for (const m of s.matchAll(re)) if (!negated(s, m.index)) return true;
       return false;
     };
-    if (order(STRONG_RE, true) || order(OBJECT_RE, false) || order(PRONOUN_RE, true)) problems.push(`tells the assistant to handle a secret: "${s.slice(0, 90)}"`);
+    const flow = approvedKeyFlow(s); // the approved key flow: see 3b above
+    if (order(STRONG_RE, true) || (flow ? order(OBJECT_RE_IN_FLOW, false) || order(PRONOUN_RE_IN_FLOW, true) : order(OBJECT_RE, false) || order(PRONOUN_RE, true))) problems.push(`tells the assistant to handle a secret: "${s.slice(0, 90)}"`);
     if (order(PEEK_RE, false)) problems.push(`tells the assistant to look at a screen picture: "${s.slice(0, 90)}"`);
   }
   if (KEY_SHAPED.test(text)) problems.push("contains a key-shaped string (srf_ or srt_ followed by 8 or more characters)");
@@ -243,6 +262,21 @@ const BAD = [
   "TO" + "DO: add the Meta steps.",
   "Call `push_numbers` with the values.",
   "Call `get_ad_spend` first.",
+  // The approved key flow is narrow: it needs all three parts (the owner's explicit approval, Sorted's own form, never the chat),
+  // and in it only copy, paste, enter and type may act on a key. Everything else stays forbidden.
+  "Copy the key into Sorted's connection form, never in the chat.", // no approval
+  "With the owner's explicit approval, copy the key into a text file, never in the chat.", // not Sorted's own form
+  "With the owner's explicit approval, copy the key into Sorted's connection form and post it in the chat.", // it goes through the chat
+  "With the owner's explicit approval, copy the key into Sorted's connection form, never in the chat, and read the key to the owner.",
+  "With the owner's explicit approval, copy the key into Sorted's connection form, never in the chat, then show the key to the owner.",
+  "With the owner's explicit approval, copy the key into Sorted's connection form, never in the chat, and store it for next time.",
+  "With the owner's explicit approval, copy the key into Sorted's connection form, never in the chat, and take a screenshot of it.",
+  "With the owner's explicit approval, copy the key into Sorted's connection form, never in the chat, and ask the owner for the key first.",
+  "With the owner's explicit approval, copy the key into Sorted's connection form, never in the chat, and describe the screenshot.",
+  "Create an API key and paste it into the chat.",
+  "Open www" + ".odoo.com/my and sign in.", // only the bare odoo.com is on the list (assembled at run time: the leak scan reads this file)
+  "Open mcp.foodics.com.evil.example/mcp and sign in.",
+  "Open https://odoo.com.evil.example/web and sign in.",
 ];
 const GOOD = [
   "Never ask for, receive, read back, repeat, store or pass on any key, password or token.",
@@ -267,6 +301,13 @@ const GOOD = [
   "Send the numbers with `feed_numbers`; the owner can stop them with `end_feed`.",
   "Give the conclusion and the numbers you used, nothing else.",
   "Use the `confirm_token` from the preview.",
+  // The approved key flow, written the way the skills write it:
+  "With the owner's explicit approval, create an API key on the owner's own user and copy it into Sorted's connection form yourself, without ever showing it in the chat.",
+  "With the owner's explicit approval, copy the new key from the system's one-time box into Sorted's key field, never in the chat.",
+  "The owner types the password for the key box themselves.",
+  "Pause for the owner's yes before any key is made, and say what it can do.",
+  "Open odoo.com and sign in; the account page lists the databases.",
+  "Add Foodics MCP from https://mcp.foodics.com/mcp and sign in with the Foodics owner account.",
 ];
 let caught = 0, passed = 0;
 for (const t of BAD) { assert(lint(t).length > 0, `the lint must catch: ${t}`); caught++; }
@@ -276,7 +317,7 @@ console.log(`ok - examples: the lint catches ${caught} of ${BAD.length} bad exam
 // ---------------------------------------------------------------------------------------------------------------------------
 // 2. Every skill.
 // ---------------------------------------------------------------------------------------------------------------------------
-const EXPECTED = ["sorted-about", "sorted-business-review", "sorted-cash-and-collections", "sorted-connect-systems", "sorted-fix-conflicts",
+const EXPECTED = ["sorted-onboard", "sorted-about", "sorted-business-review", "sorted-cash-and-collections", "sorted-connect-systems", "sorted-fix-conflicts",
   "sorted-organise-dashboard", "sorted-subscription", "sorted-connect-odoo", "sorted-connect-shopify", "sorted-connect-google-ads",
   "sorted-connect-google-analytics", "sorted-connect-meta-ads", "sorted-connect-any-system"];
 const FEED_SKILLS = new Set(["sorted-connect-odoo", "sorted-connect-shopify", "sorted-connect-google-ads", "sorted-connect-google-analytics",
@@ -297,6 +338,17 @@ const FEED_RULES = [
   ["sends only numbers it actually read", /only (?:send )?numbers you (?:actually )?read/i],
   ["shows the preview and waits for the owner's yes before creating the feed", /preview[^.]*(?:yes|agree)/i],
   ["says Sorted cannot check these numbers", /Sorted cannot check/i],
+];
+
+// What the entry-point skill must keep (the discovery-first flow): the one first question, a look at what Sorted already has, one plan
+// with the three columns, and the seven routes in order, each a numbered line that starts with its bold name.
+const ONBOARD_RULES = [
+  ["asks the one first question", /Which software does your company run on\? If you run more than one company, list each one's\./],
+  ["names spreadsheets among the systems", /Excel files on the computer, Google Sheets, Excel in OneDrive or SharePoint/],
+  ["checks what Sorted already has with list_connections", /`list_connections`/],
+  ["shows one plan with system, route and who checks the numbers", /system \| route \| who checks the numbers/i],
+  ["lists the seven routes", /(?:^[1-7]\. \*\*[^\n]*\n){7}/m],
+  ["says never to ask a fact the system can show", /never ask the owner for a fact the system can show/i],
 ];
 
 const dirs = readdirSync(SKILLS).filter((d) => statSync(join(SKILLS, d)).isDirectory()).sort();
@@ -324,6 +376,7 @@ for (const d of dirs) {
     for (const [why, re] of FEED_SECTIONS) if (!re.test(text)) problems.push(`has no section on ${why}`);
     for (const [why, re] of FEED_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
   }
+  if (d === "sorted-onboard") for (const [why, re] of ONBOARD_RULES) if (!re.test(text)) problems.push(`does not ${why}`);
   if (problems.length) bad.push(`${d}:\n    ${problems.join("\n    ")}`); else good++;
 }
 console.log(`skills: ${good} good, ${bad.length} bad (of ${dirs.length})`);
