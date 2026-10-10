@@ -43,7 +43,7 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 
 محتاج Codex متسطّب ومسجّل دخول، ومفتاح إضافة Sorted شخصي (بيبدأ بـ `srt_`). Sorted بيديك واحد: اطلبه على info@sortedos.com. المفتاح بتاعك وبتاع شركتك؛ ماتديهوش لحد.
 
-1. نزّل ملفات المشروع على جهازك: من صفحته على GitHub، دوس على زرار **Code** الأخضر، وبعدين **Download ZIP**، وفُك الضغط عن الملف. بعد كده افتح الـ terminal جوه الفولدر اللي فكّيته: على Windows، دوس كليك يمين جوه الفولدر في File Explorer واختار **Open in Terminal**؛ على Mac، دوس كليك يمين على الفولدر واختار **Services** وبعدين **New Terminal at Folder**.
+1. افتح الـ terminal: على Windows دوس زرار Windows واكتب `PowerShell` ودوس Enter؛ على Mac دوس Command مع Space واكتب `Terminal` ودوس Enter. أي فولدر يمشي: Codex بيجيب الإضافة من GitHub بنفسه، فمش هتنزّل حاجة.
 2. احفظ المفتاح في مكان Codex يقدر يقراه، في متغير البيئة `SORTED_TOKEN` (إعداد باسم معين جهازك بيحتفظ بيه للبرامج).
 
    على Windows، في PowerShell (اتأكد إن الشباك مكتوب فيه PowerShell، مش Command Prompt)، سطر سطر:
@@ -62,43 +62,59 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
       ```
 
    على Mac، اكتب `touch ~/.zshrc; open -e ~/.zshrc` علشان تفتح ملف بدء تشغيل الـ terminal في TextEdit؛ على Linux، اكتب `nano ~/.bashrc`. ضيف في الآخر سطر جديد: `export SORTED_TOKEN=` وبعده المفتاح بتاعك، من غير مسافات. احفظ الملف واقفله. كتابة المفتاح في الملف، مش في الـ terminal، بتخليه مايتسجّلش في تاريخ الأوامر.
-3. ضيف الإضافة لـ Codex:
+3. ضيف الإضافة لـ Codex، من GitHub مباشرة. السطر الأول بيقول لـ Codex الإضافة فين (`Sortedos/sorted-plugin` هو اسم المشروع ده على GitHub)، والتاني بيركّبها:
 
    ```
-   codex plugin marketplace add .
+   codex plugin marketplace add Sortedos/sorted-plugin
    codex plugin add sorted@sorted
    ```
 
 4. اقفل كل شبابيك Codex، ومعاها تطبيق Codex على الديسكتوب لو مفتوح، علشان Codex يشوف المفتاح الجديد. افتح terminal جديد، اكتب `codex` ودوس Enter، وبعدين اسأل: "Do a quick business review using Sorted." الرد الصح بيذكر أرقام شركتك ووقت قرايتها.
 
-اتجرّب على: Windows 11 مع Codex 0.155.1، يوم 6 أكتوبر 2026 (الإضافة اتركّبت مع الـ 13 skill اللي كانوا موجودين وقتها؛ الـ skill رقم 14 وهي `sorted-onboard` اتضافت يوم 7 أكتوبر والتركيب ماتعادش). ما اتجرّبش على: macOS و Linux.
+(بتشتغل على نسخة من المشروع ده على جهازك بدل كده، مثلاً وانت بتعدّل فيه؟ افتح terminal جوه الفولدر ده واستخدم `codex plugin marketplace add .` في السطر الأول.)
+
+اتجرّب على: Windows 11 مع Codex 0.155.1. يوم 10 أكتوبر 2026 الأمرين اللي فوق اتشغّلوا فعلاً على المشروع العام ده في Codex نضيف: السوق اتضاف من GitHub و`sorted@sorted` 1.2.0 اتركّبت وظهرت "installed, enabled". شكل الأمر `owner/repo` هو اللي في صفحة OpenAI نفسها "Build plugins" (https://developers.openai.com/codex/plugins/build). تسجيل الدخول بالمفتاح ورد المراجعة اتجرّبوا آخر مرة يوم 6 أكتوبر 2026، والإضافة كانت زي ما كانت وقتها (13 skill؛ الـ skill رقم 14 وهي `sorted-onboard` اتضافت يوم 7 أكتوبر). ما اتجرّبش على: macOS و Linux.
 
 ## التركيب: إضافة Claude Code
 
 محتاج Claude Code متسطّب. مفيش مفتاح: Claude Code بيسجّل دخول على Sorted بحسابك.
 
-1. نزّل ملفات المشروع وافتح الـ terminal جوه الفولدر بتاعها، زي الخطوة 1 في جزء Codex اللي فوق.
-2. ضيف الإضافة:
+1. افتح الـ terminal، زي الخطوة 1 في جزء Codex اللي فوق. أي فولدر يمشي: Claude Code بيجيب الإضافة من GitHub بنفسه.
+2. ضيف الإضافة، من GitHub مباشرة:
 
    ```
-   claude plugin marketplace add ./
+   claude plugin marketplace add Sortedos/sorted-plugin
    claude plugin install sorted@sorted
    ```
 
 3. شغّل Claude Code، واكتب `/mcp`، واختار **sorted**، وسجّل دخول بحساب Sorted لما المتصفح يفتح.
 4. اسأل: "Do a quick business review using Sorted."
 
-اتجرّب على: Windows 11 مع Claude Code 2.1.291 و 2.1.292، يوم 6 أكتوبر 2026 (الإضافة والـ 13 skill اللي كانوا موجودين وقتها ومدخل سيرفر Sorted اتركّبوا؛ خطوة تسجيل الدخول ماجرّبناهاش في الاختبار ده، والتركيب ماتعادش بعد ما الـ skill رقم 14 وهي `sorted-onboard` اتضافت يوم 7 أكتوبر). ما اتجرّبش على: macOS و Linux.
+(بتشتغل على نسخة من المشروع ده على جهازك بدل كده؟ افتح terminal جوه الفولدر ده واستخدم `claude plugin marketplace add ./` في السطر الأول.)
+
+اتجرّب على: Windows 11 مع Claude Code 2.1.296. يوم 10 أكتوبر 2026 الأمرين اللي فوق اتشغّلوا فعلاً على المشروع العام ده في فولدر إعدادات Claude Code نضيف: السوق اتضاف من GitHub و`sorted@sorted` اتركّبت. خطوة تسجيل الدخول (3) ورد الخطوة 4 ماجرّبناهومش في الاختبار ده. قبل كده، يوم 6 أكتوبر 2026 مع Claude Code 2.1.291 و 2.1.292، الإضافة من نسخة على الجهاز ومدخل سيرفر Sorted اتركّبوا. ما اتجرّبش على: macOS و Linux.
 
 ### Claude على الويب أو تطبيق الديسكتوب
 
-من غير terminal ومن غير مفتاح: Claude بيتوصل بـ Sorted مباشرة بحساب Sorted بتاعك.
+من غير terminal. فيه طريقتين. طريقة الإضافة بتجيب الاتصال بـ Sorted ومعاه الـ skills بتاعته مع بعض؛ وطريقة الـ connector بتجيب الاتصال بس وبتشتغل على كل الباقات. Sorted مش موجود في دليل الإضافات بتاع Claude نفسه، فإنت بتضيفه بنفسك في الحالتين.
 
-1. في Claude، افتح **Customize**، وبعدين **Connectors**، ودوس **+ Add**، وبعدين **Add custom connector**. سمّيه Sorted واكتب العنوان `https://sortedos.com/api/mcp`. في باقة Team أو Enterprise، صاحب حساب Claude بتاع الشركة بيضيفه الأول من **Organization settings** ثم **Connectors**، وبعدين كل عضو يلاقيه في **Customize** ثم **Connectors** ويدوس **Connect**. دليل Claude نفسه بيوري كل شاشة: https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp
-2. سجّل دخول بحساب Sorted بتاعك لما Claude يطلب.
-3. علشان تستخدم skill، افتح الملف بتاعها من [قايمة الـ skills](../../README.md#the-14-skills)، وانسخ كل النص والزقه كأول رسالة، أو ضيفها كـ skill لو باقة Claude بتاعتك بتسمح بكده.
+**الطريقة أ: الإضافة (باقات Pro و Max و Team و Enterprise).**
 
-اتجرّب على: ولا حاجة لسه؛ اتراجعت أسامي القوايم بس على دليل Claude يوم 7 أكتوبر 2026. ما اتجرّبش: توصيل Claude على الويب أو الديسكتوب بـ Sorted.
+1. في Claude، افتح **Customize** من الشريط الجانبي، وبعدين تبويب **Plugins**.
+2. دوس **Add**، وبعدين **Add marketplace**، وبعدين **Add from a repository**.
+3. اكتب `Sortedos/sorted-plugin` (ده اسم المشروع ده على GitHub).
+4. افتح تبويب **Discover**، واختار **Sorted** ودوس **Add**.
+5. سجّل دخول بحساب Sorted لما Claude يطلب (لو ما طلبش، دوس **Connect** جنب Sorted في **Customize** وبعدين **Connectors**)، واختار شركتك ودوس **Allow**.
+
+في باقة Team أو Enterprise، مالك حساب Claude ممكن يحدّد الأسواق المسموحة؛ لو **Add marketplace** مش موجودة أو اترفضت، اسأل المالك أو استخدم الطريقة ب. الإضافة اللي بتتضاف كده بتتحفظ في حساب Claude بتاعك وبتوصل لـ Claude Code كمان لما تسجّل دخولك هناك بنفس الحساب. صفحة Anthropic: https://support.claude.com/en/articles/13837440
+
+**الطريقة ب: الـ connector بس (كل الباقات، حتى Free).**
+
+1. في Claude، افتح **Customize**، وبعدين **Connectors**، ودوس **+ Add**، وبعدين **Add custom connector**. سمّيه Sorted واكتب العنوان `https://sortedos.com/api/mcp`، ودوس **Continue**، وسيب اختيارات الدخول زي ما Claude بيقترحها ودوس **Add**. في باقة Team أو Enterprise، صاحب حساب Claude بتاع الشركة بيضيفه الأول من **Organization settings** ثم **Connectors**، وبعدين كل عضو يلاقيه في **Customize** ثم **Connectors** ويدوس **Connect**. صفحة Anthropic بتوري كل شاشة: https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp
+2. سجّل دخول بحساب Sorted بتاعك لما Claude يطلب، واختار شركتك ودوس **Allow**.
+3. علشان تستخدم skill، افتح الملف بتاعها من [قايمة الـ skills](../../README.md#the-14-skills)، وانسخ كل النص والزقه كأول رسالة.
+
+اتجرّب على: ولا حاجة لسه في حساب Claude حقيقي. أسامي قوايم الطريقتين اتراجعت على صفحتين من Anthropic يوم 10 أكتوبر 2026 ("Use plugins in Claude" و"Get started with custom connectors using remote MCP")، والأمر `claude plugin marketplace add Sortedos/sorted-plugin` اشتغل من الـ terminal (شوف جزء Claude Code). ما اتجرّبش: إضافة السوق في Claude على الويب أو الديسكتوب، أو توصيله بـ Sorted. Anthropic بتغيّر القوايم دي كتير: لو شاشة مختلفة، اتبع صفحة Anthropic.
 
 ## التركيب: دليل ChatGPT
 

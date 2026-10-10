@@ -62,7 +62,7 @@ Each skill is one instruction file. The plugins install all of them; in an assis
 
 You need Codex installed and signed in, and a personal Sorted plugin key (it starts with `srt_`). Sorted gives you one: ask at info@sortedos.com. The key belongs to you and your company; keep it to yourself.
 
-1. Get this repository's files onto your computer: on its GitHub page, click the green **Code** button, then **Download ZIP**, and unzip the file. Then open a terminal in the unzipped folder: on Windows, right-click inside the folder in File Explorer and choose **Open in Terminal**; on a Mac, right-click the folder and choose **Services**, then **New Terminal at Folder**.
+1. Open a terminal: on Windows, press the Windows key, type `PowerShell` and press Enter; on a Mac, press Command and Space, type `Terminal` and press Enter. Any folder will do: Codex fetches the plugin from GitHub itself, so you do not download anything.
 2. Save your key where Codex can read it, as the environment variable `SORTED_TOKEN` (a named setting your computer keeps for programs).
 
    On Windows, in PowerShell (the window's title or prompt says PowerShell, not Command Prompt), one line at a time:
@@ -81,43 +81,59 @@ You need Codex installed and signed in, and a personal Sorted plugin key (it sta
       ```
 
    On a Mac, type `touch ~/.zshrc; open -e ~/.zshrc` to open your terminal's start-up file in TextEdit; on Linux, type `nano ~/.bashrc`. Add a new last line: `export SORTED_TOKEN=` followed by your key, with no spaces. Save and close the file. Typing the key into the file, not into the terminal, keeps it out of the terminal's history.
-3. Add the plugin to Codex:
+3. Add the plugin to Codex, straight from GitHub. The first line tells Codex where the plugin lives (`Sortedos/sorted-plugin` is this repository's GitHub name), the second installs it:
 
    ```
-   codex plugin marketplace add .
+   codex plugin marketplace add Sortedos/sorted-plugin
    codex plugin add sorted@sorted
    ```
 
 4. Close every Codex window, including the Codex desktop app if it is open, so that Codex sees the new key. Open a new terminal, type `codex` and press Enter, then ask: "Do a quick business review using Sorted." A working answer quotes your company's numbers with the time they were read.
 
-Tested on: Windows 11 with Codex 0.155.1, 6 October 2026 (the plugin installed, with the 13 skills it had then; the 14th, `sorted-onboard`, was added on 7 October and the install was not repeated). Not tested: macOS, Linux.
+(Working from a copy of this repository on your computer instead, for example while changing it? Open a terminal in that folder and use `codex plugin marketplace add .` for the first line.)
+
+Tested on: Windows 11 with Codex 0.155.1. On 10 October 2026 both commands above were run for real against this public repository in a clean Codex home: the marketplace was added from GitHub and `sorted@sorted` 1.2.0 installed and showed as "installed, enabled". The command form `owner/repo` is the one in OpenAI's own page "Build plugins" (https://developers.openai.com/codex/plugins/build). Signing in with a key and the business-review answer were last run on 6 October 2026, with the plugin as it was then (13 skills; the 14th, `sorted-onboard`, was added on 7 October). Not tested: macOS, Linux.
 
 ## Install: Claude Code plugin
 
 You need Claude Code installed. No key: Claude Code signs in to Sorted with your own Sorted account.
 
-1. Get this repository's files and open a terminal in their folder, as in step 1 of the Codex section above.
-2. Add the plugin:
+1. Open a terminal, as in step 1 of the Codex section above. Any folder will do: Claude Code fetches the plugin from GitHub itself.
+2. Add the plugin, straight from GitHub:
 
    ```
-   claude plugin marketplace add ./
+   claude plugin marketplace add Sortedos/sorted-plugin
    claude plugin install sorted@sorted
    ```
 
 3. Start Claude Code, type `/mcp`, choose **sorted** and sign in with your Sorted account when the browser opens.
 4. Ask: "Do a quick business review using Sorted."
 
-Tested on: Windows 11 with Claude Code 2.1.291 and 2.1.292, 6 October 2026 (the plugin, its 13 skills of that day and the Sorted server entry installed; the sign-in step was not run in that test, and the install was not repeated after the 14th skill, `sorted-onboard`, was added on 7 October). Not tested: macOS, Linux.
+(Working from a copy of this repository on your computer instead? Open a terminal in that folder and use `claude plugin marketplace add ./` for the first line.)
+
+Tested on: Windows 11 with Claude Code 2.1.296. On 10 October 2026 both commands above were run for real against this public repository in a clean Claude Code configuration folder: the marketplace was added from GitHub and `sorted@sorted` installed. The sign-in step (step 3) was not run in that test, and neither was the answer in step 4. Earlier, on 6 October 2026 with Claude Code 2.1.291 and 2.1.292, the plugin from a local copy and the Sorted server entry were installed. Not tested: macOS, Linux.
 
 ### Claude on the web or the desktop app
 
-No terminal and no key: Claude connects to Sorted directly, with your Sorted account.
+No terminal. There are two routes. The plugin route brings the connection to Sorted and Sorted's skills together; the connector route brings the connection only and works on every plan. Sorted is not in Claude's own plugin directory, so you add it yourself in either case.
 
-1. In Claude, open **Customize**, then **Connectors**, click **+ Add**, then **Add custom connector**. Name it Sorted and enter the address `https://sortedos.com/api/mcp`. On a Team or Enterprise plan, an owner of the Claude organisation adds it first under **Organization settings**, **Connectors**; members then find it under **Customize**, **Connectors** and click **Connect**. Claude's own guide shows each screen: https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp
-2. Sign in with your Sorted account when Claude asks.
-3. To use a skill, open its file from [the list of skills](#the-14-skills), copy all of its text and paste it as your first message, or add it as a skill where your Claude plan allows it.
+**Route A: the plugin (Pro, Max, Team and Enterprise plans).**
 
-Tested on: nothing yet; only the menu names were checked, against Claude's guide on 7 October 2026. Not tested: connecting Claude on the web or the desktop app to Sorted.
+1. In Claude, open **Customize** in the left sidebar, then the **Plugins** tab.
+2. Press **Add**, then **Add marketplace**, then **Add from a repository**.
+3. Enter `Sortedos/sorted-plugin` (this repository's GitHub name).
+4. Open the **Discover** tab, choose **Sorted** and press **Add**.
+5. Sign in with your Sorted account when Claude asks (if it does not, press **Connect** next to Sorted under **Customize**, then **Connectors**), choose your company and press **Allow**.
+
+On a Team or Enterprise plan, a Claude owner can limit which marketplaces are allowed; if **Add marketplace** is missing or refuses, ask your owner or use Route B. A plugin added this way is saved to your Claude account and also reaches Claude Code when you sign in there with the same account. Anthropic's page: https://support.claude.com/en/articles/13837440
+
+**Route B: the connector only (every plan, Free included).**
+
+1. In Claude, open **Customize**, then **Connectors**, click **+ Add**, then **Add custom connector**. Name it Sorted, enter the address `https://sortedos.com/api/mcp`, press **Continue**, keep the sign-in choices Claude suggests and press **Add**. On a Team or Enterprise plan, an owner of the Claude organisation adds it first under **Organization settings**, **Connectors**; members then find it under **Customize**, **Connectors** and click **Connect**. Anthropic's page shows each screen: https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp
+2. Sign in with your Sorted account when Claude asks, choose your company and press **Allow**.
+3. To use a skill, open its file from [the list of skills](#the-14-skills), copy all of its text and paste it as your first message.
+
+Tested on: nothing yet in a real Claude account. The menu names of both routes were checked against Anthropic's two pages on 10 October 2026 ("Use plugins in Claude" and "Get started with custom connectors using remote MCP"), and `claude plugin marketplace add Sortedos/sorted-plugin` worked from a terminal (see the Claude Code section). Not tested: adding the marketplace in Claude on the web or the desktop app, or connecting it to Sorted. Anthropic changes these menus often: if a screen differs, follow Anthropic's page.
 
 ## Install: ChatGPT connector guide
 

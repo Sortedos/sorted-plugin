@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Install steps corrected (10 October 2026). Codex and Claude Code now add the plugin straight from GitHub (`codex plugin marketplace add Sortedos/sorted-plugin`, `claude plugin marketplace add Sortedos/sorted-plugin`), so no download is needed; the old `.` and `./` forms only work inside a copy of this repository and stay as a note for people who work from a copy. Claude on the web or the desktop app now has a plugin route (Customize, Plugins, Add marketplace, Add from a repository) next to the connector route. The ChatGPT guide says to install the plugin from your personal plugins, because Sorted is not in ChatGPT's own directory.
 - New skill `sorted-onboard`, the starting point: it asks "Which software does your company run on?" (spreadsheets included, per company), researches every system, shows one plan (system, route, who checks the numbers), then connects them one by one and chooses the numbers. 14 skills now.
 - Seven routes to a system, in order: Sorted reads it itself, a connector built into the assistant app, the vendor's own connector, the vendor's API, a connector someone else built (only after checks and the owner's yes), a file on the owner's computer, a report the owner exports.
 - The assistant looks facts up in each system (plan, version, database name, companies, address) instead of asking the owner, and asks only for the kind of Odoo (Online, Odoo.sh or self-hosted) because that decides where to sign in.
