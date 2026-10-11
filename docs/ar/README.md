@@ -18,7 +18,7 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 
 | بتستخدم | محتاج terminal؟ | اتبع |
 |---|---|---|
-| Codex | آه | التركيب: إضافة Codex |
+| Codex | آه | التركيب: Codex |
 | Claude Code | آه | التركيب: إضافة Claude Code |
 | Claude على الويب أو تطبيق الديسكتوب | لأ | Claude على الويب أو تطبيق الديسكتوب |
 | ChatGPT | لأ | التركيب: دليل ChatGPT |
@@ -30,18 +30,30 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 - يطلع مين عليه فلوس للشركة ويكتب رسايل تذكير مؤدبة.
 - يلاقي فين نظامين مختلفين (زي الدفاتر والبنك) ويطلع السجلات اللي ورا الفرق.
 - يساعد صاحب الشركة يوصّل Odoo أو Shopify أو Google Ads أو Google Analytics، علشان Sorted يقراهم بنفسه.
-- **يبعت أرقام من أنظمة مش بيقراها Sorted بنفسه** (إعلانات Meta، نظام الكاشير، تطبيق التوصيل، أو أي حاجة تانية) عن طريق **feed**: مساحة باسم معين على الداشبورد، صاحب الشركة بيوافق عليها مرة واحدة. فيه 6 skills للموضوع ده، واحدة لكل نظام. Sorted بيقرا Odoo و Shopify و Google Ads و Google Analytics بنفسه، وكل skill من دول بتعرض الطريقة دي الأول؛ الـ feed لما اتصال Sorted مايقدرش يوصل للحساب، أو لرقم Sorted مش بيعرضه.
+- **أرقام من أنظمة مش بيقراها Sorted بنفسه** (إعلانات Meta، نظام الكاشير، تطبيق التوصيل) لسه مش متاحة. إرسال الأرقام لـ Sorted (الـ feed) مقفول دلوقتي وهييجي بعدين؛ اسأل على info@sortedos.com لو محتاجه. النهارده Sorted بيقرا Odoo و Shopify و Google Ads و Google Analytics بنفسه.
 
-حاجتين لازم تعرفهم عن الـ feeds:
+الملاحظات التقنية للخاصية اللي جاية بعدين: [docs/feed-tools.md](../feed-tools.md) (بالإنجليزي). قايمة الـ 14 skill وكل واحدة بتعمل إيه: في [الصفحة الإنجليزي](../../README.md#the-14-skills).
 
-1. **Sorted مايقدرش يتأكد من الأرقام اللي بتيجي عن طريق feed.** دي الأرقام اللي المساعد قراها. الداشبورد بيكتب عليها إنها "مبعوتة من المساعد بتاعك، مش مقروءة بواسطة Sorted"، وصاحب الشركة هو المسؤول عنها.
-2. **الـ feeds بتشتغل بس لما Sorted يفعّلها لشركتك.** لو الأدوات `define_feed` و`feed_numbers` و`list_feeds` و`end_feed` مش موجودة في أدوات Sorted عند المساعد، يبقى مش متفعّلة. اسأل Sorted على info@sortedos.com.
+## التركيب: Codex
 
-الأدوات وحدودها وأمثلة: [docs/feed-tools.md](../feed-tools.md) (بالإنجليزي). قايمة الـ 14 skill وكل واحدة بتعمل إيه: في [الصفحة الإنجليزي](../../README.md#the-14-skills).
+محتاج Codex متسطّب ومسجّل دخول. مفيش مفتاح: Codex بيسجّل دخول على Sorted بحسابك، زي Claude و ChatGPT.
 
-## التركيب: إضافة Codex
+1. افتح الـ terminal: على Windows دوس زرار Windows واكتب `PowerShell` ودوس Enter؛ على Mac دوس Command مع Space واكتب `Terminal` ودوس Enter. أي فولدر يمشي.
+2. ضيف Sorted لـ Codex وسجّل دخولك. سطر سطر:
 
-محتاج Codex متسطّب ومسجّل دخول، ومفتاح إضافة Sorted شخصي (بيبدأ بـ `srt_`). Sorted بيديك واحد: اطلبه على info@sortedos.com. المفتاح بتاعك وبتاع شركتك؛ ماتديهوش لحد.
+   ```
+   codex mcp add sorted --url https://sortedos.com/api/mcp
+   codex mcp login sorted
+   ```
+
+   السطر التاني بيفتح المتصفح: سجّل دخولك بحساب Sorted، واختار شركتك ودوس **Allow**. لو المتصفح فتح لوحده بعد السطر الأول، كمّل تسجيل الدخول ده وتخطّى السطر التاني.
+3. اقفل كل شبابيك Codex، ومعاها تطبيق Codex على الديسكتوب لو مفتوح، وافتح Codex تاني. اسأل: "Do a quick business review using Sorted." الرد الصح بيذكر أرقام شركتك ووقت قرايتها.
+
+المصدر: صفحة OpenAI عن سيرفرات MCP في Codex (https://developers.openai.com/codex/mcp، اتقرت يوم 11 أكتوبر 2026) بتذكر السيرفرات اللي بتشتغل بـ Streamable HTTP مع تسجيل دخول OAuth، ومنها Dynamic Client Registration اللي سيرفر Sorted بيدعمه. اتجرّب على: Windows 11 مع Codex 0.155.1، والأمرين اللي فوق موجودين فيه (اتأكدت بـ `--help` يوم 11 أكتوبر 2026). تسجيل الدخول على Sorted والرد في الخطوة 3 **لسه ما اتجرّبوش** بالطريقة دي. ما اتجرّبش على: macOS و Linux.
+
+### متقدم: إضافة Codex بمفتاح شخصي
+
+استخدم ده بدل الخطوات اللي فوق، مش معاها. وهو بيجيب الـ skills كمان. محتاج Codex متسطّب ومسجّل دخول، ومفتاح إضافة Sorted شخصي (بيبدأ بـ `srt_`). Sorted بيديك واحد: اطلبه على info@sortedos.com. المفتاح بتاعك وبتاع شركتك؛ ماتديهوش لحد.
 
 1. افتح الـ terminal: على Windows دوس زرار Windows واكتب `PowerShell` ودوس Enter؛ على Mac دوس Command مع Space واكتب `Terminal` ودوس Enter. أي فولدر يمشي: Codex بيجيب الإضافة من GitHub بنفسه، فمش هتنزّل حاجة.
 2. احفظ المفتاح في مكان Codex يقدر يقراه، في متغير البيئة `SORTED_TOKEN` (إعداد باسم معين جهازك بيحتفظ بيه للبرامج).
