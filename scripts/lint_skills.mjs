@@ -50,17 +50,23 @@ const ON_A_SECRET = [
 // 3. Looking at a screen picture and describing it (a screenshot may show a password or a key).
 const PEEK = String.raw`(?:describ(?:e|ed|ing)|transcrib(?:e|ed|ing)|interpret(?:ed|ing)?|analy[sz](?:e|ed|ing)|extract(?:ed|ing)?|look(?:ed|ing)?\s+at)\s+(?:the\s+|a\s+|any\s+|his\s+|every\s+|each\s+)?(?:screenshots?|screen\s?grabs?|photos?|pictures?|images?)`;
 
-// 3b. The ONE approved exception (the repository owner's decision, 7 October 2026): the assistant may make an API key on the owner's own user and carry it
-//    straight into Sorted's own form, never through the chat. A sentence counts as that exception only when it says ALL THREE of:
-//    the owner's explicit approval, Sorted's own form as the place the key goes, and that it never goes through the chat.
-//    In such a sentence ONLY these four verbs are allowed to act on a secret: copy, paste, enter, type. Everything else stays
-//    forbidden in it: asking for a key, repeating, storing, saving, quoting, sending, showing, reading it out, any screenshot,
-//    and describing a picture (lists 1, 2 and 3 above still apply to the rest of the sentence).
-const KEY_FLOW_VERBS = new Set(["enter(?:ed|ing)?", "typ(?:e|ed|ing)", "past(?:e|ed|ing)", "copy|copied|copying"]);
+// 3b. The ONE approved exception (the repository owner's ruling, 10 October 2026, replacing the one of 7 October). Sorted's clients are not technical,
+//    so the assistant does every setup step. For Odoo it makes an API key on the owner's own user (after the owner's explicit yes), reads it from the
+//    one-time key box's field and passes it straight to Sorted's `connect_odoo` tool; a key the owner pasted in the chat is passed on the same way.
+//    A sentence counts as that exception only when it names `connect_odoo` as the place the key goes AND says either
+//      "make":   the owner's explicit approval (yes), or
+//      "pasted": that the owner pasted a key in the chat.
+//    In a "make" sentence ONE verb is freed to act on a secret: read it (or the key) FROM the box, nothing else read; in a "pasted" sentence the verb
+//    paste (it is what the owner did). Everything else stays forbidden in both: asking for a key or a password, repeating, storing, saving, quoting,
+//    sending, showing, copying, reading it out or back, any screenshot, and describing a picture (lists 1, 2 and 3 above still apply to the rest of the
+//    sentence). The other guarantees (never repeated in the chat, never on the clipboard, no picture, kept in no file or notes) are required lines
+//    in the skills, see KEY_BOX_RULES below.
 const KEY_FLOW_APPROVAL = /\bwith the owner's explicit (?:approval|yes)\b/i;
-const KEY_FLOW_PLACE = /\binto Sorted's (?:connection form|key field)\b/i;
-const KEY_FLOW_NOT_IN_CHAT = /\b(?:never|not|without)\s+(?:\w+\s+){0,3}(?:in|into|through|via|on) the chat\b/i;
-const approvedKeyFlow = (s) => KEY_FLOW_APPROVAL.test(s) && KEY_FLOW_PLACE.test(s) && KEY_FLOW_NOT_IN_CHAT.test(s);
+const KEY_FLOW_PASTED = /\bif the owner (?:has )?pasted (?:a|the) key in the chat\b/i;
+const KEY_FLOW_PLACE = /\b(?:to|into) (?:Sorted's )?`connect_odoo`/i;
+const keyFlow = (s) => (!KEY_FLOW_PLACE.test(s) ? null : KEY_FLOW_APPROVAL.test(s) ? "make" : KEY_FLOW_PASTED.test(s) ? "pasted" : null);
+// "read" stays forbidden unless it is "read it from ..." / "read the key from ..." (the key box's field).
+const READ_FROM_BOX = String.raw`read(?:ing)?(?!\s+(?:it|them|the (?:\w+\s+){0,3}key)\s+from\b)`;
 
 // 3c. While a system shows a secret (a freshly made key), the assistant must not read the page or box text, use the clipboard, or take
 //    a picture. This applies to EVERY sentence that names a secret, the approved key flow of 3b included: a page-text read once printed
@@ -137,7 +143,8 @@ const READ_TOOLS = ["get_overview", "get_section", "list_conflicts", "get_confli
   "daily_brief", "list_connections", "get_dashboard_layout", "update_dashboard_layout", "undo_dashboard_change", "request_new_number",
   "preview_number", "enable_number", "disable_number", "preview_cash_journals", "set_cash_journals", "clear_cash_journals"];
 const FEED_TOOLS = ["define_feed", "feed_numbers", "list_feeds", "end_feed"];
-const KNOWN_TOOLS = new Set([...READ_TOOLS, ...FEED_TOOLS]);
+const CONNECT_TOOLS = ["connect_odoo"]; // saves an Odoo connection after the owner's yes (Sorted still only reads from that Odoo); live since 11 October 2026
+const KNOWN_TOOLS = new Set([...READ_TOOLS, ...FEED_TOOLS, ...CONNECT_TOOLS]);
 // Words in backticks that look like tool names but are fields, units or skill names, not tools.
 const NOT_TOOLS = new Set(["confirm_token", "fresh_hours", "daily_cap", "as_of", "billing_required", "billing_note", "pay_here",
   "read_orders", "read_products", "read_reports", "ads_read", "read_insights", "available_numbers"]);
@@ -146,13 +153,17 @@ const NOT_TOOLS = new Set(["confirm_token", "fresh_hours", "daily_cap", "as_of",
 const SECRET_WORD = new RegExp(`\\b${SECRET_REF}\\b`, "i");
 const alt = (list) => list.map((x) => `(?:${x})`).join("|");
 const STRONG_RE = new RegExp(`\\b(?:${alt(WITH_A_SECRET_IN_THE_SENTENCE)})\\b`, "gi");
-const OBJECT_RE = new RegExp(`\\b(?:${alt(ON_A_SECRET)})\\b(?:\\s+(?:me|you|him|her|us|them|the owner))?(?:\\s+(?:${DET}|${MOD}))*\\s+${SECRET_REF}\\b`, "gi");
-const PRONOUN_RE = new RegExp(`\\b(?:${alt(ON_A_SECRET)})\\b\\s+(?:it|them|that|this)\\b`, "gi");
+const objectRe = (verbs) => new RegExp(`\\b(?:${alt(verbs)})\\b(?:\\s+(?:me|you|him|her|us|them|the owner))?(?:\\s+(?:${DET}|${MOD}))*\\s+${SECRET_REF}\\b`, "gi");
+const pronounRe = (verbs) => new RegExp(`\\b(?:${alt(verbs)})\\b\\s+(?:it|them|that|this)\\b`, "gi");
+const OBJECT_RE = objectRe(ON_A_SECRET);
+const PRONOUN_RE = pronounRe(ON_A_SECRET);
 const PEEK_RE = new RegExp(`\\b${PEEK}\\b`, "gi");
-// The same two patterns for a sentence that is the approved key flow: the four verbs of KEY_FLOW_VERBS are left out of the list.
-const ON_A_SECRET_IN_FLOW = ON_A_SECRET.filter((v) => !KEY_FLOW_VERBS.has(v));
-const OBJECT_RE_IN_FLOW = new RegExp(`\\b(?:${alt(ON_A_SECRET_IN_FLOW)})\\b(?:\\s+(?:me|you|him|her|us|them|the owner))?(?:\\s+(?:${DET}|${MOD}))*\\s+${SECRET_REF}\\b`, "gi");
-const PRONOUN_RE_IN_FLOW = new RegExp(`\\b(?:${alt(ON_A_SECRET_IN_FLOW)})\\b\\s+(?:it|them|that|this)\\b`, "gi");
+// The same two patterns for a sentence that is the approved key flow (3b): in a "make" sentence only "read it from the box" is freed, in a "pasted" sentence only paste.
+const FLOW_VERBS = {
+  make: ON_A_SECRET.map((v) => (v === "read(?:ing)?" ? READ_FROM_BOX : v)),
+  pasted: ON_A_SECRET.filter((v) => v !== "past(?:e|ed|ing)"),
+};
+const FLOW_RES = Object.fromEntries(Object.entries(FLOW_VERBS).map(([kind, verbs]) => [kind, [objectRe(verbs), pronounRe(verbs)]]));
 
 // A verb is "negated" only when a negation word sits directly before it, with nothing but other forbidden verbs, "or"/"and",
 // commas and pronouns between ("Never ask for, receive, read back or store any key"). So "Do not forget to read back the key"
@@ -174,8 +185,8 @@ export function lint(text) {
       for (const m of s.matchAll(re)) if (!negated(s, m.index)) return true;
       return false;
     };
-    const flow = approvedKeyFlow(s); // the approved key flow: see 3b above
-    if (order(STRONG_RE, true) || (flow ? order(OBJECT_RE_IN_FLOW, false) || order(PRONOUN_RE_IN_FLOW, true) : order(OBJECT_RE, false) || order(PRONOUN_RE, true))) problems.push(`tells the assistant to handle a secret: "${s.slice(0, 90)}"`);
+    const [objRe, pronRe] = FLOW_RES[keyFlow(s)] || [OBJECT_RE, PRONOUN_RE]; // the approved key flow: see 3b above
+    if (order(STRONG_RE, true) || order(objRe, false) || order(pronRe, true)) problems.push(`tells the assistant to handle a secret: "${s.slice(0, 90)}"`);
     if (order(PEEK_RE, false)) problems.push(`tells the assistant to look at a screen picture: "${s.slice(0, 90)}"`);
     if (order(SCREEN_READ_RE, true)) problems.push(`tells the assistant to read page text, use the clipboard or take a picture while a secret shows: "${s.slice(0, 90)}"`);
   }
@@ -276,17 +287,25 @@ const BAD = [
   "TO" + "DO: add the Meta steps.",
   "Call `push_numbers` with the values.",
   "Call `get_ad_spend` first.",
-  // The approved key flow is narrow: it needs all three parts (the owner's explicit approval, Sorted's own form, never the chat),
-  // and in it only copy, paste, enter and type may act on a key. Everything else stays forbidden.
-  "Copy the key into Sorted's connection form, never in the chat.", // no approval
-  "With the owner's explicit approval, copy the key into a text file, never in the chat.", // not Sorted's own form
-  "With the owner's explicit approval, copy the key into Sorted's connection form and post it in the chat.", // it goes through the chat
-  "With the owner's explicit approval, copy the key into Sorted's connection form, never in the chat, and read the key to the owner.",
-  "With the owner's explicit approval, copy the key into Sorted's connection form, never in the chat, then show the key to the owner.",
-  "With the owner's explicit approval, copy the key into Sorted's connection form, never in the chat, and store it for next time.",
-  "With the owner's explicit approval, copy the key into Sorted's connection form, never in the chat, and take a screenshot of it.",
-  "With the owner's explicit approval, copy the key into Sorted's connection form, never in the chat, and ask the owner for the key first.",
-  "With the owner's explicit approval, copy the key into Sorted's connection form, never in the chat, and describe the screenshot.",
+  // The approved key flow is narrow: it must name `connect_odoo` as the place the key goes AND say the owner's explicit approval (or that the owner
+  // pasted the key in the chat). In it only "read it from the box" (make) or paste (pasted) may act on a key. Everything else stays forbidden.
+  "Copy the key into Sorted's connection form, never in the chat.", // no approval, not connect_odoo
+  "With the owner's explicit approval, copy the key into a text file, never in the chat.", // not connect_odoo
+  "With the owner's explicit yes, make the key and copy it into a text file.",
+  "Make the key, read it from the box and paste it into Sorted's connection form.", // the old form flow is no longer an exception
+  "With the owner's explicit yes, make the key and pass it to `connect_odoo`, then read the key to the owner.",
+  "With the owner's explicit yes, make the key, read it out loud and pass it to `connect_odoo`.",
+  "With the owner's explicit yes, make the key, read it back and pass it to `connect_odoo`.",
+  "With the owner's explicit yes, make the key and pass it to `connect_odoo`, then show the key to the owner.",
+  "With the owner's explicit yes, make the key and pass it to `connect_odoo`, and store it for next time.",
+  "With the owner's explicit yes, make the key and pass it to `connect_odoo`, and take a screenshot of it.",
+  "With the owner's explicit yes, make the key and pass it to `connect_odoo`, and ask the owner for the key first.",
+  "With the owner's explicit yes, make the key and pass it to `connect_odoo`, and describe the screenshot.",
+  "With the owner's explicit yes, ask the owner for the password and pass it to `connect_odoo`.", // the exception never covers a password
+  "With the owner's explicit yes, make the key, paste it in the chat and pass it to `connect_odoo`.", // paste is freed only for a key the owner pasted
+  "If the owner pasted a key in the chat, repeat it back to confirm.",
+  "If the owner pasted a key in the chat, copy it into a text file.",
+  "If the owner pasted a key in the chat, use it.", // it must say where the key goes: `connect_odoo`
   "Create an API key and paste it into the chat.",
   "Open www" + ".odoo.com/my and sign in.", // only the bare odoo.com is on the list (assembled at run time: the leak scan reads this file)
   "Open mcp.foodics.com.evil.example/mcp and sign in.",
@@ -327,19 +346,24 @@ const GOOD = [
   "Give the conclusion and the numbers you used, nothing else.",
   "Use the `confirm_token` from the preview.",
   // The approved key flow, written the way the skills write it:
-  "With the owner's explicit approval, create an API key on the owner's own user and copy it into Sorted's connection form yourself, without ever showing it in the chat.",
-  "With the owner's explicit approval, copy the new key from the system's one-time box into Sorted's key field, never in the chat.",
+  "With the owner's explicit approval, make the API key on the owner's own user, read it from the one-time key box's field and pass it straight to `connect_odoo`.",
+  "With the owner's explicit yes, you make the key on their own user and pass it straight to Sorted's `connect_odoo` tool.",
+  "If the owner pasted a key in the chat, pass it straight to `connect_odoo` and do not lecture them or tell them to revoke it.",
   "The owner types the password for the key box themselves.",
   "Pause for the owner's yes before any key is made, and say what it can do.",
   "Open odoo.com and sign in; the account page lists the databases.",
   "Add Foodics MCP from https://mcp.foodics.com/mcp and sign in with the Foodics owner account.",
   // The key box rule, written the way the skills write it:
-  "With the owner's explicit approval, you may create an API key on the owner's own user and move it from the system's one-time key box into Sorted's key field yourself, in ONE action that returns only a length or \"done\" (read the box's field into a variable and set Sorted's field from it), without ever showing it in the chat.",
-  "While a key shows, read only the box's title and field names, never the page or box text.",
-  "Take no picture of it, never print it, and never use the clipboard, whose history would hold a copy.",
+  "While a key shows, read only the box's title, field names and the key field, never the page or box text.",
+  "Never repeat the key in the chat.",
+  "Never use the clipboard: its history would keep a copy.",
+  "Never keep it in a file or notes.",
+  "Take no picture of it.",
+  // Shopify has no tool, so its secrets still move into Sorted's form in one action:
+  "A Shopify Client ID and secret have no tool: with the owner's explicit approval, move them from the app's settings page into Sorted's form yourself, in ONE action that returns only a length or \"done\", never showing them in the chat.",
   "Never type the action into the address bar; open the key screen through the avatar menu.",
   "No screenshot, no page text, no clipboard while a key shows.",
-  "Connect again and tick EVERY company Sorted should read, existing ones included; the new connection replaces the old.",
+  "To add a company, call `connect_odoo` again with EVERY company Sorted should read, existing ones included; the new connection replaces the old.",
 ];
 let caught = 0, passed = 0;
 for (const t of BAD) { assert(lint(t).length > 0, `the lint must catch: ${t}`); caught++; }
@@ -383,14 +407,21 @@ const ONBOARD_RULES = [
   ["says never to ask a fact the system can show", /never ask the owner for a fact the system can show/i],
 ];
 
-// The key box rule must stay in the two skills that move a key into Sorted: sorted-onboard (the entry point) and sorted-connect-systems.
+// The key box rule must stay in the two skills that carry a key to Sorted's `connect_odoo`: sorted-onboard (the entry point) and sorted-connect-systems.
+// (10 October 2026: the assistant now passes the key to connect_odoo itself, so "moves it in ONE action" is required only where Shopify secrets are described, see SHOPIFY_RULES.)
 const KEY_BOX_SKILLS = new Set(["sorted-onboard", "sorted-connect-systems"]);
 const KEY_BOX_RULES = [
-  ["reads only the key box's title and field names", /read only the box's title and field names/],
+  ["reads only the key box's title, field names and key field", /read only the box's title, field names and the key field/],
   ["never reads the page or box text while a key shows", /never the page or box text/],
-  ["moves a key in ONE action that returns only a length or done", /ONE action that returns only a length or "done"/],
-  ["never uses the clipboard", /never use the clipboard/],
+  ["passes the key straight to connect_odoo", /pass(?:es)? it straight to (?:Sorted's )?`connect_odoo`/],
+  ["never repeats the key in the chat", /[Nn]ever repeat the key in the chat/],
+  ["never uses the clipboard", /[Nn]ever use the clipboard/],
   ["takes no picture of a key", /[Tt]ake no picture/],
+  ["keeps the key in no file or notes", /[Nn]ever keep it in a file or notes/],
+];
+// Shopify has no tool: its Client ID and secret still move into Sorted's form in ONE action that returns only a length or "done".
+const SHOPIFY_RULES = [
+  ["moves a Shopify Client ID and secret in ONE action that returns only a length or done", /Client ID and secret[^.]*ONE action that returns only a length or "done"/],
 ];
 // What the Odoo steps of sorted-connect-systems must keep (found in a live trial on Odoo 17 and in Sorted's own test step).
 const ODOO_RULES = [
@@ -398,11 +429,12 @@ const ODOO_RULES = [
   ["never opens it by typing the action into the address bar", /never type the action into the address bar/i],
   ["checks the profile shows the owner's own name first", /owner's own name/],
   ["says Sorted keeps one connection per Odoo address and database", /one connection per Odoo address and database/],
-  ["says to tick EVERY company when adding one, the new connection replacing the old", /tick EVERY company[^.]*replaces the old/],
-  ["compares the ticked list with list_connections before Connect and confirms every company is still there afterwards", /Compare the ticked list with `list_connections`[^.]*afterwards[^.]*still there/],
+  ["calls connect_odoo with the address, database name, login and key", /`connect_odoo` with the address, database name, the Odoo login[^.]*and the key/],
+  ["says to call connect_odoo again with EVERY company when adding one, the new connection replacing the old", /`connect_odoo` again with EVERY company[^.]*replaces the old/],
+  ["compares with list_connections before and after", /Compare with `list_connections` before and after/],
   ["warns that a company's cards are labelled by its exact Odoo name, so its brand label can be lost", /exact Odoo name[^.]*brand label/],
-  ["treats Sorted's administrator-key and already-connected notices as information, not errors", /information, not errors/],
-  ["goes on to the company list (Step 3 of 3) and confirms with list_connections", /Step 3 of 3[^.]*`list_connections`/],
+  ["treats the form fallback's administrator-key and already-connected notices as information, not errors", /administrator's-key and already-connected notices are information, not errors/],
+  ["confirms with list_connections once connect_odoo has answered", /then confirm with `list_connections`/],
 ];
 
 const dirs = readdirSync(SKILLS).filter((d) => statSync(join(SKILLS, d)).isDirectory()).sort();
@@ -432,7 +464,7 @@ for (const d of dirs) {
   }
   if (d === "sorted-onboard") for (const [why, re] of ONBOARD_RULES) if (!re.test(text)) problems.push(`does not ${why}`);
   if (KEY_BOX_SKILLS.has(d)) for (const [why, re] of KEY_BOX_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
-  if (d === "sorted-connect-systems") for (const [why, re] of ODOO_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
+  if (d === "sorted-connect-systems") for (const [why, re] of [...ODOO_RULES, ...SHOPIFY_RULES]) if (!re.test(text)) problems.push(`does not say it ${why}`);
   if (problems.length) bad.push(`${d}:\n    ${problems.join("\n    ")}`); else good++;
 }
 console.log(`skills: ${good} good, ${bad.length} bad (of ${dirs.length})`);

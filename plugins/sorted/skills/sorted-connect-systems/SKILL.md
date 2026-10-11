@@ -1,51 +1,53 @@
 ---
 name: sorted-connect-systems
-description: Connect Odoo, Shopify, Google Ads or Google Analytics 4 so Sorted reads them itself, pressing on in the browser once the owner has signed in. An API key is made only with the owner's explicit approval and never shown in the chat. Use when the owner asks to connect, add or reconnect a system.
+description: Connect Odoo, Shopify, Google Ads or Google Analytics 4 so Sorted reads them itself. For Odoo you make the API key (after the owner's explicit yes) and pass it to Sorted's connect_odoo tool. Use to connect, add or reconnect a system.
 ---
 
 # Connect a system to Sorted
 
-Sorted reads the company's systems with read-only access. Only the **company owner** can connect or remove a system; you click in a browser the owner signs in to. A new owner starts with `sorted-onboard`.
+Sorted reads the company's systems, read-only. Only the **company owner** can connect or remove one. For Odoo you do every step yourself with `connect_odoo`; for the others you click in a browser the owner signs in to. A new owner starts with `sorted-onboard`.
 
 ## Before you start
 
-1. Confirm the person is the owner, signed in at https://sortedos.com. If the Connections page (https://sortedos.com/connections) offers no "connect", they are not: say so and stop.
+1. Confirm the person is the owner, signed in at https://sortedos.com. If the Connections page (https://sortedos.com/connections) offers no "connect", they are not: stop and say so.
 2. Call `list_connections`. Connect only what is missing, never a duplicate.
 
 ## Hard rules
 
-- **Read-only, always.** Sorted only reads, and you change nothing in the owner's systems beyond the access they approved; use a read-only role or scope where one exists (Odoo is the exception).
-- **Look it up, do not ask.** Never ask the owner for a fact the system can show (plan, version, database name, companies, address): open it, let the owner sign in, read it.
-- **Few confirmations.** Pause for the owner's yes only for money, deletion, data changes they did not ask for, and making a key. Once signed in, press on, system after system, however long it takes; finish and check one before the next.
-- **Passwords stay with the owner.** The owner types every password and 2-step code and handles any captcha, passkey, payment screen or page of terms: stop, ask them to act, wait. Never ask for a key, password or token in the chat, and never repeat, store or screenshot one. If a secret ever reaches the chat, by paste or slip, do not repeat it; tell the owner and advise revoking it and making a new one.
-- **The one approved exception, an API key.** With the owner's explicit approval, you may create an API key on the owner's own user and move it from the system's one-time key box into Sorted's key field yourself, in ONE action that returns only a length or "done" (read the box's field into a variable and set Sorted's field from it), without ever showing it in the chat.
-- **While a key shows**, read only the box's title and field names, never the page or box text. Take no picture of it, never print it, and never use the clipboard, whose history would hold a copy. Afterwards it exists nowhere else: keep it in no file or notes.
+- **Read-only, always.** Change nothing in the owner's systems beyond the access they approved; use a read-only role or scope where one exists (Odoo is the exception).
+- **Look it up, do not ask.** Never ask the owner for a fact the system can show.
+- **Few confirmations.** Pause for the owner's yes only for money, deletion, unrequested data changes and making a key. Once signed in, press on, system after system, checking each before the next.
+- **Passwords stay with the owner.** The owner types every password and 2-step code and handles any captcha, passkey, payment screen or page of terms: stop, ask them to act, wait. Never ask for a password or token in the chat; if one reaches it (an Odoo key is the exception), do not repeat it and advise changing it.
+- **An Odoo key:** with the owner's explicit approval, make the API key on the owner's own user, read it from the one-time key box's field and pass it straight to `connect_odoo` (the owner copies nothing). While a key shows, read only the box's title, field names and the key field, never the page or box text. Never repeat the key in the chat. Never use the clipboard (its history keeps a copy). Never keep it in a file or notes. Take no picture of it. If the owner pasted a key in the chat, pass it straight to `connect_odoo`; do not lecture them or tell them to revoke it.
+- **A Shopify Client ID and secret** have no tool: with the owner's explicit approval, move them from the app's settings page into Sorted's form yourself, in ONE action that returns only a length or "done", never showing them in the chat.
 
 ## Odoo
 
-1. **Ask the kind first**, because it decides where to sign in: Odoo Online (sign in at odoo.com; the account page lists the databases and plans), Odoo.sh (sign in to the Odoo.sh dashboard, which shows the production address), or self-hosted Community or Enterprise (the company's own address). Then read the rest there yourself. Odoo says its Online One App Free and Standard plans have no external API: there use `sorted-connect-odoo`.
-2. Read the companies (Settings, Users & Companies, Companies), flag any difference from what the owner said, and let the owner pick. Sorted keeps one connection per Odoo address and database: to add a company, connect again with a new key (the owner approves it) and tick EVERY company Sorted should read, existing ones included; the new connection replaces the old. Compare the ticked list with `list_connections` before Connect, and confirm with it afterwards that every company is still there. Cards are labelled by each company's exact Odoo name, so a renamed or differently capitalised company can lose its brand label: if a brand looks wrong after reconnecting, tell the owner.
-3. **No new Odoo user** (it may cost a paid seat). Sorted's code only reads, so a key with the full rights of the owner's own user is acceptable. Say plainly what that means (the key could do whatever the user can) and get a clear yes.
-4. With that yes, open the key screen through the user's avatar menu: My Profile or Preferences, then Account Security, then New API Key. Never type the action into the address bar: on Odoo 17 that opened an empty new-user form where New API Key failed ("Contacts require a name"). Before pressing anything, check the profile shows the owner's own name.
-5. New API Key opens a "Security Control" box ("confirm you own this account") that asks for the owner's password: the owner types it. Next a description (suggest "Sorted - Acme Trading"), then "API Key Ready" shows the key once. Keys expire: record any date Odoo shows and tell the owner to renew before it.
-6. On Sorted's Connections page choose Odoo; fill in the address, database name, login and the key (rules above), then press "Test the connection". Sorted may say "This is an administrator's key..." and "This system is already connected to" another company. Both are information, not errors: tell the owner in one line, continue to the company list (Step 3 of 3), tick the companies the owner picked, press Connect, then confirm with `list_connections`.
+1. **Ask the kind first**, because it decides where to sign in: Odoo Online (sign in at odoo.com; the account page lists the databases and plans), Odoo.sh (its dashboard shows the production address), or self-hosted (the company's own address). `connect_odoo` names the kind it detects: if the owner's answer differs, say so plainly. Odoo's Online One App Free and Standard plans have no external API: there use `sorted-connect-odoo`.
+2. Read the companies (Settings, Users & Companies, Companies), flag any difference from what the owner said, and let them pick. Sorted keeps one connection per Odoo address and database: to add a company, call `connect_odoo` again with EVERY company Sorted should read, existing ones included (same key, or a new one with the owner's yes); the new connection replaces the old. Compare with `list_connections` before and after. Cards carry each company's exact Odoo name, so a renamed or recapitalised company can lose its brand label: if one looks wrong, tell the owner.
+3. **No new Odoo user** (it may cost a paid seat). Sorted only reads, so a key with the owner's own full rights is acceptable: say plainly that it could do whatever the user can, and get a clear yes.
+4. With that yes, open the key screen through the user's avatar menu: My Profile or Preferences, then Account Security, then New API Key. Never type the action into the address bar (on Odoo 17 it opened an empty new-user form and New API Key failed). Before pressing anything, check the profile shows the owner's own name.
+5. New API Key opens a "Security Control" box that asks for the owner's password: the owner types it. Next a description (suggest "Sorted - Acme Trading"), then "API Key Ready" shows the key once. Keys expire: record any date Odoo shows and have the owner renew before it.
+6. Call `connect_odoo` with the address, database name, the Odoo login the key was made on, and the key. It checks the login and saves the connection: nothing more to click. If the login sees several companies it saves NOTHING and lists them: let the owner pick, then call again with `companies` set to the pick, exactly as listed. Tell the owner its answer (companies connected, numbers within minutes, kind of Odoo, and for an administrator's key that it could do whatever that user can while Sorted only reads), then confirm with `list_connections`. If it says no, report it plainly; never switch to a user with more rights or retry blindly (10 tries an hour).
+7. No browser tool for the key? The owner can make it (steps 4 and 5) and paste it in the chat. If `connect_odoo` is unavailable, or the owner prefers, use Sorted's Connections page: choose Odoo, fill in the form, press "Test the connection" (its administrator's-key and already-connected notices are information, not errors), tick the companies, press Connect.
 
 ## Shopify
 
-1. Shopify gives app access only through its Dev Dashboard (https://dev.shopify.com); the owner signs in as the **owner of the store**, and the app must be made in the same Shopify account as the store. Read the store address from the store's admin.
+1. App access is only through Shopify's Dev Dashboard (https://dev.shopify.com): the owner signs in as the **owner of the store**, and the app is made in the store's own Shopify account. Read the store address from its admin.
 2. Create an app with only the Admin API access scopes **read_orders** and **read_products**, release the version and install it on the store.
-3. In Sorted's Shopify form fill in the store address and an account name. The key exception covers the app's Client ID and Client secret too: with the owner's explicit yes, move them from the app's settings page into Sorted's form, never through the chat. Press the test button; at "Shopify store found", press Connect.
+3. In Sorted's Shopify form fill in the store address and an account name, press the test button and, at "Shopify store found", Connect. The Shopify rule above covers the Client ID and secret.
+
 ## Google Ads
 
-1. Once the owner has signed in to Google Ads, read the account number and name (with several accounts, the owner picks). On Sorted's Connections page choose Google Ads, fill in both and press the sign-in button. The **owner** signs in with the Google account that can open that Ads account, 2-step prompt included.
-2. At an "unverified app" screen the owner chooses Advanced, then continues; explain first that Google's only ads permission technically allows changes, and Sorted only ever reads.
-3. Check the account shows as connected. If an agency's manager account blocks it, `sorted-connect-google-ads` lets their own assistant send the numbers instead.
+1. Once signed in to Google Ads, read the account number and name (several accounts: the owner picks). On Sorted's Connections page choose Google Ads, fill in both and press the sign-in button; the **owner** signs in with the Google account that can open that Ads account, 2-step prompt included.
+2. At an "unverified app" screen the owner chooses Advanced, then continues; first explain that Google's only ads permission technically allows changes, and Sorted only reads.
+3. If an agency's manager account blocks it, `sorted-connect-google-ads` lets their assistant send the numbers.
 
 ## Google Analytics 4
 
-1. On Sorted's Connections page choose Google Analytics and read the reader's email address written there.
+1. On Sorted's Connections page choose Google Analytics and read the reader's email address shown.
 2. In Google Analytics: Admin, Property access management, Add users. Add that exact email as a **Viewer** (read-only), no higher role.
-3. Read the Property ID (Admin, Property details) and enter it on Sorted's form; with several properties, let the owner pick. Sorted checks each by hand, so a wait on "Waiting for Sorted to confirm" is normal: tell the owner.
+3. Read the Property ID (Admin, Property details) and enter it on Sorted's form (several properties: the owner picks). Sorted checks each by hand, so "Waiting for Sorted to confirm" is normal: tell the owner.
 
 ## Check it worked
 
