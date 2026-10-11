@@ -397,13 +397,14 @@ const FEED_RULES = [
 ];
 
 // What the entry-point skill must keep (the discovery-first flow): the one first question, a look at what Sorted already has, one plan
-// with the three columns, and the seven routes in order, each a numbered line that starts with its bold name.
+// with the three columns, and the plain statement that only Odoo, Shopify, Google Ads and Google Analytics 4 can be added today
+// (11 October 2026: feeds are off, so the seven routes are gone from the plan).
 const ONBOARD_RULES = [
   ["asks the one first question", /Which software does your company run on\? If you run more than one company, list each one's\./],
-  ["names spreadsheets among the systems", /Excel files on the computer, Google Sheets, Excel in OneDrive or SharePoint/],
+  ["names the four systems Sorted reads today and says everything else cannot be added yet", /Odoo, Shopify, Google Ads and Google Analytics 4[\s\S]*cannot be added yet/],
   ["checks what Sorted already has with list_connections", /`list_connections`/],
-  ["shows one plan with system, route and who checks the numbers", /system \| route \| who checks the numbers/i],
-  ["lists the seven routes", /(?:^[1-7]\. \*\*[^\n]*\n){7}/m],
+  ["shows one plan with system, what Sorted does and when the numbers arrive", /system \| what Sorted does \| when the numbers arrive/i],
+  ["offers to log the wish for a system that cannot be added, through request_new_number", /`request_new_number`/],
   ["says never to ask a fact the system can show", /never ask the owner for a fact the system can show/i],
 ];
 
