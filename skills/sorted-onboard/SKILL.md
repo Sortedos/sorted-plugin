@@ -29,6 +29,7 @@ Show ONE plan as a table: system | what Sorted does | when the numbers arrive. E
 
 ## 4. Connect them, one by one
 
+- **No browser or computer tool?** Never hand the owner technical steps. Tell them to continue in a mode or app that has one (ChatGPT: Work mode; Claude: Claude in Chrome or Cowork) and give a ready message, for example "Set up Sorted for my company. Use your browser for every step; hand the screen to me only for passwords, sign-in codes and Allow." Only if they cannot switch, as a last resort, guide them click by click, one small step at a time.
 - **Open the system in your browser; the owner signs in.** The owner types every password and 2-step code, and handles a captcha, a passkey, a payment screen or a page of terms: wait for them. After that you press on: click Connect, create what is needed, fill in the forms, system after system.
 - **Few confirmations.** Pause for the owner's yes only for money, deletion, data changes the owner did not ask for and making a key.
 - **Look it up, do not ask.** Read those facts from the system itself.
