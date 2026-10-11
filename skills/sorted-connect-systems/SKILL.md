@@ -1,6 +1,6 @@
 ---
 name: sorted-connect-systems
-description: Connect Odoo, Shopify, Google Ads or Google Analytics 4 so Sorted reads them itself. For Odoo you make the API key (after the owner's explicit yes) and pass it to Sorted's connect_odoo tool. Use to connect, add or reconnect a system.
+description: Connect Odoo, Shopify, Google Ads or Google Analytics 4 so Sorted reads them itself, pressing on in the browser once the owner has signed in. For Odoo you make the API key (after the owner's explicit yes) and pass it to Sorted's connect_odoo tool. Use to connect, add or reconnect a system.
 ---
 
 # Connect a system to Sorted
@@ -9,7 +9,7 @@ Sorted reads the company's systems, read-only. Only the **company owner** can co
 
 ## Before you start
 
-1. Confirm the person is the owner, signed in at https://sortedos.com. If the Connections page (https://sortedos.com/connections) offers no "connect", they are not: stop and say so.
+1. Confirm the person is the owner, signed in at https://sortedos.com: if the Connections page (https://sortedos.com/connections) offers no "connect", they are not, so stop.
 2. Call `list_connections`. Connect only what is missing, never a duplicate.
 
 ## Hard rules
@@ -35,7 +35,7 @@ Sorted reads the company's systems, read-only. Only the **company owner** can co
 
 1. App access is only through Shopify's Dev Dashboard (https://dev.shopify.com): the owner signs in as the **owner of the store**, and the app is made in the store's own Shopify account. Read the store address from its admin.
 2. Create an app with only the Admin API access scopes **read_orders** and **read_products**, release the version and install it on the store.
-3. In Sorted's Shopify form fill in the store address and an account name, press the test button and, at "Shopify store found", Connect. The Shopify rule above covers the Client ID and secret.
+3. In Sorted's Shopify form fill in the store address and an account name, press the test button and, at "Shopify store found", Connect.
 
 ## Google Ads
 
