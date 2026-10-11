@@ -56,6 +56,8 @@ Whether an admin must also publish a connection made the new way from the Plugin
 
 ## Sending numbers into Sorted (feeds)
 
+**Switched off for now (11 October 2026):** sending numbers into Sorted is not available to companies yet, so the four tools below normally do not appear in the Sorted app. This section describes the later feature.
+
 Sorted reads Odoo, Shopify, Google Ads and Google Analytics itself, from its Connections page. For numbers it does not read (Meta ads, a point-of-sale system, a delivery app, anything else), your assistant can send them in through four tools of the Sorted app:
 
 | Tool | What it does |
