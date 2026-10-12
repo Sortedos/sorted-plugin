@@ -25,7 +25,7 @@ Today Sorted reads four systems itself: **Odoo, Shopify, Google Ads and Google A
 
 Everything else (spreadsheets, bank and payment apps, Foodics, Meta ads, the company's own admin system, any other system) cannot be added yet. Say so plainly and kindly, and never leave it there: never promise it, never search for a workaround, never offer a connector someone else built. The next step is to ask the Sorted team to build it. With the owner's yes, fill in the Connections page's "My software isn't listed" form for them (software name, website if known, the numbers wanted, "Read data only") and press Request connector, which shows the request's progress. If you cannot reach the form, call `request_new_number` with kind "change" and his words. Promise no date.
 
-Show ONE plan as a table: system | what Sorted does | when the numbers arrive. Every system Sorted reads: Sorted reads it every hour and checks the numbers; the first read usually happens within the hour, and the owner can start it sooner with the dashboard's Refresh now button, if it shows. List what cannot be added yet under "Not yet", each with its next step (asking the Sorted team to build it), so the owner knows before he agrees. Then ask one yes for the whole plan.
+Show ONE plan as a table: system | what Sorted does | when the numbers arrive. Every system Sorted reads: Sorted reads it every hour and checks the numbers; the first read usually happens within the hour, and the owner can start it sooner with the dashboard's Refresh now button, if it shows. For Google Analytics, Sorted first confirms each property by hand, usually within one working day. List what cannot be added yet under "Not yet", each with its next step (asking the Sorted team to build it), so the owner knows before he agrees. Then ask one yes for the whole plan.
 
 ## 4. Connect them, one by one
 
@@ -36,13 +36,14 @@ Show ONE plan as a table: system | what Sorted does | when the numbers arrive. E
 - **Odoo address.** Ask for the address the owner signs in at (Odoo Online: odoo.com's account page lists their databases and plans). Once the owner has signed in there, read the database name and login yourself from the signed-in page's session info: view the source of the address plus /odoo (older Odoo: /web) and read "db" and "username". Never open Odoo.sh, GitHub or a hosting dashboard for them. `connect_odoo` names the kind it detects: if the owner's answer differs, say so plainly.
 - **Companies.** After sign-in, read the system's own list of companies; if it differs from what the owner said, say so and let them pick which ones to pull. Sorted keeps one connection per Odoo address and database: to add a company, call `connect_odoo` again with EVERY company Sorted should read, existing ones included; the new connection replaces the old (`sorted-connect-systems`).
 - **Keys.** No new Odoo user (it may cost a paid seat). With the owner's explicit yes, you make the key on their own user and pass it straight to Sorted's `connect_odoo` tool, as `sorted-connect-systems` describes, so the owner copies nothing. While a key shows, read only the box's title, field names and the key field, never the page or box text. Never repeat the key in the chat. Never use the clipboard (its history keeps a copy). Never keep it in a file or notes. Take no picture of it. If the owner pasted a key in the chat, pass it straight to `connect_odoo` without a lecture. Record each key's expiry date.
-- **Google Ads, Google Analytics, Shopify.** Never sign your own browser in to Sorted for them: it can land on the wrong account or company. Give the owner their company's link from `sorted-connect-systems` to open where they are already signed in to Sorted.
-- **Which skill.** `sorted-connect-systems` for all four. Odoo with several companies, or a business booked inside a shared company by cost tags: its Odoo section says how.
+- **Google Ads, Shopify.** Never sign your own browser in to Sorted for them: it can land on the wrong account or company. Give the owner their company's link from `sorted-connect-systems` to open where they are already signed in to Sorted.
+- **Google Analytics.** Sorted's Google sign-in for it is switched off, so never say Continue with Google. You do its guided setup in your browser (`sorted-connect-systems`); the owner only signs in to Google.
+- **Which skill.** `sorted-connect-systems` for all four; its Odoo section covers several companies and cost tags.
 - If something fails, report the exact message and the one thing the owner could do next. Do not loop, and never use broader access to make a test pass.
 
 ## 5. Choose the numbers
 
-What only the owner knows: which numbers matter to them and how often they want them. The first read usually happens within the hour; the owner can start it sooner with Refresh now on the dashboard, if it shows. Then call `get_overview` and report only the numbers it returns, with their units and snapshot time. To show or hide cards later, see `sorted-organise-dashboard`.
+What only the owner knows: which numbers matter to them and how often they want them. The first read usually happens within the hour. Then call `get_overview` and report only the numbers it returns, with their units and snapshot time. To show or hide cards later, see `sorted-organise-dashboard`.
 
 ## 6. Close with a list
 

@@ -417,6 +417,7 @@ const ONBOARD_RULES = [
   // 12 October 2026 (live test): a system that cannot be added is never a dead end, and the owner never hears the guides quoted back
   ["offers the website's connector-request form for a system that cannot be added yet", /"My software isn't listed" form[\s\S]*Request connector/],
   ["never quotes, names or cites the guides to the owner", /Never quote, name or cite these guides/],
+  ["says Google Analytics has no Continue with Google and is set up through the guided setup", /\*\*Google Analytics\.\*\* Sorted's Google sign-in for it is switched off, so never say Continue with Google/],
 ];
 
 // What the sign-in systems and the Odoo steps of sorted-connect-systems must keep after the 12 October 2026 live test: the owner opens one link for THEIR company in the
@@ -427,6 +428,12 @@ const SIGN_IN_RULES = [
   ["never signs its own browser in to Sorted for these systems, except as the last resort after checking the owner's email and company name", /Never sign your own browser in to Sorted for them[\s\S]*confirm it shows the owner's email and the company's name/],
   ["reads the database name and login from the signed-in page's session info and never opens a hosting dashboard", /session info[\s\S]*"db" and "username"[\s\S]*Never open Odoo\.sh, GitHub or a hosting dashboard/],
   ["says same-named cost tags are all included and each line counts once", /tags that share a name are all included and each line counts once/],
+  // 12 October 2026 (live test): Sorted's own Google sign-in for Analytics is switched off, so Analytics has no Continue with Google. The assistant does the guided setup itself
+  // in its own browser (the owner signs in to Google only), on the Google account that sees the business's real property, and Sorted confirms the property by hand.
+  ["says Google Analytics 4 has no Continue with Google and the assistant does its guided setup while the owner only signs in to Google", /\*\*Google Analytics 4\*\* has no Continue with Google \(Sorted's Google sign-in for it is switched off\): never tell the owner to press it[\s\S]*the owner only signs in to Google/],
+  ["uses the Google account that sees the business's real property and asks which one when it finds only an empty or test property", /real property \(if you find only an empty or test property, or several, ask which one\)/],
+  ["adds Sorted's reader email as a Viewer under Property access management", /Property access management, \+ Add users: add the reader email Sorted's page shows, role \*\*Viewer\*\*/],
+  ["enters the Property ID and says Sorted confirms the property by hand", /Property ID \(Admin, Property details\)[\s\S]*"Waiting for Sorted to confirm" until Sorted checks by hand, usually within one working day/],
 ];
 
 // The key box rule must stay in the two skills that carry a key to Sorted's `connect_odoo`: sorted-onboard (the entry point) and sorted-connect-systems.
@@ -487,6 +494,10 @@ for (const d of dirs) {
   if (d === "sorted-onboard") for (const [why, re] of ONBOARD_RULES) if (!re.test(text)) problems.push(`does not ${why}`);
   if (KEY_BOX_SKILLS.has(d)) for (const [why, re] of KEY_BOX_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
   if (d === "sorted-connect-systems") for (const [why, re] of [...ODOO_RULES, ...SHOPIFY_RULES, ...SIGN_IN_RULES]) if (!re.test(text)) problems.push(`does not say it ${why}`);
+  // Sorted's own Google sign-in for Analytics is switched off (12 October 2026): a sentence about Analytics may only say there is no Continue with Google, never tell the owner to press it.
+  for (const s of text.split(/\n+|(?<=[.!?;])\s+/)) {
+    if (/Continue with Google/.test(s) && /Analytics|\bga4\b/i.test(s) && !/\bno Continue with Google\b|\bnever (?:tell|say)\b[^.]*Continue with Google/i.test(s)) problems.push(`tells the owner to press Continue with Google for Analytics: "${s.slice(0, 90)}"`);
+  }
   if (problems.length) bad.push(`${d}:\n    ${problems.join("\n    ")}`); else good++;
 }
 console.log(`skills: ${good} good, ${bad.length} bad (of ${dirs.length})`);

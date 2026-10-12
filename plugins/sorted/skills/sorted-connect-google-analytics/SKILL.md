@@ -5,7 +5,7 @@ description: Read the owner's Google Analytics 4 numbers (visitors, sessions, co
 
 # Google Analytics into Sorted, through a feed
 
-Sorted can read Google Analytics 4 itself: on Sorted's Connections page (https://sortedos.com/connections) the owner adds Sorted's reader as a Viewer, and Sorted reads and checks the numbers hourly. **Offer that first.** Use this skill when the owner prefers their own assistant to read, or wants a number Sorted does not show.
+Sorted can read Google Analytics 4 itself: on Sorted's Connections page (https://sortedos.com/connections) Sorted's reader is added as a Viewer (guided setup: `sorted-connect-systems`), Sorted confirms the property by hand, then reads and checks the numbers hourly. **Offer that first.** Use this skill when the owner prefers their own assistant to read, or wants a number Sorted does not show.
 
 Here you read the numbers with read-only access and send them through a **feed**: a named dashboard area you may send numbers into, approved by them once. Sorted cannot check these numbers: the dashboard labels them "sent by your assistant, not read by Sorted", and the owner is responsible for them. Tell them so before you start.
 
@@ -29,7 +29,7 @@ If neither is possible, say so and stop. Do not look for another way in.
 
 ## Make a read-only credential
 
-Google Analytics has a **Viewer** role: it sees the property's data and settings and can adjust its own report views, but cannot change settings or who has access. Use it when someone other than the owner, or a separate account for the assistant, will read. Once the owner has signed in, you do the clicks:
+Google Analytics has a **Viewer** role: it sees the property's data and settings and can adjust its own report views, but cannot change settings or who has access. Use it for any reader other than the owner. Once the owner has signed in, you do the clicks:
 
 1. Open https://analytics.google.com and the right property.
 2. Go to Admin, Property access management, the plus button, Add users.

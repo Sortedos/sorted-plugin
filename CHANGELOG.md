@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.4
+
+- Google Analytics 4 corrected after a second 12 October 2026 live test (a client in ChatGPT). Sorted's own Google sign-in for Analytics is switched off, but the guides told the assistant to have the owner press "Continue with Google" for it. The changes are in `sorted-connect-systems`, `sorted-onboard` and `sorted-connect-google-analytics`.
+- Analytics now has its own paragraph in `sorted-connect-systems`: there is no Continue with Google for it, and the assistant never tells the owner to press it. The assistant does the guided setup itself in its browser and the owner only signs in to Google. It uses the Google account that sees the business's real property (if it finds only an empty or test property, or several, it asks which one), goes to Admin, Property access management, + Add users, adds the reader email that Sorted's Connections page shows as a Viewer, then enters the Property ID (Admin, Property details) and the property's name on that page and presses Connect. The connection then reads "Waiting for Sorted to confirm" until Sorted checks the property by hand, usually within one working day; the assistant tells the owner that is normal.
+- `sorted-onboard` says the same in one line and adds that Analytics is confirmed by hand first (usually within one working day) to the plan's "when the numbers arrive" column. `sorted-connect-google-analytics` (feeds, switched off) now says the reader is added as a Viewer through the guided setup and that Sorted confirms the property by hand.
+- Google Ads and Shopify are unchanged: the owner still presses Continue with Google (or Shopify) on the link for their company. The link keeps `provider=ga4` because it opens the Analytics tab.
+- Lint (`scripts/lint_skills.mjs`): five new required lines (four in `sorted-connect-systems`, one in `sorted-onboard`) and one new rule for every skill: a sentence about Analytics may only say there is no Continue with Google, never tell the owner to press it. `sorted-connect-systems` is 1,298 words, `sorted-onboard` 1,288 and `sorted-connect-google-analytics` 1,298; to make room, short phrases were taken out of `sorted-connect-systems` and `sorted-onboard` (the "Look it up" sentence joined the "Few confirmations" line, the paid-seat remark and a few asides) with every required line kept.
+
 ## 1.3.3
 
 - Guides fixed after the 12 October 2026 live test (a brand-new owner in ChatGPT Work mode, connecting Odoo and Google Ads). The changes are in `sorted-onboard`, `sorted-connect-systems` and `sorted-about`.
