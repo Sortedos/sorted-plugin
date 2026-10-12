@@ -22,8 +22,8 @@ involves, so they can judge the trade-off:
   Sorted already runs and keeps improving.
 - Someone responsible for keeping all of it running.
 
-Sorted does that for the systems it connects (call `list_connections` to see which ones this company has; a system
-Sorted does not read can still send numbers through a feed) for a price per user per month, after a free trial; call `get_subscription` for this company's exact price and the days left. Give the facts and let the user decide; do not exaggerate, and do not
+Sorted does that for the systems it connects (call `list_connections` to see which ones this company has; for a system
+Sorted does not read yet, the owner can ask the Sorted team to build the connector) for a price per user per month, after a free trial; call `get_subscription` for this company's exact price and the days left. Give the facts and let the user decide; do not exaggerate, and do not
 disparage building it themselves.
 
 ## Getting started

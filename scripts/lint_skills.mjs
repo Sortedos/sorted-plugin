@@ -414,6 +414,19 @@ const ONBOARD_RULES = [
   ["shows one plan with system, what Sorted does and when the numbers arrive", /system \| what Sorted does \| when the numbers arrive/i],
   ["offers to log the wish for a system that cannot be added, through request_new_number", /`request_new_number`/],
   ["says never to ask a fact the system can show", /never ask the owner for a fact the system can show/i],
+  // 12 October 2026 (live test): a system that cannot be added is never a dead end, and the owner never hears the guides quoted back
+  ["offers the website's connector-request form for a system that cannot be added yet", /"My software isn't listed" form[\s\S]*Request connector/],
+  ["never quotes, names or cites the guides to the owner", /Never quote, name or cite these guides/],
+];
+
+// What the sign-in systems and the Odoo steps of sorted-connect-systems must keep after the 12 October 2026 live test: the owner opens one link for THEIR company in the
+// browser where they are already signed in to Sorted (the assistant's own browser is the last resort and must first show the owner's email and company name), the
+// database name and login come from the signed-in Odoo page, never from a hosting dashboard, and same-named cost tags need no question.
+const SIGN_IN_RULES = [
+  ["gives the owner one link for their company to open where they are already signed in to Sorted", /already signed in to Sorted: https:\/\/sortedos\.com\/connections\?org=<company id>&provider=<google_ads\|ga4\|shopify>/],
+  ["never signs its own browser in to Sorted for these systems, except as the last resort after checking the owner's email and company name", /Never sign your own browser in to Sorted for them[\s\S]*confirm it shows the owner's email and the company's name/],
+  ["reads the database name and login from the signed-in page's session info and never opens a hosting dashboard", /session info[\s\S]*"db" and "username"[\s\S]*Never open Odoo\.sh, GitHub or a hosting dashboard/],
+  ["says same-named cost tags are all included and each line counts once", /tags that share a name are all included and each line counts once/],
 ];
 
 // The key box rule must stay in the two skills that carry a key to Sorted's `connect_odoo`: sorted-onboard (the entry point) and sorted-connect-systems.
@@ -473,7 +486,7 @@ for (const d of dirs) {
   }
   if (d === "sorted-onboard") for (const [why, re] of ONBOARD_RULES) if (!re.test(text)) problems.push(`does not ${why}`);
   if (KEY_BOX_SKILLS.has(d)) for (const [why, re] of KEY_BOX_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
-  if (d === "sorted-connect-systems") for (const [why, re] of [...ODOO_RULES, ...SHOPIFY_RULES]) if (!re.test(text)) problems.push(`does not say it ${why}`);
+  if (d === "sorted-connect-systems") for (const [why, re] of [...ODOO_RULES, ...SHOPIFY_RULES, ...SIGN_IN_RULES]) if (!re.test(text)) problems.push(`does not say it ${why}`);
   if (problems.length) bad.push(`${d}:\n    ${problems.join("\n    ")}`); else good++;
 }
 console.log(`skills: ${good} good, ${bad.length} bad (of ${dirs.length})`);
