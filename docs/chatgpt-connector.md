@@ -67,9 +67,9 @@ Sorted reads Odoo, Shopify, Google Ads and Google Analytics itself, from its Con
 | `feed_numbers` | Sends one set of numbers into a feed. |
 | `end_feed` | Removes a feed and deletes every number it sent. |
 
-- **If these four tools are not in the Sorted app's tool list, feeds are not switched on for your company.** Ask Sorted at info@sortedos.com.
+- **If the feed tools (`define_feed`, `feed_numbers`) are missing in ChatGPT, open Sorted's plugin settings (Plugins, Personal, Sorted, Manage), press `Refresh tools`, then start a new chat.** A ChatGPT connection made before Sorted switched feeds on only shows the new tools after that (seen in a live test on 13 October 2026). If they are still missing after that, feeds are not switched on for your company: ask Sorted at info@sortedos.com.
 - ChatGPT keeps a fixed copy of an app's tool list from the moment the app was created or published (OpenAI's article calls it a "frozen" snapshot). **When Sorted switches feeds on for you, the app must pick up the new tools.** Try these in order, then start a new conversation:
-  1. **Refresh first.** In ChatGPT Plugins, open the Sorted connection and select **Refresh**. OpenAI's developer page says this is how a custom server connected directly in ChatGPT picks up changes.
+  1. **Refresh first.** In ChatGPT, open Plugins, then Personal, then Sorted, then **Manage**, and press **Refresh tools** (the path seen in the live test of 13 October 2026). OpenAI's developer page says this is how a custom server connected directly in ChatGPT picks up changes.
   2. **Enterprise / Edu:** an admin refreshes the app's actions (Workspace settings, Apps, the three-dot menu next to the app, **Action control**, **Refresh**) and then switches the new actions on, because OpenAI says new actions are off by default.
   3. **Business:** OpenAI's help article says a published app cannot be updated and has to be created and published again. Do that only if **Refresh** is not offered or does not bring the new tools. Whether **Refresh** works on a published Business app is **not verified**.
 - `define_feed`, `feed_numbers` and `end_feed` change something, so ChatGPT may ask you to confirm before it uses them. That is expected.

@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.5
+
+- Feed tools missing in an existing ChatGPT connection (13 October 2026 feeds live test). A ChatGPT connection made before Sorted switched feeds on only shows the new tools (`define_feed`, `feed_numbers`) after the owner opens Sorted's plugin settings in ChatGPT (Plugins, Personal, Sorted, Manage), presses **Refresh tools**, and starts a new chat. `sorted-connect-any-system` now tells the assistant to ask the owner for exactly that, once, before it concludes that feeds are not switched on; it names no assistant and says nothing about any app keeping an old tool list (that was not verified for Claude or Codex). `docs/chatgpt-connector.md` gives the path and the same order (Refresh tools, then a new chat, then ask Sorted).
+- `sorted-connect-any-system` is 1,298 words; short phrases were taken out of it to make room (the Connections page address moved to the sentence about the request form, "(it shows the last send)", a few filler words, and the example list for a connector built into the app is shorter). Nothing it requires was removed.
+- The other five feed guides (`sorted-connect-odoo`, `-shopify`, `-google-ads`, `-google-analytics`, `-meta-ads`) keep their old sentence for now: each is within a few words of the limit.
+- Lint (`scripts/lint_skills.mjs`): one new required line for `sorted-connect-any-system` (the Refresh tools request comes before "feeds are not switched on") and one bad and one good example.
+
 ## 1.3.4
 
 - Google Analytics 4 corrected after a second 12 October 2026 live test (a client in ChatGPT). Sorted's own Google sign-in for Analytics is switched off, but the guides told the assistant to have the owner press "Continue with Google" for it. The changes are in `sorted-connect-systems`, `sorted-onboard` and `sorted-connect-google-analytics`.

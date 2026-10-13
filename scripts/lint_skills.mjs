@@ -287,6 +287,7 @@ const BAD = [
   "Write out your full chain of thought first.",
   "Think step by step and explain your thinking.",
   "In ChatGPT, open the Connectors menu.",
+  "If the feed tools are missing, ask the owner to press Refresh tools in ChatGPT's plugin settings.", // the Refresh tools request names no assistant (13 Oct 2026)
   "Ask Claude to read the numbers.",
   "If you have no browser, continue in ChatGPT: Work mode.", // the approved parenthesis only: not worded differently
   "If you have no browser, continue in a mode that has one (ChatGPT: Work mode).", // and not a part of it
@@ -330,6 +331,7 @@ const BAD = [
   "Sorted allows two Odoo connections on one database.",
 ];
 const GOOD = [
+  "If `define_feed` and `feed_numbers` are not among your Sorted tools, ask the owner once to press Refresh tools in Sorted's plugin settings (if shown) and start a new chat.", // the Refresh tools request, vendor free (13 Oct 2026)
   "No browser or computer tool? Tell them to continue in a mode or app that has one (ChatGPT: Work mode; Claude: Claude in Chrome or Cowork) with a ready message.", // the one place the skills name the modes
   "Never ask for, receive, read back, repeat, store or pass on any key, password or token.",
   "Never ask for the key, repeat it, or store it.",
@@ -402,6 +404,12 @@ const FEED_RULES = [
   ["sends only numbers it actually read", /only (?:send )?numbers you (?:actually )?read/i],
   ["shows the preview and waits for the owner's yes before creating the feed", /preview[^.]*(?:yes|agree)/i],
   ["says Sorted cannot check these numbers", /Sorted cannot check/i],
+];
+
+// 13 October 2026 (feeds live test): a ChatGPT connection made before feeds were switched on only shows the feed tools after the owner presses Refresh tools in Sorted's plugin settings and
+// starts a new chat. The skill that every other feed route falls back on says so BEFORE it concludes that feeds are off, in words that name no assistant (nothing is verified about Claude or Codex).
+const ANY_SYSTEM_RULES = [
+  ["asks the owner once to press Refresh tools in Sorted's plugin settings and start a new chat before it concludes that feeds are not switched on", /not among your Sorted tools, ask the owner once to press Refresh tools in Sorted's plugin settings[^.]*start a new chat[^.]*feeds are not switched on/],
 ];
 
 // What the entry-point skill must keep (the discovery-first flow): the one first question, a look at what Sorted already has, one plan
@@ -491,6 +499,7 @@ for (const d of dirs) {
     for (const [why, re] of FEED_SECTIONS) if (!re.test(text)) problems.push(`has no section on ${why}`);
     for (const [why, re] of FEED_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
   }
+  if (d === "sorted-connect-any-system") for (const [why, re] of ANY_SYSTEM_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
   if (d === "sorted-onboard") for (const [why, re] of ONBOARD_RULES) if (!re.test(text)) problems.push(`does not ${why}`);
   if (KEY_BOX_SKILLS.has(d)) for (const [why, re] of KEY_BOX_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
   if (d === "sorted-connect-systems") for (const [why, re] of [...ODOO_RULES, ...SHOPIFY_RULES, ...SIGN_IN_RULES]) if (!re.test(text)) problems.push(`does not say it ${why}`);

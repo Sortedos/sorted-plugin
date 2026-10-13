@@ -7,9 +7,9 @@ description: Send numbers from any system Sorted does not read itself (a point-o
 
 You read the numbers with the owner's read-only access and send them through a **feed**: a named area on their dashboard that you may send numbers into, approved by them once. Sorted cannot check these numbers: the dashboard labels them "sent by your assistant, not read by Sorted", and the owner is responsible for them. Tell them so before you start.
 
-If `define_feed` and `feed_numbers` are not among your Sorted tools, feeds are not switched on for this company. Say so plainly and stop.
+If `define_feed` and `feed_numbers` are not among your Sorted tools, ask the owner once to press Refresh tools in Sorted's plugin settings (if shown) and start a new chat; if still missing, feeds are not switched on for this company: say so plainly and stop.
 
-First check whether Sorted already reads this system: call `list_connections` and look at Sorted's Connections page (https://sortedos.com/connections). If it does, **offer that first**: Sorted then reads and checks the numbers itself. If not, the owner can ask for it through the connector-request form on that page.
+First check whether Sorted already reads this system with `list_connections`. If it does, **offer that first**: Sorted then reads and checks the numbers itself. If not, the owner can ask for it through the connector-request form on Sorted's Connections page (https://sortedos.com/connections).
 
 ## What to ask the owner
 
@@ -22,7 +22,7 @@ First check whether Sorted already reads this system: call `list_connections` an
 
 You need a way to read the system that cannot change anything. `sorted-onboard` researches the best route; in this order:
 
-1. A connector built into the assistant app (for example Google Drive and Google Sheets, or Microsoft 365 for Excel in OneDrive or SharePoint) or the vendor's own. It is only read-only if the owner connected it with a read-only login in that system or set its write tools to Blocked in the app's connector settings; if neither, tell them it can change things and let them decide. Use only its reading tools: never call one that creates, edits, refunds, cancels, sends, pays or deletes.
+1. A connector built into the assistant app (for example Google Drive, Google Sheets or Microsoft 365) or the vendor's own. It is only read-only if the owner connected it with a read-only login in that system or set its write tools to Blocked in the app's connector settings; if neither, tell them it can change things and let them decide. Use only its reading tools: never call one that creates, edits, refunds, cancels, sends, pays or deletes.
 2. A browser your app controls, signed in as a read-only user; the owner types the password. You open reports and read them; never press a button that changes anything. For a bank or investment portal use option 4: some assistant browsers advise against financial sites.
 3. A connector someone else built, only after the checks in `sorted-onboard`, after telling the owner it is not from the vendor, and with their yes.
 4. A file on the owner's computer (a shared folder or an upload), a report the owner exports and shares, or numbers the owner types (only numbers) into the chat.
@@ -33,11 +33,11 @@ If none is possible, say so and stop; use no stronger access than the owner chos
 
 In the system's own help pages look for a **read-only role** for a user (often Viewer, Read only, Reporting or Auditor), or an **access key or app with read-only scopes** (for example read_orders, ORDERS_READ or a Read level) and nothing that writes: a single general scope that also writes is no read-only option. If there is neither, the owner runs a **report export**.
 
-Once the owner has signed in, you do the clicks; the owner types every password. The owner puts access details into the assistant app's settings, never into the chat; while a key shows, read only the box's title and field names, never the page or box text. If there is no read-only option, tell them plainly that the only access available can change things, and let them decide.
+Once the owner has signed in, you do the clicks; the owner types every password. The owner puts access details into the assistant app's settings, never into the chat; while a key shows, read only the box's title and field names, never the page or box text. If there is no read-only option, tell them that the only access available can change things, and let them decide.
 
 ## Numbers to read
 
-Choose few numbers that answer the owner's question, each with a plain label and a unit:
+Choose few numbers that answer the owner's question, each with a label and a unit:
 
 - `money`: an amount with its three-letter currency code (USD, EUR, EGP, SAR, AED); refunds and losses may be negative.
 - `count`: a whole number, 0 or more (orders, visits).
@@ -46,7 +46,7 @@ Choose few numbers that answer the owner's question, each with a plain label and
 - `days`: a number of days.
 - `number`: any other plain number, fractions included.
 
-Several branches, stores or products with the same numbers go into one table: rows are the branches, columns the numbers. If a number is not there, leave it out or send `null`. Never estimate.
+Several branches or stores with the same numbers go into one table: rows are the branches, columns the numbers. If a number is not there, leave it out or send `null`.
 
 ## The feed
 
@@ -77,7 +77,7 @@ Limits Sorted enforces: at most 40 numbers, or one table of at most 40 numbers a
 
 5. Tell the owner what you sent and how to stop it: `end_feed` deletes the feed and every number it sent.
 
-Every morning: if your app runs scheduled tasks, it can repeat step 4 daily; not every app keeps its sign-in when unattended, so check `list_feeds` (it shows the last send) the first days.
+Every morning: if your app runs scheduled tasks, it can repeat step 4 daily; not every app keeps its sign-in unattended, so check `list_feeds` the first days.
 
 ## Never
 
