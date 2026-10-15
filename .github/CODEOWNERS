@@ -1,0 +1,10 @@
+# Everything a client installs, and everything that checks it, needs a review by a code owner once the main-branch rule
+# "Require review from Code Owners" is on (see SECURITY.md). Add a second owner here when there is one.
+*                       @Smetools
+/.mcp.json              @Smetools
+/.claude-plugin/        @Smetools
+/.agents/               @Smetools
+/plugins/               @Smetools
+/skills/                @Smetools
+/scripts/               @Smetools
+/.github/               @Smetools

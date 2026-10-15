@@ -33,4 +33,6 @@ The limits every feed must respect are in [docs/feed-tools.md](docs/feed-tools.m
 
 ## Security
 
-If you find a security problem, do not open a public issue. Write to info@sortedos.com instead.
+If you find a security problem, do not open a public issue. Write to info@sortedos.com instead. [SECURITY.md](SECURITY.md) says what a client trusts when installing this repository and how the main branch is meant to be protected.
+
+Changes to `.mcp.json`, the manifests, `.github/`, `scripts/` or any skill are reviewed by a second person before they are merged. `python scripts/check_manifests.py` (part of `check_all.py`) must keep passing: a change that points the connection at another address or adds a file that runs is refused on purpose.

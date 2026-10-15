@@ -12,7 +12,8 @@ Checks, in order:
   4. tool names           every feed tool named in the docs and skills is one of the four in docs/feed-tools.json
   5. byte-order marks     no JSON file starts with one (Claude Code then loads no servers from .mcp.json)
   6. feed call checker    scripts/check_feed_call.py --selftest (the offline checker still decides its own examples right)
-  7. plugin validation    claude plugin validate --strict on the marketplace, the plugin manifest and the skills folder of the
+  7. manifests            scripts/check_manifests.py (the connection points only at Sorted's address, the plugin holds nothing that runs)
+  8. plugin validation    claude plugin validate --strict on the marketplace, the plugin manifest and the skills folder of the
                           Codex plugin; the Claude Code version is printed. (claude plugin validate does not read the Codex
                           manifest, .codex-plugin/plugin.json: item 3 checks that its version matches. Skipped, with a notice,
                           when Claude Code is not installed)
@@ -96,6 +97,11 @@ def claude_version(claude):
     return tuple(int(x) for x in m.groups()) if m else None
 
 
+def check_manifests():
+    code, last = run([sys.executable, "scripts/check_manifests.py"])
+    return code == 0, last
+
+
 def check_validate():
     claude = shutil.which("claude")
     if not claude:
@@ -124,7 +130,7 @@ def main():
     argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter).parse_args()
     checks = [("leak scan", check_leaks), ("skill lint", check_lint), ("Codex copy", check_codex_copy),
               ("tool names", check_tool_names), ("byte-order marks", check_bom), ("feed call checker", check_feed_checker),
-              ("plugin validation", check_validate)]
+              ("manifests", check_manifests), ("plugin validation", check_validate)]
     passed = failed = skipped = 0
     for name, fn in checks:
         try:
