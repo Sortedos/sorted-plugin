@@ -51,9 +51,11 @@ Each skill is one instruction file. The plugins install all of them; in an assis
 | [sorted-connect-meta-ads](skills/sorted-connect-meta-ads/SKILL.md) | Sending Meta ads (Facebook and Instagram) numbers through a feed (switched off for now) |
 | [sorted-connect-any-system](skills/sorted-connect-any-system/SKILL.md) | Sending numbers from any other system through a feed (switched off for now) |
 
-## Install one fixed version (recommended)
+## Install one fixed version (available once v1.3.6 is published)
 
-The commands below, as written, install whatever the main branch of this repository holds at that moment. A tagged release is a fixed version: it does not change after it is published, so it is the safer choice for a company. Each release is listed with its version number at https://github.com/Sortedos/sorted-plugin/releases and is named `v<version>`, for example `v1.3.6`. Use the version number from that page.
+**No release is published yet (15 October 2026): the `v1.3.6` commands below fail until one is, and the commands in the install sections that follow install whatever the main branch holds. This section starts to apply on the day the release appears at https://github.com/Sortedos/sorted-plugin/releases.**
+
+The commands in the install sections below, as written, install whatever the main branch of this repository holds at that moment. A tagged release is a fixed version: it does not change after it is published, so it is the safer choice for a company. Each release is listed with its version number at https://github.com/Sortedos/sorted-plugin/releases and is named `v<version>`, for example `v1.3.6`. Use the version number from that page.
 
 | You use | Replace the first command with |
 |---|---|
