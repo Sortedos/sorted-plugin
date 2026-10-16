@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.7
+
+Price change, 16 October 2026. The public price is now **$5 per user per month** (it was $35). Two skills state it: `sorted-about` and `sorted-subscription` now say `$5 per user per month`; nothing else in the skills changed. The Codex copy under `plugins/sorted/skills/` carries the same text. The product still states a company's exact price through `get_subscription`; a company with its own agreed price is unaffected.
+
 ## 1.3.6
 
 Security hardening after a review of this repository (15 October 2026). The skills' behaviour changes in five small ways; everything else in this version is new files and checks.
