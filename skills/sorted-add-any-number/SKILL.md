@@ -21,7 +21,7 @@ The catalogue (`available_numbers` in `get_dashboard_layout`) lists only what So
 3. Tell the owner what Sorted will read, in his language, and ask "Shall I enable it?". Wait for his yes.
 4. Call `enable_number` with only the `confirm_token` (it works once, for 10 minutes).
 5. Give Sorted time to read it, then call `get_dashboard_layout` with part "numbers"; look again later until the number is in `available_numbers`. Do not say it is there before it is, and promise no time.
-6. Put it on the dashboard with `update_dashboard_layout`, change `add_number`, `kpi` set to its exact label: preview, his yes, then only the `confirm_token`, as in `sorted-organise-dashboard`.
+6. Put it on the dashboard with `update_dashboard_layout`, change `add_number` with `section` (the area id shown next to the number in `get_dashboard_layout` part "numbers") and `kpi` (its exact label): preview, his yes, then only the `confirm_token`, as in `sorted-organise-dashboard`. On Odoo 17 and later a sale order's state is "sale" (there is no "done"), so state = sale is enough.
 
 **Never run two enables together.** Saving one makes the other's `confirm_token` stale. For several numbers, finish steps 2 to 4 for one before you preview the next.
 
