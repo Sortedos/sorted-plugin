@@ -41,7 +41,7 @@ Show ONE plan as a table: system | what Sorted does | when the numbers arrive. E
 
 ## 5. Choose the numbers
 
-What only the owner knows: which numbers matter to them and how often they want them. Then call `get_overview` and report only the numbers it returns, with their units and snapshot time. To show or hide cards later, see `sorted-organise-dashboard`.
+What only the owner knows: which numbers matter to them and how often they want them. Then call `get_overview` and report only the numbers it returns, with their units and snapshot time. To show or hide cards later, see `sorted-organise-dashboard`; for a number Sorted lacks, `sorted-add-any-number`.
 
 ## 6. Close with a list
 

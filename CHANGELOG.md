@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.8
+
+A new skill and a longer reach for owner-defined numbers, 18 October 2026. An assistant told an owner it could not add product-level sales or stock to the dashboard because they were "not in the catalogue". That was wrong: the owner tools `preview_number` and `enable_number` define a read-only number from any Odoo model, and no skill taught the assistant so.
+
+- **New skill `sorted-add-any-number`** (15 skills now). When the owner wants a number, list or breakdown that `available_numbers` does not hold (sales or stock by product, late deliveries, open quotes or purchase orders, anything in his Odoo), the assistant defines it itself: `preview_number`, the owner's yes, `enable_number`, one number at a time, then waits for it to appear in `available_numbers` and adds it with `update_dashboard_layout` (`add_number`). It carries four worked definitions, the repair for "could not read" (the same id again, corrected), and when `request_new_number` is the right answer instead (a system that is not Odoo, something a definition cannot say, a member who asks). Only the owner can enable a number.
+- **Periods up to 12 months.** An owner-defined number may now be counted over `last_90`, `last_180` or `last_365` as well as `today`, `last_7`, `last_30`, `this_month` and `all_time`. The skill lists them. They need the matching Sorted website version, which accepts them; this repository only names them in the skill, and until the website is updated its refusal lists the periods it knows.
+- **Pointers.** `sorted-organise-dashboard`, `sorted-connect-odoo` and `sorted-onboard` now send the assistant to the new skill for a number Sorted does not show, and `sorted-connect-odoo` no longer lists "a number Sorted does not show" as a reason to send numbers through a feed. The Codex copy under `plugins/sorted/skills/` carries the same text.
+- Lint (`scripts/lint_skills.mjs`): the new skill is expected, with eight required lines (not a dead end, preview then the owner's yes then enable, owner only, never two enables together, the 12-month periods, wait for `available_numbers`, the same-id repair, when to ask the team).
+
 ## 1.3.7
 
 Price change, 16 October 2026. The public price is now **$5 per user per month** (it was $35). Two skills state it: `sorted-about` and `sorted-subscription` now say `$5 per user per month`; nothing else in the skills changed. The Codex copy under `plugins/sorted/skills/` carries the same text. The product still states a company's exact price through `get_subscription`; a company with its own agreed price is unaffected.

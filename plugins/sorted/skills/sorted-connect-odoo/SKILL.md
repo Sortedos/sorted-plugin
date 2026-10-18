@@ -5,7 +5,7 @@ description: Read the owner's Odoo numbers (invoiced sales, who owes the company
 
 # Odoo into Sorted, through a feed
 
-Sorted can read Odoo itself (Connections page, https://sortedos.com/connections), every hour, with the records behind each number. **Offer that first.** Use this skill when Sorted cannot connect, for a number Sorted does not show, or when the owner prefers their own assistant to read.
+Sorted can read Odoo itself (Connections page, https://sortedos.com/connections), every hour, with the records behind each number. **Offer that first.** For a number Sorted does not show, use `sorted-add-any-number`. Use this skill when Sorted cannot connect, or when the owner prefers their own assistant to read.
 
 Here you read the numbers with the owner's read-only access and send them through a **feed**: a named area on their dashboard that you may send numbers into, approved by them once. Sorted cannot check these numbers: the dashboard labels them "sent by your assistant, not read by Sorted", and the owner is responsible for them. Tell them so before you start.
 
