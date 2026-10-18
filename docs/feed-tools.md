@@ -1,6 +1,6 @@
 # The feed tools, in one page
 
-**Switched off for now (11 October 2026):** feeds are not available to companies yet, so these tools normally do not appear in an assistant. This page describes the later feature.
+**Open to every company (since 13 October 2026).** The four tools below appear in the owner's assistant; an owner's yes is still required before a feed is created.
 
 A **feed** is a named area on a company's Sorted dashboard that the owner's own assistant may send numbers into. Sorted reads systems such as Odoo, Shopify, Google Ads and Google Analytics itself; feeds are for numbers it does not read, and for those systems when Sorted's own connection cannot reach the account. The same facts in machine-readable form: [`feed-tools.json`](feed-tools.json).
 

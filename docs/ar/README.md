@@ -30,9 +30,9 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 - يطلع مين عليه فلوس للشركة ويكتب رسايل تذكير مؤدبة.
 - يلاقي فين نظامين مختلفين (زي الدفاتر والبنك) ويطلع السجلات اللي ورا الفرق.
 - يساعد صاحب الشركة يوصّل Odoo أو Shopify أو Google Ads أو Google Analytics، علشان Sorted يقراهم بنفسه.
-- **أرقام من أنظمة مش بيقراها Sorted بنفسه** (إعلانات Meta، نظام الكاشير، تطبيق التوصيل) لسه مش متاحة. إرسال الأرقام لـ Sorted (الـ feed) مقفول دلوقتي وهييجي بعدين؛ اسأل على info@sortedos.com لو محتاجه. النهارده Sorted بيقرا Odoo و Shopify و Google Ads و Google Analytics بنفسه.
+- **أرقام من أنظمة مش بيقراها Sorted بنفسه** (إعلانات Meta، نظام الكاشير، تطبيق التوصيل) المساعد الذكي بتاع صاحب الشركة يقدر يبعتها لـ Sorted من خلال "feed". الـ feed مفتوح لكل الشركات. المساعد بيقترح الـ feed، وصاحب الشركة بيشوف المعاينة ويقول آه، والشاشة بتكتب إن الأرقام دي "اتبعتت من المساعد" لأن Sorted مش بيقدر يراجعها. النهارده Sorted بيقرا Odoo و Shopify و Google Ads و Google Analytics بنفسه.
 
-الملاحظات التقنية للخاصية اللي جاية بعدين: [docs/feed-tools.md](../feed-tools.md) (بالإنجليزي). قايمة الـ 15 skill وكل واحدة بتعمل إيه: في [الصفحة الإنجليزي](../../README.md#the-15-skills).
+الملاحظات التقنية: [docs/feed-tools.md](../feed-tools.md) (بالإنجليزي). قايمة الـ 15 skill وكل واحدة بتعمل إيه: في [الصفحة الإنجليزي](../../README.md#the-15-skills).
 
 ## التركيب: Codex
 
