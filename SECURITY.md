@@ -8,13 +8,13 @@ Do not open a public issue for a security problem. Write to info@sortedos.com, s
 
 A client who runs `codex plugin marketplace add Sortedos/sorted-plugin` or `claude plugin marketplace add Sortedos/sorted-plugin` gets the files of this repository's **main branch as they are at that moment**, and gets later changes when the plugin updates. Those files are instructions for an AI assistant (the skills) and one connection address, `https://sortedos.com/api/mcp`. They are not a program: there is no script, hook or command in the plugin. But the instructions decide what the assistant does while the owner's Odoo key is in its session, so whoever can change them can change what the assistant does for every client. That is the thing to protect; the protections are listed below, with their status.
 
-### Install one fixed version (available once v1.3.7 is published)
+### Install one fixed version (available once v1.3.8 is published)
 
-**Status on 15 October 2026: no release or tag exists yet, so the commands below fail until the first one is published; until then the main branch is what a client gets.** When a release exists, install it instead of the main branch. A release is a tag named `v<version>` (for example `v1.3.7`), listed at https://github.com/Sortedos/sorted-plugin/releases. A release tag is meant to be cut from a commit that passed the checks and never moved afterwards.
+**Status on 15 October 2026: no release or tag exists yet, so the commands below fail until the first one is published; until then the main branch is what a client gets.** When a release exists, install it instead of the main branch. A release is a tag named `v<version>` (for example `v1.3.8`), listed at https://github.com/Sortedos/sorted-plugin/releases. A release tag is meant to be cut from a commit that passed the checks and never moved afterwards.
 
 ```
-codex plugin marketplace add Sortedos/sorted-plugin --ref v1.3.7
-claude plugin marketplace add Sortedos/sorted-plugin#v1.3.7
+codex plugin marketplace add Sortedos/sorted-plugin --ref v1.3.8
+claude plugin marketplace add Sortedos/sorted-plugin#v1.3.8
 ```
 
 (`--ref` is listed by `codex plugin marketplace add --help`; the `#` form is what Claude Code's own marketplace page documents. Both were run with a branch name on 15 October 2026; see the README for what was and was not tested.) To update, install the newer release the same way.

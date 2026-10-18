@@ -95,6 +95,9 @@ const ALLOWED_AUTHORITIES = [
 // Example hosts the skills may write WITHOUT a scheme to show what an owner's own address looks like. They are not allowed
 // after https://, which stays limited to the list above.
 const EXAMPLE_BARE_HOSTS = ["yourstore.myshopify.com"];
+// Odoo model names (and the one-hop field "location_id.usage") that sorted-add-any-number writes in its worked examples. They are dotted words that are not addresses; each is
+// matched whole, so a look-alike host such as "sale.report.evil.example" is still caught. An address written with https:// is still checked by the rule above.
+const ODOO_NAMES = ["sale.report", "sale.order", "stock.quant", "stock.picking", "purchase.order", "id.usage"];
 // Endings that make a dotted word an address, and not a file name such as SKILL.md or a version such as 1.3.0.
 const ADDRESS_ENDINGS = new Set(["com", "net", "org", "io", "ai", "co", "app", "dev", "eg", "sa", "me", "info", "xyz", "ly", "gov", "edu",
   "biz", "us", "uk", "ae", "tv", "cc", "tk", "ml", "ga", "cf", "gq", "top", "site", "online", "shop", "store", "cloud", "link", "click",
@@ -151,7 +154,9 @@ const CONNECT_TOOLS = ["connect_odoo"]; // saves an Odoo connection after the ow
 const KNOWN_TOOLS = new Set([...READ_TOOLS, ...FEED_TOOLS, ...CONNECT_TOOLS]);
 // Words in backticks that look like tool names but are fields, units or skill names, not tools.
 const NOT_TOOLS = new Set(["confirm_token", "fresh_hours", "daily_cap", "as_of", "billing_required", "billing_note", "pay_here",
-  "read_orders", "read_products", "read_reports", "ads_read", "read_insights", "available_numbers"]);
+  "read_orders", "read_products", "read_reports", "ads_read", "read_insights", "available_numbers",
+  // fields of a number's definition, a field of a tool's answer, a change name and a period (sorted-add-any-number)
+  "will_read", "group_by", "date_field", "currency_field", "this_month", "all_time", "add_number", "add_to_page", "tables_and_charts"]);
 // ======================================================================================================
 
 const SECRET_WORD = new RegExp(`\\b${SECRET_REF}\\b`, "i");
@@ -207,7 +212,7 @@ export function lint(text) {
   for (const m of rest.matchAll(SPELLED_DOT_RE)) problems.push(`address not on the fixed list (dot spelled out): ${m[0]}`);
   for (const m of rest.matchAll(BARE_HOST_RE)) {
     const host = m[0];
-    if (!looksLikeAddress(host, rest[m.index + host.length]) || ALLOWED_AUTHORITIES.includes(host) || EXAMPLE_BARE_HOSTS.includes(host)) continue;
+    if (!looksLikeAddress(host, rest[m.index + host.length]) || ALLOWED_AUTHORITIES.includes(host) || EXAMPLE_BARE_HOSTS.includes(host) || ODOO_NAMES.includes(host)) continue;
     problems.push(`address not on the fixed list (written without https://): ${host}`);
   }
   if (REASONING.test(text)) problems.push(`asks the assistant to show its reasoning: "${(text.match(REASONING) || [""])[0]}"`);
@@ -384,7 +389,7 @@ console.log(`ok - examples: the lint catches ${caught} of ${BAD.length} bad exam
 // 2. Every skill.
 // ---------------------------------------------------------------------------------------------------------------------------
 const EXPECTED = ["sorted-onboard", "sorted-about", "sorted-business-review", "sorted-cash-and-collections", "sorted-connect-systems", "sorted-fix-conflicts",
-  "sorted-organise-dashboard", "sorted-subscription", "sorted-connect-odoo", "sorted-connect-shopify", "sorted-connect-google-ads",
+  "sorted-add-any-number", "sorted-organise-dashboard", "sorted-subscription", "sorted-connect-odoo", "sorted-connect-shopify", "sorted-connect-google-ads",
   "sorted-connect-google-analytics", "sorted-connect-meta-ads", "sorted-connect-any-system"];
 const FEED_SKILLS = new Set(["sorted-connect-odoo", "sorted-connect-shopify", "sorted-connect-google-ads", "sorted-connect-google-analytics",
   "sorted-connect-meta-ads", "sorted-connect-any-system"]);
@@ -410,6 +415,20 @@ const FEED_RULES = [
 // starts a new chat. The skill that every other feed route falls back on says so BEFORE it concludes that feeds are off, in words that name no assistant (nothing is verified about Claude or Codex).
 const ANY_SYSTEM_RULES = [
   ["asks the owner once to press Refresh tools in Sorted's plugin settings and start a new chat before it concludes that feeds are not switched on", /not among your Sorted tools, ask the owner once to press Refresh tools in Sorted's plugin settings[^.]*start a new chat[^.]*feeds are not switched on/],
+];
+
+// 18 October 2026 (an assistant told an owner it could not add product sales or stock because they were "not in the catalogue"; an owner can define a number from any Odoo model himself).
+// The skill that teaches it must keep: a missing catalogue number is not a dead end, the two tools in their order with the owner's yes, one number at a time, the 12-month periods,
+// the same-id repair for "could not read", and when the Sorted team is the right answer instead.
+const ADD_ANY_NUMBER_RULES = [
+  ["says a number missing from the catalogue is not a dead end and not a reason to send the owner to the Sorted team", /It is not the limit\.[\s\S]*Never tell the owner a number is impossible, or send him to the Sorted team, just because it is not in the catalogue/],
+  ["calls `preview_number`, asks \"Shall I enable it?\" and only then calls `enable_number` with the confirm_token", /`preview_number`[\s\S]*Shall I enable it\?[\s\S]*Wait for his yes[\s\S]*`enable_number` with only the `confirm_token`/],
+  ["says only the owner can enable a number", /Only the \*\*owner\*\* can enable a number/],
+  ["says never to run two enables together", /Never run two enables together/],
+  ["lists the periods up to 12 months", /`last_90`, `last_180`, `last_365`/],
+  ["waits until the number is in available_numbers before saying it is there", /until the number is in `available_numbers`\. Do not say it is there before it is/],
+  ["repairs \"could not read\" with the same id", /could not read[\s\S]*the \*\*same id\*\*/],
+  ["names request_new_number for a system that is not Odoo", /`request_new_number`[^.]*only for: a system that is not Odoo/],
 ];
 
 // What the entry-point skill must keep (the discovery-first flow): the one first question, a look at what Sorted already has, one plan
@@ -512,6 +531,7 @@ for (const d of dirs) {
     for (const [why, re] of FEED_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
   }
   if (d === "sorted-connect-any-system") for (const [why, re] of ANY_SYSTEM_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
+  if (d === "sorted-add-any-number") for (const [why, re] of ADD_ANY_NUMBER_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
   if (d === "sorted-onboard") for (const [why, re] of ONBOARD_RULES) if (!re.test(text)) problems.push(`does not ${why}`);
   if (SECURITY_SKILLS.has(d)) for (const [why, re] of SECURITY_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
   if (KEY_BOX_SKILLS.has(d)) for (const [why, re] of KEY_BOX_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);

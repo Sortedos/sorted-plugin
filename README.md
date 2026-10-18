@@ -4,7 +4,7 @@
 
 This repository lets an AI assistant work with Sorted. It holds:
 
-- **14 skills**: short instruction files that teach an assistant how to do one job well with Sorted, such as getting a company started, a business review, a collections list, finding numbers that disagree, or connecting a system.
+- **15 skills**: short instruction files that teach an assistant how to do one job well with Sorted, such as getting a company started, a business review, a collections list, finding numbers that disagree, or connecting a system.
 - **The Codex plugin** (advanced, support only, with a personal key) and **the Claude Code plugin**, which install those skills together with the connection to Sorted.
 - **A guide for ChatGPT**, which connects to Sorted directly.
 
@@ -30,7 +30,7 @@ Pick the path for the assistant you use. A terminal is the text window where you
 - Help the owner connect Odoo, Shopify, Google Ads or Google Analytics, so that Sorted reads them itself.
 - **Numbers from systems Sorted does not read itself** (Meta ads, a point-of-sale system, a delivery app) are not available yet. Sending numbers into Sorted (a "feed") is switched off for now and comes later; ask at info@sortedos.com if you need it. Today Sorted reads Odoo, Shopify, Google Ads and Google Analytics itself. The technical notes for the later feature are in [docs/feed-tools.md](docs/feed-tools.md).
 
-## The 14 skills
+## The 15 skills
 
 Each skill is one instruction file. The plugins install all of them; in an assistant without the plugin, open the file, copy all of its text and paste it as your first message.
 
@@ -42,6 +42,7 @@ Each skill is one instruction file. The plugins install all of them; in an assis
 | [sorted-cash-and-collections](skills/sorted-cash-and-collections/SKILL.md) | Cash, who owes the business money, what is overdue, polite reminder drafts |
 | [sorted-fix-conflicts](skills/sorted-fix-conflicts/SKILL.md) | Where two systems report different numbers, and the exact records behind the gap |
 | [sorted-organise-dashboard](skills/sorted-organise-dashboard/SKILL.md) | Hide, show, move or add cards and pages on the dashboard |
+| [sorted-add-any-number](skills/sorted-add-any-number/SKILL.md) | Add any number, list or breakdown from the owner's Odoo to Sorted (sales or stock by product, late deliveries, open quotes), up to 12 months back |
 | [sorted-subscription](skills/sorted-subscription/SKILL.md) | The trial, the plan and the payment link |
 | [sorted-connect-systems](skills/sorted-connect-systems/SKILL.md) | Connect Odoo, Shopify, Google Ads or Google Analytics so Sorted reads them itself |
 | [sorted-connect-odoo](skills/sorted-connect-odoo/SKILL.md) | Sending Odoo numbers through a feed (switched off for now; Sorted reads Odoo itself) |
@@ -51,18 +52,18 @@ Each skill is one instruction file. The plugins install all of them; in an assis
 | [sorted-connect-meta-ads](skills/sorted-connect-meta-ads/SKILL.md) | Sending Meta ads (Facebook and Instagram) numbers through a feed (switched off for now) |
 | [sorted-connect-any-system](skills/sorted-connect-any-system/SKILL.md) | Sending numbers from any other system through a feed (switched off for now) |
 
-## Install one fixed version (available once v1.3.7 is published)
+## Install one fixed version (available once v1.3.8 is published)
 
-**No release is published yet (15 October 2026): the `v1.3.7` commands below fail until one is, and the commands in the install sections that follow install whatever the main branch holds. This section starts to apply on the day the release appears at https://github.com/Sortedos/sorted-plugin/releases.**
+**No release is published yet (15 October 2026): the `v1.3.8` commands below fail until one is, and the commands in the install sections that follow install whatever the main branch holds. This section starts to apply on the day the release appears at https://github.com/Sortedos/sorted-plugin/releases.**
 
-The commands in the install sections below, as written, install whatever the main branch of this repository holds at that moment. A tagged release is a fixed version: it does not change after it is published, so it is the safer choice for a company. Each release is listed with its version number at https://github.com/Sortedos/sorted-plugin/releases and is named `v<version>`, for example `v1.3.7`. Use the version number from that page.
+The commands in the install sections below, as written, install whatever the main branch of this repository holds at that moment. A tagged release is a fixed version: it does not change after it is published, so it is the safer choice for a company. Each release is listed with its version number at https://github.com/Sortedos/sorted-plugin/releases and is named `v<version>`, for example `v1.3.8`. Use the version number from that page.
 
 | You use | Replace the first command with |
 |---|---|
-| Codex | `codex plugin marketplace add Sortedos/sorted-plugin --ref v1.3.7` |
-| Claude Code (terminal) | `claude plugin marketplace add Sortedos/sorted-plugin#v1.3.7` |
+| Codex | `codex plugin marketplace add Sortedos/sorted-plugin --ref v1.3.8` |
+| Claude Code (terminal) | `claude plugin marketplace add Sortedos/sorted-plugin#v1.3.8` |
 
-Then run the second command of your section as written. In Claude on the web or the desktop app, type `Sortedos/sorted-plugin#v1.3.7` where Route A asks for the repository (not tested). To move to a newer version later, repeat with the newer number.
+Then run the second command of your section as written. In Claude on the web or the desktop app, type `Sortedos/sorted-plugin#v1.3.8` where Route A asks for the repository (not tested). To move to a newer version later, repeat with the newer number.
 
 Tested on: Windows 11 with Codex 0.155.1 and Claude Code 2.1.300, 15 October 2026, in clean configuration folders: both forms fetched a named branch of this repository (`install-steps`) and added the marketplace. No release tag exists yet, so an install of a tag was not run, and neither was the install that follows the first command. Not tested: macOS, Linux. What stops anyone from changing a tag after it is published, and what protects the main branch, is described in [SECURITY.md](SECURITY.md).
 
@@ -162,7 +163,7 @@ On a Team or Enterprise plan, a Claude owner can limit which marketplaces are al
 
 1. In Claude, open **Customize**, then **Connectors**, click **+ Add**, then **Add custom connector**. Name it Sorted, enter the address `https://sortedos.com/api/mcp`, press **Continue**, keep the sign-in choices Claude suggests and press **Add**. On a Team or Enterprise plan, an owner of the Claude organisation adds it first under **Organization settings**, **Connectors**; members then find it under **Customize**, **Connectors** and click **Connect**. Anthropic's page shows each screen: https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp
 2. Sign in with your Sorted account when Claude asks, choose your company and press **Allow**.
-3. To use a skill, open its file from [the list of skills](#the-14-skills), copy all of its text and paste it as your first message.
+3. To use a skill, open its file from [the list of skills](#the-15-skills), copy all of its text and paste it as your first message.
 
 Tested on: nothing yet in a real Claude account. The menu names of both routes were checked against Anthropic's two pages on 10 October 2026 ("Use plugins in Claude" and "Get started with custom connectors using remote MCP"), and `claude plugin marketplace add Sortedos/sorted-plugin` worked from a terminal (see the Claude Code section). Not tested: adding the marketplace in Claude on the web or the desktop app, or connecting it to Sorted. Anthropic changes these menus often: if a screen differs, follow Anthropic's page.
 
