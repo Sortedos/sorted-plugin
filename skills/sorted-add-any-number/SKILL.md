@@ -5,6 +5,8 @@ description: Add any number, list or breakdown from the owner's Odoo to Sorted y
 
 # Add any number from the owner's Odoo
 
+No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-connected`.
+
 The catalogue (`available_numbers` in `get_dashboard_layout`) lists only what Sorted already collects. **It is not the limit.** The owner can define a new read-only number from any Odoo model, and Sorted then reads it every hour. Do it yourself. Never tell the owner a number is impossible, or send him to the Sorted team, just because it is not in the catalogue.
 
 ## Before you start

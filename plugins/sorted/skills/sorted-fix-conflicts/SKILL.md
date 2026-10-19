@@ -5,6 +5,8 @@ description: Find where two business systems report different numbers (e.g. book
 
 # Fix what doesn't match
 
+No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-connected`.
+
 1. Call `list_conflicts` (worst first).
 2. For every conflict marked `bad` or `warn`, call `get_conflict_records` with its id.
 3. Answer as a checklist, worst first:

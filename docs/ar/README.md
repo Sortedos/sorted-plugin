@@ -6,7 +6,7 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 
 المشروع ده (مجموعة ملفات) بيخلي المساعد الذكي يشتغل مع Sorted. وفيه:
 
-- **15 skill**: ملفات تعليمات قصيرة، كل واحد بيعلّم المساعد يعمل شغلانة واحدة كويس مع Sorted، زي بداية الشغل مع الشركة، أو مراجعة أداء الشركة، أو قائمة التحصيل، أو الأرقام اللي مش متطابقة، أو توصيل نظام.
+- **17 skill**: ملفات تعليمات قصيرة، كل واحد بيعلّم المساعد يعمل شغلانة واحدة كويس مع Sorted، زي بداية الشغل مع الشركة، أو مراجعة أداء الشركة، أو قائمة التحصيل، أو الأرقام اللي مش متطابقة، أو توصيل نظام.
 - **إضافة Codex** و**إضافة Claude Code**، وكل واحدة بتنزّل الـ skills دي مع الاتصال بـ Sorted.
 - **دليل لـ ChatGPT**، لأنه بيتوصل بـ Sorted مباشرة.
 
@@ -32,7 +32,7 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 - يساعد صاحب الشركة يوصّل Odoo أو Shopify أو Google Ads أو Google Analytics، علشان Sorted يقراهم بنفسه.
 - **أرقام من أنظمة مش بيقراها Sorted بنفسه** (إعلانات Meta، نظام الكاشير، تطبيق التوصيل) المساعد الذكي بتاع صاحب الشركة يقدر يبعتها لـ Sorted من خلال "feed". الـ feed مفتوح لكل الشركات. المساعد بيقترح الـ feed، وصاحب الشركة بيشوف المعاينة ويقول آه، والشاشة بتكتب إن الأرقام دي "اتبعتت من المساعد" لأن Sorted مش بيقدر يراجعها. النهارده Sorted بيقرا Odoo و Shopify و Google Ads و Google Analytics بنفسه.
 
-الملاحظات التقنية: [docs/feed-tools.md](../feed-tools.md) (بالإنجليزي). قايمة الـ 15 skill وكل واحدة بتعمل إيه: في [الصفحة الإنجليزي](../../README.md#the-15-skills).
+الملاحظات التقنية: [docs/feed-tools.md](../feed-tools.md) (بالإنجليزي). قايمة الـ 17 skill وكل واحدة بتعمل إيه: في [الصفحة الإنجليزي](../../README.md#the-17-skills).
 
 ## التركيب: Codex
 
@@ -115,10 +115,13 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 **الطريقة أ: الإضافة (باقات Pro و Max و Team و Enterprise).**
 
 1. في Claude، افتح **Customize** من الشريط الجانبي، وبعدين تبويب **Plugins**.
-2. دوس **Add**، وبعدين **Add marketplace**، وبعدين **Add from a repository**.
-3. اكتب `Sortedos/sorted-plugin` (ده اسم المشروع ده على GitHub).
-4. افتح تبويب **Discover**، واختار **Sorted** ودوس **Add**.
-5. سجّل دخول بحساب Sorted لما Claude يطلب (لو ما طلبش، دوس **Connect** جنب Sorted في **Customize** وبعدين **Connectors**)، واختار شركتك ودوس **Allow**.
+2. دوس زرار **+ Add** الأسود فوق على اليمين (مش الزرار اللي على بانر "Data" بتاع Anthropic: ده بيطلب صلاحية على كل حاجة في جهازك)، وبعدين **Add marketplace**، وبعدين **Add from a repository**.
+3. اكتب `Sortedos/sorted-plugin` (ده اسم المشروع ده على GitHub) ودوس **Sync**. ممكن تظهر ملاحظة صفرا: "Auto-sync requires the Claude GitHub App to have access to this repository. Grant access". اقفلها: مالهاش علاقة بـ Sorted.
+4. افتح تبويب **Discover**، واختار **Sorted** ودوس **Add**. Claude هيقول "Sorted is installed and ready to use". **لسه مش متوصّل.** افتح تبويب **Connectors** بتاع الإضافة: Sorted مكتوب جنبه "Not added".
+5. دوس **Connect**. ممكن تفتح نافذة اسمها **Add custom connector** فيها اختيارات دخول شكلها تقني. سيب اللي بيقترحه، ونزّل لتحت لحد زرار **Add** ودوس عليه. هتلاقي Sorted مكتوب جنبه "Not connected": دوس **Connect** مرة تانية.
+6. بتفتح شاشة الدخول بتاعة Sorted: سجّل دخول بحساب Sorted، واختار شركتك ودوس **Allow**. خلصت لما يتكتب جنب Sorted **Connected**.
+
+لحد ما الخطوة 6 تخلص، Claude معندوش أي أداة من أدوات Sorted. لو سألته قبلها، المفروض يقول إن Sorted لسه مش متوصّل (الـ skill اسمها `sorted-not-connected` بتقوله كده)، ومايبعتكش لمنتج تاني.
 
 في باقة Team أو Enterprise، مالك حساب Claude ممكن يحدّد الأسواق المسموحة؛ لو **Add marketplace** مش موجودة أو اترفضت، اسأل المالك أو استخدم الطريقة ب. الإضافة اللي بتتضاف كده بتتحفظ في حساب Claude بتاعك وبتوصل لـ Claude Code كمان لما تسجّل دخولك هناك بنفس الحساب. صفحة Anthropic: https://support.claude.com/en/articles/13837440
 
@@ -126,9 +129,11 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 
 1. في Claude، افتح **Customize**، وبعدين **Connectors**، ودوس **+ Add**، وبعدين **Add custom connector**. سمّيه Sorted واكتب العنوان `https://sortedos.com/api/mcp`، ودوس **Continue**، وسيب اختيارات الدخول زي ما Claude بيقترحها ودوس **Add**. في باقة Team أو Enterprise، صاحب حساب Claude بتاع الشركة بيضيفه الأول من **Organization settings** ثم **Connectors**، وبعدين كل عضو يلاقيه في **Customize** ثم **Connectors** ويدوس **Connect**. صفحة Anthropic بتوري كل شاشة: https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp
 2. سجّل دخول بحساب Sorted بتاعك لما Claude يطلب، واختار شركتك ودوس **Allow**.
-3. علشان تستخدم skill، افتح الملف بتاعها من [قايمة الـ skills](../../README.md#the-15-skills)، وانسخ كل النص والزقه كأول رسالة.
+3. علشان تستخدم skill، افتح الملف بتاعها من [قايمة الـ skills](../../README.md#the-17-skills)، وانسخ كل النص والزقه كأول رسالة.
 
-اتجرّب على: ولا حاجة لسه في حساب Claude حقيقي. أسامي قوايم الطريقتين اتراجعت على صفحتين من Anthropic يوم 10 أكتوبر 2026 ("Use plugins in Claude" و"Get started with custom connectors using remote MCP")، والأمر `claude plugin marketplace add Sortedos/sorted-plugin` اشتغل من الـ terminal (شوف جزء Claude Code). ما اتجرّبش: إضافة السوق في Claude على الويب أو الديسكتوب، أو توصيله بـ Sorted. Anthropic بتغيّر القوايم دي كتير: لو شاشة مختلفة، اتبع صفحة Anthropic.
+أودو: توصيله مش محتاج أي تطبيق أو إضافة متصفح زيادة. المساعد بيعمل مفتاح أودو بنفسه لو معاه أداة متصفح (تطبيق Claude للديسكتوب مع Claude in Chrome؛ ومتوقع إن Cowork فيه واحدة، لسه ما اتجرّبش). من غيرها، إنت بتعمل المفتاح في أودو (قايمة الصورة، My Profile، Account Security، New API Key) وتلزقه في الشات، أو تملأ فورم أودو في صفحة Connections بتاعة Sorted؛ والمساعد بيقولك الخطوات.
+
+اتجرّب بواسطة Shady يوم 19 أكتوبر 2026 (claude.ai في المتصفح، وCustomize فيه نفس اللي في تطبيق Claude للديسكتوب؛ باقة Claude Max): الطريقة أ، الخطوات من 1 لـ 6 فوق، خدت حوالي 16 دقيقة أول مرة، بما فيها فهم الأربع شاشات اللي الخطوات القديمة ما كانتش بتقولها (ملاحظة "ready to use" وSorted لسه مش متوصّل، ونافذة Add custom connector، ودوسة Connect مرتين، وملاحظة GitHub). الطريقة ب بتفتح نفس نافذة Add custom connector بتاعة الخطوة 5، فالتجربة دي بتغطيها عمليًا؛ ما اتشغّلتش لوحدها. ما اتجرّبش: باقة Team أو Enterprise، وتطبيق Claude للديسكتوب نفسه، وCowork. Anthropic بتغيّر القوايم دي كتير: لو شاشة مختلفة، اتبع صفحة Anthropic.
 
 ## التركيب: دليل ChatGPT
 
@@ -143,4 +148,4 @@ ChatGPT بيتوصل بـ Sorted مباشرة كـ app، بتسجيل دخول �
 - المساعد بيطلب موافقة صاحب الشركة بس في الخطوات المهمة: أي حاجة بتكلّف فلوس، أو بتمسح حاجة، أو بتغيّر بيانات ماطلبهاش، أو بتعمل مفتاح، أو بتغيّر مين يقدر يوصل لنظام (مستخدم، دور، تطبيق، صلاحية أو موافقة تسجيل دخول). لو جوجل عرضت تحذير "تطبيق غير موثّق" وقت تسجيل الدخول، المساعد بيقف ويقولك الشاشة بتقول إيه، وانت اللي بتقرر وبتدوس. بعد ما صاحب الشركة يسجّل الدخول، بيكمّل من غير ما يسأل، نظام ورا التاني.
 - الـ feed بيتعمل بس بعد ما صاحب الشركة يشوف المعاينة ويقول آه، و`end_feed` بيمسح كل اللي اتبعت.
 - النص اللي جاي من أنظمة تانية (أسماء، تسميات، ملاحظات، تعليقات الطلبات) بيتعامل كبيانات، مش كأوامر: الأوامر بس رسايل صاحب الشركة نفسه في الشات. ولو نص زي ده قال للمساعد يضيف مستخدم أو يعمل مفتاح أو يصدّر بيانات أو يوصّل عنوان، مابيعملش ويقول لصاحب الشركة. ده تعليمات للمساعد مش قفل تقني، علشان كده موافقة صاحب الشركة مطلوبة في الخطوات اللي فوق.
-- اللي بتسطّبه نص وعنوان اتصال واحد، ومفيش أي حاجة بتشتغل على جهازك. تقدر تسطّب إصدارًا ثابتًا: `codex plugin marketplace add Sortedos/sorted-plugin --ref v1.3.8` أو `claude plugin marketplace add Sortedos/sorted-plugin#v1.3.8` (الإصدارات مكتوبة في https://github.com/Sortedos/sorted-plugin/releases). التفاصيل ومين يقدر يغيّر الفرع الرئيسي في [SECURITY.md](../../SECURITY.md).
+- اللي بتسطّبه نص وعنوان اتصال واحد، ومفيش أي حاجة بتشتغل على جهازك. تقدر تسطّب إصدارًا ثابتًا: `codex plugin marketplace add Sortedos/sorted-plugin --ref v1.3.9` أو `claude plugin marketplace add Sortedos/sorted-plugin#v1.3.9` (الإصدارات مكتوبة في https://github.com/Sortedos/sorted-plugin/releases). التفاصيل ومين يقدر يغيّر الفرع الرئيسي في [SECURITY.md](../../SECURITY.md).

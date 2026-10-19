@@ -5,6 +5,8 @@ description: Monthly (or any-time) business review from Sorted's live numbers - 
 
 # Business review
 
+No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-connected`.
+
 1. Call `get_overview`. Note the snapshot time and every section that is not reporting.
 2. Call `list_conflicts`.
 3. For the one or two sections that matter most to the question, call `get_section` for detail.

@@ -5,6 +5,8 @@ description: Organise the signed-in person's own Sorted dashboard into useful pa
 
 # Organise a Sorted dashboard
 
+No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-connected`.
+
 Use the connected Sorted MCP tools; tool prefixes vary by host. Read the server's using-sorted guide resource if resources are supported. Never use another company's names, figures or organisation as the current company's data. Every person in a company has their own dashboard layout, so any signed-in person, owner or member, may change theirs; it never changes anyone else's. Do not refuse a member because they are not the owner.
 
 1. Read get_overview and get_dashboard_layout. Identify actual company scope, freshness, available numbers, pages, automatic system pages and directories.
