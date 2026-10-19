@@ -566,7 +566,7 @@ const ODOO_RULES = [
 ];
 
 // 19 October 2026 (issue 235): an owner's first answer printed raw tool output and tool names. Every skill tells the assistant to talk in plain words.
-const PLAIN_WORDS_RULE = /never show the owner raw tool output, JSON, tool names or error codes/;
+const PLAIN_WORDS_RULE = /never quote raw tool output, JSON, tool names or error codes to the person you are helping/;
 const ODOO_FEED_RULES = [
   ["never stops at the owner's Odoo plan and goes to the feed route only when Odoo itself refuses", /Never stop at the owner's Odoo plan[^.]*carry on with option 1 and let Odoo answer\. Only if Odoo itself refuses[^.]*tell the owner what Odoo actually answered, in plain words, then go to option 2/],
 ];

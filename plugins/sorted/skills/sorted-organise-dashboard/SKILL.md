@@ -18,4 +18,4 @@ These tools organise presentation, not source invoices, orders, stock, permissio
 
 A host may render open_dashboard as a widget or only return text and a link. Do not claim an on-screen view opened unless it did. MCP connection does not install this skill automatically in hosts without plugin support.
 
-Talk in plain words: never show the owner raw tool output, JSON, tool names or error codes; say what happened in one plain sentence. Explain a technical term in a few words the first time you use it.
+Talk in plain words: never quote raw tool output, JSON, tool names or error codes to the person you are helping; say what happened in one plain sentence. Explain a technical term in a few words the first time you use it.

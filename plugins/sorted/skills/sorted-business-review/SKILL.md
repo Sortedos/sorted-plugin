@@ -20,4 +20,4 @@ No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-co
 5. Quote every figure with its currency and the snapshot time. Never invent a number that no tool returned; say "not available" instead.
 6. If a tool returns `billing_required`, follow the `sorted-subscription` skill instead.
 
-Talk in plain words: never show the owner raw tool output, JSON, tool names or error codes; say what happened in one plain sentence. Explain a technical term in a few words the first time you use it.
+Talk in plain words: never quote raw tool output, JSON, tool names or error codes to the person you are helping; say what happened in one plain sentence. Explain a technical term in a few words the first time you use it.

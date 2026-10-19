@@ -16,4 +16,4 @@ No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-co
 4. If a conflict has no records, say the gap is older than the recent history and link the `more` entry.
 5. Keep it to what can be acted on today.
 
-Talk in plain words: never show the owner raw tool output, JSON, tool names or error codes; say what happened in one plain sentence. Explain a technical term in a few words the first time you use it.
+Talk in plain words: never quote raw tool output, JSON, tool names or error codes to the person you are helping; say what happened in one plain sentence. Explain a technical term in a few words the first time you use it.
