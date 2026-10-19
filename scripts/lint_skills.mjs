@@ -562,7 +562,7 @@ const ODOO_RULES = [
   ["treats the form fallback's administrator-key and already-connected notices as information, not errors", /administrator's-key and already-connected notices are information, not errors/],
   ["confirms with list_connections once connect_odoo has answered", /then confirm with `list_connections`/],
   ["never stops at the owner's Odoo plan", /Never decide from the owner's Odoo plan that Sorted cannot connect: do not stop/],
-  ["reports what Odoo actually answered and offers the feed route only when Odoo itself refuses", /what Odoo actually answered, in plain words[^.]*\. Only when Odoo itself refuses the key[^.]*feed/],
+  ["reports what Odoo actually answered and offers the feed route only when Odoo itself refuses", /what Odoo actually answered, in plain words[^.]*\. Only when Odoo itself refuses the key[^.]*you read the Odoo screens and send the numbers/],
 ];
 
 // 19 October 2026 (issue 235): an owner's first answer printed raw tool output and tool names. Every skill tells the assistant to talk in plain words.
