@@ -5,6 +5,8 @@ description: Find where two business systems report different numbers (e.g. book
 
 # Fix what doesn't match
 
+No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-connected`.
+
 1. Call `list_conflicts` (worst first).
 2. For every conflict marked `bad` or `warn`, call `get_conflict_records` with its id.
 3. Answer as a checklist, worst first:
@@ -13,3 +15,5 @@ description: Find where two business systems report different numbers (e.g. book
    - **Next step** - who in the team should fix it and what exactly they do.
 4. If a conflict has no records, say the gap is older than the recent history and link the `more` entry.
 5. Keep it to what can be acted on today.
+
+Talk in plain words: never quote raw tool output, JSON, tool names or error codes to the person you are helping; say what happened in one plain sentence. Explain a technical term in a few words the first time you use it.

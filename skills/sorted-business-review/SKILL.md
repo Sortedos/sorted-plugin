@@ -5,6 +5,8 @@ description: Monthly (or any-time) business review from Sorted's live numbers - 
 
 # Business review
 
+No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-connected`.
+
 1. Call `get_overview`. Note the snapshot time and every section that is not reporting.
 2. Call `list_conflicts`.
 3. For the one or two sections that matter most to the question, call `get_section` for detail.
@@ -17,3 +19,5 @@ description: Monthly (or any-time) business review from Sorted's live numbers - 
    - **Three actions for this week** - concrete, each tied to a number above.
 5. Quote every figure with its currency and the snapshot time. Never invent a number that no tool returned; say "not available" instead.
 6. If a tool returns `billing_required`, follow the `sorted-subscription` skill instead.
+
+Talk in plain words: never quote raw tool output, JSON, tool names or error codes to the person you are helping; say what happened in one plain sentence. Explain a technical term in a few words the first time you use it.
