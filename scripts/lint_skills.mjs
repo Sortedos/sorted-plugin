@@ -156,6 +156,10 @@ const STALE_SECOND_CONNECTION = /\b(?:second|2nd|another|extra)\s+Odoo\s+connect
 //     continue in a mode or app that has one". On Claude on the web it sent an owner to install a desktop app and a browser extension before offering the way that needs nothing.
 const STALE_BROWSER_OVERRIDE = /Never hand the owner technical steps/i;
 
+// 7d. A wrong rule that was once written and removed by the product owner's ruling (19 October 2026): an up-front stop saying Odoo Online's One App Free or Standard
+//     plan has no external API. The owner makes the key and tries it; only if Odoo itself refuses does the assistant offer the feed route, with Odoo's actual answer.
+const STALE_NO_API_STOP = /(?:One App Free|Standard)[^.\n]*\bno external API\b|\bno external API\b[^.\n]*(?:cannot connect|stop\b|start at option 2)/i;
+
 // 8. Every tool name a skill writes in backticks must be a real tool of the Sorted connection.
 const READ_TOOLS = ["get_overview", "get_section", "list_conflicts", "get_conflict_records", "get_subscription", "open_dashboard",
   "daily_brief", "list_connections", "get_dashboard_layout", "update_dashboard_layout", "undo_dashboard_change", "request_new_number",
@@ -232,6 +236,7 @@ export function lint(text) {
   if (VENDORS.test(noModeNames)) problems.push(`names an assistant vendor: "${(noModeNames.match(VENDORS) || [""])[0]}"`);
   if (PLACEHOLDER.test(text)) problems.push(`contains a placeholder: "${(text.match(PLACEHOLDER) || [""])[0]}"`);
   if (STALE_BROWSER_OVERRIDE.test(text)) problems.push(`tells the assistant never to hand the owner technical steps without a browser tool (the no-browser Odoo route needs nothing installed): "${(text.match(STALE_BROWSER_OVERRIDE) || [""])[0]}"`);
+  if (STALE_NO_API_STOP.test(text)) problems.push(`stops the owner up front because of the Odoo plan (the owner must be let to try the key; the feed route only when Odoo itself refuses): "${(text.match(STALE_NO_API_STOP) || [""])[0]}"`);
   if (STALE_SECOND_CONNECTION.test(text)) problems.push(`says a second Odoo connection can be added (connecting again replaces the old one): "${(text.match(STALE_SECOND_CONNECTION) || [""])[0]}"`);
   for (const m of text.matchAll(/`([a-z]+(?:_[a-z]+)+)`/g)) {
     if (!KNOWN_TOOLS.has(m[1]) && !NOT_TOOLS.has(m[1]) && !m[1].startsWith("sorted_")) problems.push(`names a tool that does not exist: ${m[1]}`);
@@ -349,6 +354,8 @@ const BAD = [
   "Take a screenshot of the key box and read the key from it.",
   // Connecting an Odoo again replaces its connection: there is no second connection for the same database.
   "To add a company, add a second Odoo connection with only the missing companies.",
+  "Odoo's documentation says Odoo Online's One App Free and Standard plans have no external API: Sorted cannot connect there; say so and stop.", // the up-front plan stop (19 Oct 2026 ruling)
+  "Odoo Online's One App Free and Standard plans have no external API, so option 1 will not work there: start at option 2.",
   "Sorted allows two Odoo connections on one database.",
 ];
 const GOOD = [
@@ -554,6 +561,14 @@ const ODOO_RULES = [
   ["warns that a company's cards are labelled by its exact Odoo name, so its brand label can be lost", /exact Odoo name[^.]*brand label/],
   ["treats the form fallback's administrator-key and already-connected notices as information, not errors", /administrator's-key and already-connected notices are information, not errors/],
   ["confirms with list_connections once connect_odoo has answered", /then confirm with `list_connections`/],
+  ["never stops at the owner's Odoo plan", /Never decide from the owner's Odoo plan that Sorted cannot connect: do not stop/],
+  ["reports what Odoo actually answered and offers the feed route only when Odoo itself refuses", /what Odoo actually answered, in plain words[^.]*\. Only when Odoo itself refuses the key[^.]*feed/],
+];
+
+// 19 October 2026 (issue 235): an owner's first answer printed raw tool output and tool names. Every skill tells the assistant to talk in plain words.
+const PLAIN_WORDS_RULE = /never show the owner raw tool output, JSON, tool names or error codes/;
+const ODOO_FEED_RULES = [
+  ["never stops at the owner's Odoo plan and goes to the feed route only when Odoo itself refuses", /Never stop at the owner's Odoo plan[^.]*carry on with option 1 and let Odoo answer\. Only if Odoo itself refuses[^.]*tell the owner what Odoo actually answered, in plain words, then go to option 2/],
 ];
 
 const dirs = readdirSync(SKILLS).filter((d) => statSync(join(SKILLS, d)).isDirectory()).sort();
@@ -574,13 +589,15 @@ for (const d of dirs) {
     if (!desc || desc[1].trim().length < 40) problems.push("frontmatter has no real description (40 characters at least)");
   }
   const words = (text.match(/\S+/g) || []).length;
-  if (words > 1300) problems.push(`over 1,300 words: ${words}`);
+  if (words > 1450) problems.push(`over 1,450 words: ${words}`);
   problems.push(...lint(text));
   if (FEED_SKILLS.has(d)) {
     for (const tool of FEED_TOOLS) if (!text.includes(`\`${tool}\``)) problems.push(`does not name the tool ${tool}`);
     for (const [why, re] of FEED_SECTIONS) if (!re.test(text)) problems.push(`has no section on ${why}`);
     for (const [why, re] of FEED_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
   }
+  if (!PLAIN_WORDS_RULE.test(text)) problems.push("does not tell the assistant to talk in plain words and never show raw tool output, JSON, tool names or error codes");
+  if (d === "sorted-connect-odoo") for (const [why, re] of ODOO_FEED_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
   if (d === "sorted-connect-any-system") for (const [why, re] of ANY_SYSTEM_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
   if (d === "sorted-add-any-number") for (const [why, re] of ADD_ANY_NUMBER_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
   if (d === "sorted-onboard") for (const [why, re] of ONBOARD_RULES) if (!re.test(text)) problems.push(`does not ${why}`);

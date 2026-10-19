@@ -15,3 +15,5 @@ No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-co
    - **Top 5 we owe** - supplier, amount.
    - **Chase list** - for the top overdue customers, a short, polite reminder message in the user's language (Arabic or English, match the user), ready to send.
 4. Never invent balances. If a table is missing, say so.
+
+Talk in plain words: never show the owner raw tool output, JSON, tool names or error codes; say what happened in one plain sentence. Explain a technical term in a few words the first time you use it.

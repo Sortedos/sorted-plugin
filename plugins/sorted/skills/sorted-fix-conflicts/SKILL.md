@@ -15,3 +15,5 @@ No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-co
    - **Next step** - who in the team should fix it and what exactly they do.
 4. If a conflict has no records, say the gap is older than the recent history and link the `more` entry.
 5. Keep it to what can be acted on today.
+
+Talk in plain words: never show the owner raw tool output, JSON, tool names or error codes; say what happened in one plain sentence. Explain a technical term in a few words the first time you use it.
