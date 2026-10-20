@@ -17,7 +17,7 @@ No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-co
    - **Who owes whom** - customers owe us, we owe suppliers, overdue part.
    - **Numbers that disagree** - each open conflict in one line: which two systems, how far apart, which to trust.
    - **Three actions for this week** - concrete, each tied to a number above.
-5. Quote every figure with its currency and the snapshot time. Never invent a number that no tool returned; say "not available" instead. A number that lives in the owner's Odoo is `sorted-add-any-number`; for anything else the owner wants that is not in Sorted, offer once to send it to the Sorted team with `request_new_number`, and tell them it is usually added in under 24 hours (not guaranteed).
+5. Quote every figure with its currency and the snapshot time. Never invent a number that no tool returned; say "not available" instead. A number that lives in the owner's Odoo is `sorted-add-any-number`; for anything else the owner wants that is not in Sorted, offer once per conversation, in one sentence, to send it to the Sorted team with `request_new_number` (usually added in under 24 hours, not guaranteed); send it only if the owner says yes.
 6. If a tool returns `billing_required`, follow the `sorted-subscription` skill instead.
 
 Answer in the language the owner writes in. For Egyptian Arabic, answer in natural Egyptian Arabic, right-to-left, and keep numbers in Latin digits with their units.

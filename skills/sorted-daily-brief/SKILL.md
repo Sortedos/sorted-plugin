@@ -17,7 +17,7 @@ No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-co
 4. If it says there is no data yet, say so plainly: either nothing is connected yet (offer `sorted-onboard`) or the first numbers have not arrived (they come within the hour of connecting). Do not fill the gap with anything else.
 5. If a tool returns `billing_required`, follow `sorted-subscription`.
 6. End with at most one next step, tied to a number above.
-7. If the owner wants a number the brief does not hold: one that lives in his Odoo is `sorted-add-any-number`; for anything else that is not in Sorted, offer once to send it to the Sorted team with `request_new_number`, and tell him it is usually added in under 24 hours (not guaranteed).
+7. If the owner wants a number the brief does not hold: one that lives in his Odoo is `sorted-add-any-number`; for anything else that is not in Sorted, offer once per conversation, in one sentence, to send it to the Sorted team with `request_new_number` (usually added in under 24 hours, not guaranteed); send it only if the owner says yes.
 
 Answer in the language the owner writes in. For Egyptian Arabic, answer in natural Egyptian Arabic, right-to-left, and keep numbers in Latin digits with their units.
 
