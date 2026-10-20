@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.10
+
+Two rules, 20 October 2026: the product owner's ruling of that day (relayed by the Sorted team's manager bot) on what to say when the owner wants something Sorted does not have, and issue 255 (an owner who wrote in Arabic was answered in English). No new skills (17 skills).
+
+- **A dead end offers the Sorted team once, usually within 24 hours (the product owner's ruling).** When the owner wants something that is not in Sorted, the assistant offers once to send it to the Sorted team with `request_new_number` and says it is usually added in under 24 hours (not guaranteed). `sorted-about` gains the line; `sorted-add-any-number` (its narrow request cases), `sorted-organise-dashboard` (its request case), `sorted-connect-systems` (an agency's manager account that blocks a Google Ads account) and `sorted-onboard` (software that cannot be added yet, through the "My software isn't listed" form or `request_new_number`) now say "once" and the 24 hours; `sorted-business-review` and `sorted-daily-brief` send a number from the owner's Odoo to `sorted-add-any-number` and offer the request for anything else. Removed because they contradict it: "no promised date" (`sorted-add-any-number`), "Promise no date." (`sorted-onboard`); in `sorted-onboard` "never promise it" became "never promise it works today". Unchanged: a number from the owner's Odoo is still never sent to the Sorted team just because it is not in the catalogue, and "promise no time" in `sorted-add-any-number` step 5 (how long an enabled number takes to appear) stays. In `sorted-onboard` the 24 hours now also covers a request for a new connector.
+- **Reply in the owner's language (issue 255).** One line: "Answer in the language the owner writes in. For Egyptian Arabic, answer in natural Egyptian Arabic, right-to-left, and keep numbers in Latin digits with their units." Added to `sorted-business-review`, `sorted-cash-and-collections`, `sorted-fix-conflicts` and `sorted-subscription`, which had none; it replaces the older wording in `sorted-about`, `sorted-add-any-number`, `sorted-connect-systems`, `sorted-onboard`, `sorted-daily-brief` and `sorted-organise-dashboard`. The six feed skills and `sorted-not-connected` keep their own line ("Reply in the owner's language ...") for now.
+- Release numbers in the README, `SECURITY.md` and the Arabic README moved to `v1.3.10` (no release is published yet). The Codex copy under `plugins/sorted/skills/` carries the same text.
+
 ## 1.3.9
 
 Four fixes after live tests of Sorted on Claude (19 October 2026, tracked by the Sorted team as issues 231 to 234), and two rules from the product owner's ruling of the same day (issue 235). Two new skills (17 skills now).
