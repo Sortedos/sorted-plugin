@@ -131,7 +131,7 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 2. سجّل دخول بحساب Sorted بتاعك لما Claude يطلب، واختار شركتك ودوس **Allow**.
 3. علشان تستخدم skill، افتح الملف بتاعها من [قايمة الـ skills](../../README.md#the-17-skills)، وانسخ كل النص والزقه كأول رسالة.
 
-أودو: توصيله مش محتاج أي تطبيق أو إضافة متصفح زيادة. المساعد بيعمل مفتاح أودو بنفسه لو معاه أداة متصفح (تطبيق Claude للديسكتوب مع Claude in Chrome؛ ومتوقع إن Cowork فيه واحدة، لسه ما اتجرّبش). من غيرها، إنت بتعمل المفتاح في أودو (قايمة الصورة، My Profile، Account Security، New API Key) وتلزقه في الشات، أو تملأ فورم أودو في صفحة Connections بتاعة Sorted؛ والمساعد بيقولك الخطوات.
+أودو: توصيله مش محتاج أي تطبيق أو إضافة متصفح زيادة. المساعد بيعمل مفتاح أودو بنفسه لو معاه أداة متصفح (تطبيق Claude للديسكتوب مع Claude in Chrome؛ ومتوقع إن Cowork فيه واحدة، لسه ما اتجرّبش). من غيرها، إنت بتعمل المفتاح في أودو (قايمة الصورة؛ أودو 20: My Preferences، Security، Create API Key، و Scope اختار RPC؛ أودو 17/18: My Profile، Account Security، New API Key) وتلزقه في الشات، أو تملأ فورم أودو في صفحة Connections بتاعة Sorted؛ والمساعد بيقولك الخطوات.
 
 اتجرّب يوم 19 أكتوبر 2026 (claude.ai في المتصفح، وCustomize فيه نفس اللي في تطبيق Claude للديسكتوب؛ باقة Claude Max): الطريقة أ، الخطوات من 1 لـ 6 فوق، خدت حوالي 16 دقيقة أول مرة، بما فيها فهم الأربع شاشات اللي الخطوات القديمة ما كانتش بتقولها (ملاحظة "ready to use" وSorted لسه مش متوصّل، ونافذة Add custom connector، ودوسة Connect مرتين، وملاحظة GitHub). الطريقة ب بتفتح نفس نافذة Add custom connector بتاعة الخطوة 5، فالتجربة دي بتغطيها عمليًا؛ ما اتشغّلتش لوحدها. ما اتجرّبش: باقة Team أو Enterprise، وتطبيق Claude للديسكتوب نفسه، وCowork. Anthropic بتغيّر القوايم دي كتير: لو شاشة مختلفة، اتبع صفحة Anthropic.
 
