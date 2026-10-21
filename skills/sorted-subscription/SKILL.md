@@ -5,7 +5,7 @@ description: Handles Sorted's billing_required answer or a free trial that is en
 
 # Subscription
 
-Answer in the language the person writes in. If they write Arabic, answer in Egyptian colloquial Arabic, friendly and short, and keep numbers in Latin digits with their units.
+Answer in the language the person writes in. If they write Egyptian Arabic, answer in Egyptian colloquial Arabic; for other Arabic, answer in the same kind of Arabic. Keep numbers in Latin digits with their units.
 
 No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-connected`.
 

@@ -5,7 +5,7 @@ description: Connects Odoo, Shopify, Google Ads or Google Analytics 4 so Sorted 
 
 # Connect a system to Sorted
 
-Answer in the language the person writes in. If they write Arabic, answer in Egyptian colloquial Arabic, friendly and short, and keep numbers in Latin digits with their units.
+Answer in the language the person writes in. If they write Egyptian Arabic, answer in Egyptian colloquial Arabic; for other Arabic, answer in the same kind of Arabic. Keep numbers in Latin digits with their units.
 
 No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-connected`.
 
@@ -42,10 +42,10 @@ Google Ads and Shopify connect with "Continue with ..." on Sorted's Connections 
 3. If the owner cannot open the link, use your own browser: open https://sortedos.com/connections, confirm it shows the owner's email and the company's name, and if not, stop and tell the owner.
 4. If the page says direct sign-in is not available, follow its guided setup (Shopify: an app from https://dev.shopify.com with read_orders and read_products, plus read_all_orders if the Scopes list offers it (orders older than 60 days); if it is not offered, skip it; then Protected customer data access, step 1 (a reason, no customer fields), or Shopify refuses orders though Test passes). If an agency's manager account blocks choosing a Google Ads account, Sorted cannot read it yet: offer once per conversation, in one sentence, to send it to the Sorted team with `request_new_number` (usually added in under 24 hours, not guaranteed); send it only if the owner says yes.
 
-**Google Analytics 4** has no Continue with Google (Sorted's Google sign-in for it is switched off): never tell the owner to press it. You do its guided setup in your browser; the owner only signs in to Google. Open the link above; it must show the owner's email and the company's name, or stop and tell the owner. In https://analytics.google.com use the Google account that sees the business's real property (if you find only an empty or test property, or several, ask which one). Go to Admin, Property access management, + Add users: add the reader email Sorted's page shows, role **Viewer**. Then enter the Property ID (Admin, Property details) and the property's name on Sorted's page; press Connect. It reads "Waiting for Sorted to confirm" until Sorted checks by hand, usually within one working day: say that is normal.
+**Google Analytics 4** has no Continue with Google (Sorted's Google sign-in for it is switched off): never tell the owner to press it. You do its guided setup in your browser; the owner only signs in to Google. Open the link above (it must show the owner's email and company name, else stop and tell the owner). In https://analytics.google.com use the Google account that sees the business's real property (if you find only an empty or test property, or several, ask which one). Go to Admin, Property access management, + Add users: add the reader email Sorted's page shows, role **Viewer**. Then enter the Property ID (Admin, Property details) and the property's name on Sorted's page; press Connect. It reads "Waiting for Sorted to confirm" until Sorted checks by hand, usually within one working day: say that is normal.
 
 ## Check it worked
 
 Check with `list_connections`; never say one worked until Sorted shows it. Then `get_overview`: report only what it returns, with units and time. On failure, give the exact message and one next step. Shopify's first read refused: check Protected customer data access, not a new key.
 
-Talk in plain words: never quote raw tool output, JSON, tool names or error codes to the person you are helping; say what happened in one plain sentence. Explain a technical term in a few words the first time.
+Talk in plain words: never quote raw tool output, JSON, tool names or error codes to the person you are helping; say what happened in one sentence. Explain technical terms briefly.

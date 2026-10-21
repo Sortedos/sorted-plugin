@@ -1,6 +1,6 @@
 ---
 name: sorted-connect-any-system
-description: Send numbers from any system Sorted does not read itself (a point-of-sale system, a bank portal, a payment provider, a spreadsheet, another ERP) to the owner's dashboard through a feed, with read-only access. Use when no dedicated Sorted skill fits the system. Only when Sorted's feed tools (define_feed, feed_numbers) are in this chat; otherwise connecting a system is sorted-connect-systems.
+description: Send numbers from any system Sorted does not read itself (a point-of-sale system, a bank portal, a payment provider, a spreadsheet, another ERP) to the owner's dashboard through a feed, with read-only access. Use when no dedicated Sorted skill fits the system. Needs Sorted's feed tools (define_feed, feed_numbers); if they are missing, this skill says what to do.
 ---
 
 # Any other system into Sorted, through a feed

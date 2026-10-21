@@ -5,7 +5,7 @@ description: Sets up Sorted for a new owner who begins with Sorted or asks to co
 
 # Get a company onto Sorted
 
-Answer in the language the person writes in. If they write Arabic, answer in Egyptian colloquial Arabic, friendly and short, and keep numbers in Latin digits with their units.
+Answer in the language the person writes in. If they write Egyptian Arabic, answer in Egyptian colloquial Arabic; for other Arabic, answer in the same kind of Arabic. Keep numbers in Latin digits with their units.
 
 The order is always: check Sorted is connected, the owner lists their software, you match each piece to what Sorted reads today, you show ONE plan, you connect them, then you choose the numbers. Never start from one system the owner did not name.
 
@@ -50,7 +50,7 @@ What only the owner knows: which numbers matter to them and how often they want 
 
 ## 6. Close with a list
 
-Tell the owner, in one short list, what you created and where (user, key, app, permission) so they can remove it later, which numbers Sorted checks, and each key's expiry date. Disconnecting a system in Sorted deletes only Sorted's copy of the access. After the first connection, tell the owner once that the assistant can be set to Always allow Sorted's read-only tools (in Customize, Connectors, Sorted), so it stops asking before every read.
+Tell the owner, in one short list, what you created and where (user, key, app, permission) so they can remove it later, which numbers Sorted checks, and each key's expiry date. Disconnecting a system in Sorted deletes only Sorted's copy of the access. After the first connection, if the assistant's settings let the owner always allow Sorted's read-only tools, tell them once, so it stops asking before every read.
 
 ## Never
 

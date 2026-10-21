@@ -1,6 +1,6 @@
 ---
 name: sorted-connect-shopify
-description: "Read the owner's Shopify store numbers (orders, sales, returns, visits, conversion rate) with read-only access and send them to their Sorted dashboard through a feed. Use when the owner asks to send Shopify numbers into Sorted, especially visits and conversion rate, which Sorted does not read itself. Not for connecting a system Sorted reads itself: that is sorted-connect-systems. Only when Sorted's feed tools (define_feed, feed_numbers) are in this chat; otherwise connecting a system is sorted-connect-systems."
+description: "Read the owner's Shopify store numbers (orders, sales, returns, visits, conversion rate) with read-only access and send them to their Sorted dashboard through a feed. Use when the owner asks to send Shopify numbers into Sorted, especially visits and conversion rate, which Sorted does not read itself. Not for connecting a system Sorted reads itself: that is sorted-connect-systems. Needs Sorted's feed tools (define_feed, feed_numbers); if they are missing, this skill says what to do."
 ---
 
 # Shopify into Sorted, through a feed
