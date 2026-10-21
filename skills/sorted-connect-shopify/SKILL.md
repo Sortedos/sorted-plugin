@@ -32,7 +32,7 @@ If neither is possible, say so and stop. Do not look for another way in.
 A Shopify app can be limited to reading. Once the store owner has signed in, you do the clicks:
 
 1. Open https://dev.shopify.com, signed in as the **owner of the store**, and create an app in the same Shopify account as the store (otherwise Shopify refuses it).
-2. Under the Admin API access scopes add only reading scopes: `read_orders`, `read_products` and, for visits and conversion rate, `read_reports`. No scope that starts with write.
+2. Under the Admin API access scopes add only reading scopes: `read_orders`, `read_products`, plus read_all_orders if the Scopes list offers it (orders older than 60 days; if it is not offered, skip it) and, for visits and conversion rate, `read_reports`. No scope that starts with write.
 3. Release the version and install the app on the store.
 4. The owner puts the app's access details into the assistant app's Shopify connector settings, never into the chat. While a key shows, read only the box's title and field names, never the page or box text.
 

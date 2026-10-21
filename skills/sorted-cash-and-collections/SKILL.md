@@ -13,7 +13,7 @@ No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-co
    - **Cash today** - book cash and money in limbo, with the snapshot time.
    - **Top 5 who owe us** - name, amount, overdue part if shown.
    - **Top 5 we owe** - supplier, amount.
-   - **Chase list** - for the top overdue customers, a short, polite reminder message in the user's language (Arabic or English, match the user), ready to send.
+   - **Chase list** - for the top overdue customers, a short, polite reminder message written in the CUSTOMER's language (their Odoo language when known), ready to send, plus a one-line translation in the owner's language for the owner to check before sending.
 4. Never invent balances. If a table is missing, say so.
 
 Answer in the language the owner writes in. For Egyptian Arabic, answer in natural Egyptian Arabic, right-to-left, and keep numbers in Latin digits with their units.
