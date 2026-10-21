@@ -54,20 +54,20 @@ Each skill is one instruction file. The plugins install all of them; in an assis
 | [sorted-connect-meta-ads](skills/sorted-connect-meta-ads/SKILL.md) | Sending Meta ads (Facebook and Instagram) numbers through a feed |
 | [sorted-connect-any-system](skills/sorted-connect-any-system/SKILL.md) | Sending numbers from any other system through a feed |
 
-## Install one fixed version (available once v1.3.10 is published)
+## Install one fixed version
 
-**No release is published yet (15 October 2026): the `v1.3.10` commands below fail until one is, and the commands in the install sections that follow install whatever the main branch holds. This section starts to apply on the day the release appears at https://github.com/Sortedos/sorted-plugin/releases.**
+**Releases exist** (checked 21 October 2026: v1.3.6 up to v1.3.12). Each one is listed with its notes at https://github.com/Sortedos/sorted-plugin/releases, and the newest is marked Latest: that is the one to install. The commands in the install sections that follow install whatever the main branch of this repository holds at that moment; the commands below pin one release instead.
 
-The commands in the install sections below, as written, install whatever the main branch of this repository holds at that moment. A tagged release is a fixed version: it does not change after it is published, so it is the safer choice for a company. Each release is listed with its version number at https://github.com/Sortedos/sorted-plugin/releases and is named `v<version>`, for example `v1.3.10`. Use the version number from that page.
+A tagged release is a fixed version: it does not change after it is published, so it is the safer choice for a company. A release is named `v<version>`, for example `v1.3.12`. Use the version number marked Latest on the releases page. One exception to read: `v1.3.11` was cut one commit early (its manifest files still say 1.3.10) and, because tags are never moved, it stays as it is; use `v1.3.12` or later.
 
 | You use | Replace the first command with |
 |---|---|
-| Codex | `codex plugin marketplace add Sortedos/sorted-plugin --ref v1.3.10` |
-| Claude Code (terminal) | `claude plugin marketplace add Sortedos/sorted-plugin#v1.3.10` |
+| Codex | `codex plugin marketplace add Sortedos/sorted-plugin --ref v1.3.12` |
+| Claude Code (terminal) | `claude plugin marketplace add Sortedos/sorted-plugin#v1.3.12` |
 
-Then run the second command of your section as written. In Claude on the web or the desktop app, type `Sortedos/sorted-plugin#v1.3.10` where Route A asks for the repository (not tested). To move to a newer version later, repeat with the newer number.
+Then run the second command of your section as written. In Claude on the web or the desktop app, type `Sortedos/sorted-plugin#v1.3.12` where Route A asks for the repository (not tested). To move to a newer version later, repeat with the newer number.
 
-Tested on: Windows 11 with Codex 0.155.1 and Claude Code 2.1.300, 15 October 2026, in clean configuration folders: both forms fetched a named branch of this repository (`install-steps`) and added the marketplace. No release tag exists yet, so an install of a tag was not run, and neither was the install that follows the first command. Not tested: macOS, Linux. What stops anyone from changing a tag after it is published, and what protects the main branch, is described in [SECURITY.md](SECURITY.md).
+Tested on: Windows 11 with Codex 0.155.1 and Claude Code 2.1.300, 15 October 2026, in clean configuration folders: both forms fetched a named branch of this repository (`install-steps`) and added the marketplace. No release tag existed yet on that day, so an install of a tag was not part of that test, and neither was the install that follows the first command. Not tested: macOS, Linux. What stops anyone from changing a tag after it is published, and what protects the main branch, is described in [SECURITY.md](SECURITY.md).
 
 ## Install: Codex
 
