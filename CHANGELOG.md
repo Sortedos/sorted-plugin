@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.13
+
+Shopify protected customer data, 21 October 2026 (Knowlabs-vibe/sorted issue 285). No new skills (17 skills).
+
+- **Shopify setup now includes Protected customer data access.** Shopify refuses every order read until the app has this approval (in the app's API access requests, step 1: pick a reason such as Store management or Analytics; no customer fields are needed; apps on the Shopify App Store also need step 2). Sorted's connection test only reads the shop's name, so it passes without it. `sorted-connect-systems` and `sorted-connect-shopify` now name the step.
+- **A refused first Shopify read no longer sends the owner to make a new key.** The key is usually fine. `sorted-connect-systems` tells the assistant to check Protected customer data access, then the scopes, and not to advise a new key. The web page and the collector's message are Sorted app changes, not part of this plugin.
+- The Codex copy under `plugins/sorted/skills/` carries the same text.
+
 ## 1.3.12
 
 Version numbers and changelog only, 21 October 2026. The 1.3.11 tag was cut one commit early: it has the skills below, but its three manifest files still say 1.3.10 and it has no changelog entry. 1.3.12 is the same skills with the manifests (1.3.12) and this changelog corrected; use 1.3.12. No skill text changed between 1.3.11 and 1.3.12.
