@@ -1,9 +1,11 @@
 ---
 name: sorted-connect-systems
-description: Connect Odoo, Shopify, Google Ads or Google Analytics 4 so Sorted reads them itself. Use to connect, add or reconnect a system.
+description: Connects Odoo, Shopify, Google Ads or Google Analytics 4 so Sorted reads them itself. Use when the owner says connect, add, link or reconnect one of these, or a connection stopped reading or was refused.
 ---
 
 # Connect a system to Sorted
+
+Answer in the language the person writes in. If they write Arabic, answer in Egyptian colloquial Arabic, friendly and short, and keep numbers in Latin digits with their units.
 
 No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-connected`.
 
@@ -28,7 +30,7 @@ Confirm the person is the **company owner**: Sorted's Connections page (https://
 2. Sorted keeps one connection per Odoo address and database: to add a company, call `connect_odoo` again with EVERY company Sorted should read, existing ones included; it replaces the old connection. Compare with `list_connections` before and after. Cards use each company's exact Odoo name; a renamed one loses its brand label: tell the owner.
 3. **No new Odoo user:** the key goes on the owner's own user. Say it could do whatever that user can; get a clear yes. With a browser tool, open the key screen through the avatar menu: Odoo 20, My Preferences, Security tab, Create API Key (Scope: RPC); Odoo 19, same menu, Add API Key; Odoo 17/18, My Profile or Preferences, Account Security, New API Key (never type the action into the address bar), after checking the profile shows the owner's own name; the key shows once; record any expiry date. **With no browser tool** the owner makes it the same way himself (nothing to install) and may paste it in the chat: see the Odoo hard rule above.
 4. Ask: "Is this business its own company in Odoo, or inside a shared company, told apart by cost tags?" Own company: call `connect_odoo` with the address, database name, the Odoo login the key was made on, and the key. If the login sees several companies it saves NOTHING and lists them: let the owner pick, then call again with `companies` set to the pick, exactly as listed; then confirm with `list_connections`. If it says no, tell the owner what Odoo actually answered, in plain words, and never retry blindly. Only when Odoo itself refuses the key (no key screen, or it is rejected) offer the other route, if Sorted can take numbers in: you read the Odoo screens and send the numbers yourself.
-5. **Cost tags (analytic accounts):** call `connect_odoo` with `companies` set to that one company and `analytic` set to `[]`: it saves nothing and lists the tags. The owner picks his (tags that share a name are all included and each line counts once); call again with `analytic` set to the picks, exactly as listed. Say that cash, receivables and payables are company-wide, so they are not shown for this business.
+5. **Cost tags (analytic accounts):** call `connect_odoo` with `companies` set to that one company and `analytic` set to `[]`: it saves nothing and lists the tags. The owner picks his (tags that share a name are all included and each line counts once); call again with `analytic` set to the picks, exactly as listed.
 6. If `connect_odoo` is unavailable, or the owner prefers, use the Odoo form on Sorted's Connections page (its administrator's-key and already-connected notices are information, not errors).
 
 ## Google Ads, Google Analytics 4 and Shopify
@@ -45,7 +47,5 @@ Google Ads and Shopify connect with "Continue with ..." on Sorted's Connections 
 ## Check it worked
 
 Check with `list_connections`; never say one worked until Sorted shows it. Then `get_overview`: report only what it returns, with units and time. On failure, give the exact message and one next step. Shopify's first read refused: check Protected customer data access, not a new key.
-
-Answer in the language the owner writes in. For Egyptian Arabic, answer in natural Egyptian Arabic, right-to-left, and keep numbers in Latin digits with their units.
 
 Talk in plain words: never quote raw tool output, JSON, tool names or error codes to the person you are helping; say what happened in one plain sentence. Explain a technical term in a few words the first time.

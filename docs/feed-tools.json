@@ -1,6 +1,6 @@
 {
   "server": "https://sortedos.com/api/mcp",
-  "sign_in": "OAuth (Sign in with Sorted) for ChatGPT and Claude; a personal Sorted key held in the SORTED_TOKEN environment variable for the Codex plugin",
+  "sign_in": "OAuth (Sign in with Sorted) for ChatGPT, Claude and Codex",
   "switched_on": "Only when Sorted has switched feeds on for the company; otherwise these four tools are not in the tool list",
   "tools": [
     {

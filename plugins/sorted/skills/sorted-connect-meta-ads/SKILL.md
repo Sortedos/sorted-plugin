@@ -1,6 +1,6 @@
 ---
 name: sorted-connect-meta-ads
-description: Read the owner's Meta ads results (Facebook and Instagram ads) with read-only access and send the numbers to their Sorted dashboard through a feed. Use when the owner asks to add Meta, Facebook or Instagram ads to Sorted, or to send their ad spend and results every day.
+description: Read the owner's Meta ads results (Facebook and Instagram ads) with read-only access and send the numbers to their Sorted dashboard through a feed. Use when the owner asks to add Meta, Facebook or Instagram ads to Sorted, or to send their ad spend and results every day. Only when Sorted's feed tools (define_feed, feed_numbers) are in this chat; otherwise connecting a system is sorted-connect-systems.
 ---
 
 # Meta ads into Sorted, through a feed

@@ -1,9 +1,11 @@
 ---
 name: sorted-cash-and-collections
-description: Cash position and collections - who owes the business money, what is overdue, what the business owes, and draft polite chase messages. Use when the user asks about cash, receivables, overdue invoices, debtors, or who to chase.
+description: Shows the cash position and collections - who owes the business money, what is overdue, what the business owes, and draft polite chase messages. Use when the user asks about cash, receivables, overdue invoices, debtors, or who to chase.
 ---
 
 # Cash and collections
+
+Answer in the language the person writes in. If they write Arabic, answer in Egyptian colloquial Arabic, friendly and short, and keep numbers in Latin digits with their units.
 
 No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-connected`.
 
@@ -15,8 +17,6 @@ No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-co
    - **Top 5 we owe** - supplier, amount.
    - **Chase list** - for the top overdue customers, a short, polite reminder message written in the CUSTOMER's language (their Odoo language when known), ready to send, plus a one-line translation in the owner's language for the owner to check before sending.
 4. Never invent balances. If a table is missing, say so.
-
-Answer in the language the owner writes in. For Egyptian Arabic, answer in natural Egyptian Arabic, right-to-left, and keep numbers in Latin digits with their units.
 
 If the owner is stuck after these steps, ask once per conversation: "Shall I tell the Sorted team about this?" Only on a clear yes, send it as `sorted-about` says; never make two offers in one reply.
 

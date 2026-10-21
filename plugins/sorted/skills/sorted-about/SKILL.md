@@ -5,6 +5,8 @@ description: What Sorted is and how it works - use when the user asks what Sorte
 
 # About Sorted
 
+Answer in the language the person writes in. If they write Arabic, answer in Egyptian colloquial Arabic, friendly and short, and keep numbers in Latin digits with their units.
+
 Sorted is a hosted service. It connects the company's systems (accounting such as Odoo, with its bank and payment
 journals; online stores; ads; analytics), reads them every hour, keeps the history, and checks where two systems report different numbers
 for the same thing. All of that - the connections, the stored history and the checking logic - runs on Sorted's
@@ -52,5 +54,3 @@ When an owner wants to start with Sorted, or asks to connect their systems, foll
 Call the `get_subscription` tool: it returns the plan and the days left in the free trial, plus the payment link for an owner of the company (anyone else gets a note that an owner manages billing).
 
 Talk in plain words: never quote raw tool output, JSON, tool names or error codes to the person you are helping; say what happened in one plain sentence. Explain a technical term in a few words the first time you use it.
-
-Answer in the language the owner writes in. For Egyptian Arabic, answer in natural Egyptian Arabic, right-to-left, and keep numbers in Latin digits with their units.

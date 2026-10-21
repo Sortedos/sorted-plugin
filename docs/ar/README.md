@@ -51,44 +51,6 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 
 المصدر: صفحة OpenAI عن سيرفرات MCP في Codex (https://developers.openai.com/codex/mcp، اتقرت يوم 11 أكتوبر 2026) بتذكر السيرفرات اللي بتشتغل بـ Streamable HTTP مع تسجيل دخول OAuth، ومنها Dynamic Client Registration اللي سيرفر Sorted بيدعمه. اتجرّب على: Windows 11 مع Codex 0.155.1، والأمرين اللي فوق موجودين فيه (اتأكدت بـ `--help` يوم 11 أكتوبر 2026). تسجيل الدخول على Sorted والرد في الخطوة 3 **لسه ما اتجرّبوش** بالطريقة دي. ما اتجرّبش على: macOS و Linux.
 
-### متقدم: إضافة Codex بمفتاح شخصي
-
-**فضّل الخطوات اللي فوق.** الطريقة دي بتسيب مفتاح Sorted نص عادي على جهازك: Codex بيقراه من متغير بيئة، وعلى Windows الإعداد ده بيتخزن من غير حماية تحت حسابك، وعلى Mac و Linux في ملف بدء التشغيل. أي برنامج بيشتغل باسمك يقدر يقراه، وأي إضافة Codex تانية تسطّبها ممكن تطلب من Codex يبعته لسيرفر بتاعها. سطّب إضافات بتثق فيها بس، وماتديش المفتاح لحد، ولو شاكك إنه اتسرّب اكتب لـ info@sortedos.com علشان يتغيّر. استخدم الطريقة دي بس لو دعم Sorted طلبها منك.
-
-استخدم ده بدل الخطوات اللي فوق، مش معاها. وهو بيجيب الـ skills كمان. محتاج Codex متسطّب ومسجّل دخول، ومفتاح إضافة Sorted شخصي (بيبدأ بـ `srt_`). Sorted بيديك واحد: اطلبه على info@sortedos.com. المفتاح بتاعك وبتاع شركتك؛ ماتديهوش لحد.
-
-1. افتح الـ terminal: على Windows دوس زرار Windows واكتب `PowerShell` ودوس Enter؛ على Mac دوس Command مع Space واكتب `Terminal` ودوس Enter. أي فولدر يمشي: Codex بيجيب الإضافة من GitHub بنفسه، فمش هتنزّل حاجة.
-2. احفظ المفتاح في مكان Codex يقدر يقراه، في متغير البيئة `SORTED_TOKEN` (إعداد باسم معين جهازك بيحتفظ بيه للبرامج).
-
-   على Windows، في PowerShell (اتأكد إن الشباك مكتوب فيه PowerShell، مش Command Prompt)، سطر سطر:
-
-   أ. الزق السطر ده ودوس Enter:
-
-      ```powershell
-      $key = Read-Host "Paste your Sorted key" -AsSecureString
-      ```
-
-   ب. الزق المفتاح لما يطلبه ودوس Enter. مش هيظهر حاجة على الشاشة وانت بتلزق: ده طبيعي.
-   ج. الزق السطر ده ودوس Enter:
-
-      ```powershell
-      [Environment]::SetEnvironmentVariable("SORTED_TOKEN", [Net.NetworkCredential]::new("", $key).Password, "User")
-      ```
-
-   على Mac، اكتب `touch ~/.zshrc; open -e ~/.zshrc` علشان تفتح ملف بدء تشغيل الـ terminal في TextEdit؛ على Linux، اكتب `nano ~/.bashrc`. ضيف في الآخر سطر جديد: `export SORTED_TOKEN=` وبعده المفتاح بتاعك، من غير مسافات. احفظ الملف واقفله. كتابة المفتاح في الملف، مش في الـ terminal، بتخليه مايتسجّلش في تاريخ الأوامر.
-3. ضيف الإضافة لـ Codex، من GitHub مباشرة. السطر الأول بيقول لـ Codex الإضافة فين (`Sortedos/sorted-plugin` هو اسم المشروع ده على GitHub)، والتاني بيركّبها:
-
-   ```
-   codex plugin marketplace add Sortedos/sorted-plugin
-   codex plugin add sorted@sorted
-   ```
-
-4. اقفل كل شبابيك Codex، ومعاها تطبيق Codex على الديسكتوب لو مفتوح، علشان Codex يشوف المفتاح الجديد. افتح terminal جديد، اكتب `codex` ودوس Enter، وبعدين اسأل: "Do a quick business review using Sorted." الرد الصح بيذكر أرقام شركتك ووقت قرايتها.
-
-(بتشتغل على نسخة من المشروع ده على جهازك بدل كده، مثلاً وانت بتعدّل فيه؟ افتح terminal جوه الفولدر ده واستخدم `codex plugin marketplace add .` في السطر الأول.)
-
-اتجرّب على: Windows 11 مع Codex 0.155.1. يوم 10 أكتوبر 2026 الأمرين اللي فوق اتشغّلوا فعلاً على المشروع العام ده في Codex نضيف: السوق اتضاف من GitHub و`sorted@sorted` 1.2.0 اتركّبت وظهرت "installed, enabled". شكل الأمر `owner/repo` هو اللي في صفحة OpenAI نفسها "Build plugins" (https://developers.openai.com/codex/plugins/build). تسجيل الدخول بالمفتاح ورد المراجعة اتجرّبوا آخر مرة يوم 6 أكتوبر 2026، والإضافة كانت زي ما كانت وقتها (13 skill؛ الـ skill رقم 14 وهي `sorted-onboard` اتضافت يوم 7 أكتوبر). ما اتجرّبش على: macOS و Linux.
-
 ## التركيب: إضافة Claude Code
 
 محتاج Claude Code متسطّب. مفيش مفتاح: Claude Code بيسجّل دخول على Sorted بحسابك.
@@ -120,6 +82,7 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 4. افتح تبويب **Discover**، واختار **Sorted** ودوس **Add**. Claude هيقول "Sorted is installed and ready to use". **لسه مش متوصّل.** افتح تبويب **Connectors** بتاع الإضافة: Sorted مكتوب جنبه "Not added".
 5. دوس **Connect**. ممكن تفتح نافذة اسمها **Add custom connector** فيها اختيارات دخول شكلها تقني. سيب اللي بيقترحه، ونزّل لتحت لحد زرار **Add** ودوس عليه. هتلاقي Sorted مكتوب جنبه "Not connected": دوس **Connect** مرة تانية.
 6. بتفتح شاشة الدخول بتاعة Sorted: سجّل دخول بحساب Sorted، واختار شركتك ودوس **Allow**. خلصت لما يتكتب جنب Sorted **Connected**.
+7. اختياري: من **Customize** ثم **Connectors** ثم **Sorted**، خلّي **Read-only tools** على **Always allow**، علشان Claude ماياخدش إذنك قبل كل قراية. التغييرات في الداشبورد بتاعتك لسه بتطلب إذنك الأول.
 
 لحد ما الخطوة 6 تخلص، Claude معندوش أي أداة من أدوات Sorted. لو سألته قبلها، المفروض يقول إن Sorted لسه مش متوصّل (الـ skill اسمها `sorted-not-connected` بتقوله كده)، ومايبعتكش لمنتج تاني.
 

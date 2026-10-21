@@ -10,7 +10,7 @@ real guard when it is a required check on main (see SECURITY.md); on its own it 
 
 It checks:
   1. both .mcp.json files declare exactly one server, named sorted, whose address is https://sortedos.com/api/mcp and which has no
-     command, arguments, environment, headers or any other key (the Codex copy may also name the SORTED_TOKEN variable)
+     command, arguments, environment, headers or any other key (the Codex copy has no environment variable or personal key either: Codex signs in with OAuth)
   2. both marketplace files list only this folder as the source (no other repository, no download)
   3. the three plugin manifests carry no key that loads code (hooks, commands, agents, servers of their own, scripts)
   4. the plugin carries only the files in the allowlist below: manifests, .mcp.json and skills/<name>/SKILL.md (nothing that runs)
@@ -22,10 +22,12 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 URL = "https://sortedos.com/api/mcp"
-MANIFEST_KEYS_OK = {"name", "version", "license", "description", "author", "homepage", "keywords", "skills", "interface", "owner", "plugins"}
+MANIFEST_KEYS_OK = {"name", "version", "license", "description", "author", "homepage", "keywords", "skills", "interface", "owner", "plugins",
+                    # directory listing fields: https addresses and one icon path, read by the plugin directory, never loaded as code
+                    "displayName", "repository", "icon", "documentationUrl", "supportUrl", "privacyPolicyUrl", "termsOfServiceUrl"}
 SERVER_KEYS_OK = {
     ".mcp.json": {"type", "url"},
-    os.path.join("plugins", "sorted", ".mcp.json"): {"type", "url", "bearer_token_env_var"},
+    os.path.join("plugins", "sorted", ".mcp.json"): {"type", "url"},
 }
 # Everything a published plugin may hold. A hooks, commands, agents, bin, monitors or settings file is not on this list on purpose.
 PLUGIN_FILES_OK = {os.path.join(".codex-plugin", "plugin.json"), ".mcp.json"}
@@ -48,8 +50,6 @@ def check_servers(problems):
             problems.append("%s: the sorted server has keys that are not allowed: %s" % (rel, ", ".join(sorted(extra))))
         if s.get("url") != URL:
             problems.append("%s: the server address must be exactly %s, found %r" % (rel, URL, s.get("url")))
-        if "bearer_token_env_var" in s and s["bearer_token_env_var"] != "SORTED_TOKEN":
-            problems.append("%s: bearer_token_env_var must be SORTED_TOKEN" % rel)
 
 
 def check_marketplaces(problems):

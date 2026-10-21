@@ -1,9 +1,11 @@
 ---
 name: sorted-fix-conflicts
-description: Find where two business systems report different numbers (e.g. books vs bank, sales team vs store) and list the exact records to fix, with links. Use when the user asks what doesn't match, what to reconcile, or why two reports differ.
+description: Finds where two business systems report different numbers (e.g. books vs bank, sales team vs store) and list the exact records to fix, with links. Use when the user asks what doesn't match, what to reconcile, or why two reports differ.
 ---
 
 # Fix what doesn't match
+
+Answer in the language the person writes in. If they write Arabic, answer in Egyptian colloquial Arabic, friendly and short, and keep numbers in Latin digits with their units.
 
 No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-connected`.
 
@@ -15,8 +17,6 @@ No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-co
    - **Next step** - who in the team should fix it and what exactly they do.
 4. If a conflict has no records, say the gap is older than the recent history and link the `more` entry.
 5. Keep it to what can be acted on today.
-
-Answer in the language the owner writes in. For Egyptian Arabic, answer in natural Egyptian Arabic, right-to-left, and keep numbers in Latin digits with their units.
 
 If the owner is stuck after these steps, ask once per conversation: "Shall I tell the Sorted team about this?" Only on a clear yes, send it as `sorted-about` says; never make two offers in one reply.
 

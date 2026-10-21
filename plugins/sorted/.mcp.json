@@ -2,8 +2,7 @@
   "mcpServers": {
     "sorted": {
       "type": "streamable-http",
-      "url": "https://sortedos.com/api/mcp",
-      "bearer_token_env_var": "SORTED_TOKEN"
+      "url": "https://sortedos.com/api/mcp"
     }
   }
 }

@@ -1,9 +1,11 @@
 ---
 name: sorted-business-review
-description: Monthly (or any-time) business review from Sorted's live numbers - sales, cash, who owes whom, what is overdue, and which systems disagree. Use when the user asks how the business is doing, for a review, a summary, or a board update.
+description: Writes a monthly or any-time business review from Sorted's live numbers - sales, cash, who owes whom, what is overdue, and which systems disagree. Use when the user asks how the business is doing, for a business review, a summary of the business, or a board update.
 ---
 
 # Business review
+
+Answer in the language the person writes in. If they write Arabic, answer in Egyptian colloquial Arabic, friendly and short, and keep numbers in Latin digits with their units.
 
 No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-connected`.
 
@@ -19,8 +21,6 @@ No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-co
    - **Three actions for this week** - concrete, each tied to a number above.
 5. Quote every figure with its currency and the snapshot time. Never invent a number that no tool returned; say "not available" instead. A number that lives in the owner's Odoo is `sorted-add-any-number`; for anything else the owner wants that is not in Sorted, offer once per conversation, in one sentence, to send it to the Sorted team with `request_new_number` (usually added in under 24 hours, not guaranteed); send it only if the owner says yes.
 6. If a tool returns `billing_required`, follow the `sorted-subscription` skill instead.
-
-Answer in the language the owner writes in. For Egyptian Arabic, answer in natural Egyptian Arabic, right-to-left, and keep numbers in Latin digits with their units.
 
 If the owner is stuck after these steps, ask once per conversation: "Shall I tell the Sorted team about this?" Only on a clear yes, send it as `sorted-about` says; never make two offers in one reply.
 

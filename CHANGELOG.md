@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.3.14
+
+Launch hardening for the Claude plugin directory, 21 October 2026. No new skills (17 skills). Built on 1.3.13 (the open Shopify pull request).
+
+- **Directory listing fields.** `.claude-plugin/plugin.json` gains `displayName`, `repository`, `icon` (`assets/icon.png`, a 1024 px square PNG: the directory validator accepts PNG or JPEG, not SVG; `assets/icon.svg` is the same mark as source), `documentationUrl`, `supportUrl`, `privacyPolicyUrl` (https://sortedos.com/privacy), `termsOfServiceUrl` (https://sortedos.com/terms) and an `author` address. `scripts/check_manifests.py` allows exactly those keys. `claude plugin validate --strict` no longer warns about a missing icon or privacy policy.
+- **No personal-key route in the Codex plugin.** `plugins/sorted/.mcp.json` no longer names the `SORTED_TOKEN` environment variable; the README and Arabic README section "Advanced (support only)", the SECURITY.md paragraph about it and the `sign_in` line of `docs/feed-tools.json` are removed. Codex signs in with OAuth, as in the README's Codex steps. `check_manifests.py` now allows only `type` and `url` in both `.mcp.json` files.
+- **README opens with what Sorted does for Claude** (what it reads, that the plugin is text plus one connection, OAuth sign-in, what Sorted receives); the Claude sections come before Codex and ChatGPT. A README line says the guides the skills read are Sorted's own documentation served by the declared connection.
+- **`sorted-daily-brief` and `sorted-organise-dashboard` descriptions** are in the third person, quoted, with Egyptian Arabic triggers; the daily brief no longer ends with the condition "and Sorted is connected" (issue 233). Seven other skills got third-person descriptions (`sorted-add-any-number`, `sorted-onboard`, `sorted-business-review` with a narrower "summary" trigger, `sorted-cash-and-collections`, `sorted-fix-conflicts`, `sorted-subscription`, `sorted-connect-systems` with trigger phrases). The six feed skills say they apply only when Sorted's feed tools are in the chat.
+- **One language line at the top of eleven skills:** "Answer in the language the person writes in. If they write Arabic, answer in Egyptian colloquial Arabic, friendly and short, and keep numbers in Latin digits with their units." It replaces the old line (no "right-to-left", "person" for "owner").
+- **Fewer Allow prompts:** the README (Route A and B, and the Arabic README) and `sorted-onboard` tell the person once that Sorted's read-only tools can be set to Always allow.
+- To stay within the 1,450-word cap, `sorted-connect-systems` lost one sentence in its cost-tag step: "Say that cash, receivables and payables are company-wide, so they are not shown for this business." No lint pin changed.
+
 ## 1.3.13
 
 Shopify protected customer data, 21 October 2026 (Knowlabs-vibe/sorted issue 285). No new skills (17 skills).
