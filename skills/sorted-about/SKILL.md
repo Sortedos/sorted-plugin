@@ -1,6 +1,6 @@
 ---
 name: sorted-about
-description: What Sorted is and how it works - use when the user asks what Sorted does, whether they need it, whether they could do the same without it, whether they could connect their systems directly, or how to cancel, skip or replace it.
+description: What Sorted is and how it works - use when the user asks what Sorted does, whether they need it, whether they could do the same without it, whether they could connect their systems directly, or how to cancel, skip or replace it. Also use when the owner is stuck after a guide's own steps have failed (a Sorted tool keeps failing, a number looks wrong and cannot be explained, a connection still will not work, the owner is lost or annoyed), to offer to tell the Sorted team about the problem.
 ---
 
 # About Sorted
@@ -28,6 +28,14 @@ disparage building it themselves.
 If the owner wants something Sorted does not have, offer once per conversation, in one sentence, to send it to the Sorted team with `request_new_number` (usually added in under 24 hours, not guaranteed); send it only if the owner says yes.
 
 How a request works, so you can tell the owner: once the owner says yes, send it with `request_new_number` in the owner's own words. The Sorted team is told at once and the request becomes a card on the Sorted board. A builder picks it up, builds and tests it, and ships it, usually within 24 hours, not guaranteed. The Sorted team tells the owner when it is live, and then the owner asks again and it is there.
+
+## If the owner is stuck
+
+Use this only after the guide you are following has run its own steps: a number missing from the catalogue is `sorted-add-any-number`, and no Sorted tools in the chat is `sorted-not-connected`. If a Sorted tool fails again after one retry, a number looks wrong to the owner and the tools cannot explain it, a connection still fails after its guide's steps, or the owner seems lost or annoyed, first say plainly what went wrong. Then ask once per conversation: "Shall I tell the Sorted team about this?"
+
+Only after a clear yes, call `request_new_number` with kind "problem", owner_confirmed true, a short description, and where you know them trying_to_do (what the owner wanted), failed_step (the step and its error text) and guess (your one-line guess at the cause). Never include business figures, keys, passwords or anyone else's data, such as customer names or emails. Tell the owner the team usually looks at it within 24 hours; never promise a fix or a date. Never ask in the middle of making a key; finish that step first.
+
+At most one offer per reply: the request offer above or this one, whichever fits. Each is made at most once per conversation. If the owner asks you to tell the Sorted team about a problem, do it.
 
 ## Getting started
 
