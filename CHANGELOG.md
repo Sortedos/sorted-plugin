@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.3.12
+
+Version numbers and changelog only, 21 October 2026. The 1.3.11 tag was cut one commit early: it has the skills below, but its three manifest files still say 1.3.10 and it has no changelog entry. 1.3.12 is the same skills with the manifests (1.3.12) and this changelog corrected; use 1.3.12. No skill text changed between 1.3.11 and 1.3.12.
+
+## 1.3.11
+
+Struggle reports, 21 October 2026. No new skills (17 skills).
+
+- **The assistant can report a problem to the Sorted team, only with the owner's yes.** `sorted-about` gains an "If the owner is stuck" section (its description now also covers an owner who is stuck): after a guide's own steps have failed, the assistant says plainly what went wrong, asks once per conversation "Shall I tell the Sorted team about this?", and only on a clear yes calls `request_new_number` with kind "problem", owner_confirmed true, a short description and, where known, trying_to_do, failed_step and guess. It never includes business figures, keys, passwords or anyone else's data, tells the owner the team usually looks at it within 24 hours, and never promises a fix or a date. At most one offer per reply (this one or the request offer), each at most once per conversation. Seven skills with room (`sorted-onboard`, `sorted-add-any-number`, `sorted-fix-conflicts`, `sorted-business-review`, `sorted-cash-and-collections`, `sorted-daily-brief`, `sorted-organise-dashboard`) gain one pointer line to it; `sorted-connect-systems` is unchanged.
+- The Codex copy under `plugins/sorted/skills/` carries the same text.
+
 ## 1.3.10
 
 Two rules, 20 October 2026: the product owner's ruling of that day (relayed by the Sorted team's manager bot) on what to say when the owner wants something Sorted does not have, and issue 255 (an owner who wrote in Arabic was answered in English). No new skills (17 skills).
