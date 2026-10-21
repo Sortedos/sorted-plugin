@@ -54,18 +54,18 @@ Each skill is one instruction file. The plugins install all of them; in an assis
 | [sorted-connect-meta-ads](skills/sorted-connect-meta-ads/SKILL.md) | Sending Meta ads (Facebook and Instagram) numbers through a feed |
 | [sorted-connect-any-system](skills/sorted-connect-any-system/SKILL.md) | Sending numbers from any other system through a feed |
 
-## Install one fixed version (available once v1.3.9 is published)
+## Install one fixed version (available once v1.3.10 is published)
 
-**No release is published yet (15 October 2026): the `v1.3.9` commands below fail until one is, and the commands in the install sections that follow install whatever the main branch holds. This section starts to apply on the day the release appears at https://github.com/Sortedos/sorted-plugin/releases.**
+**No release is published yet (15 October 2026): the `v1.3.10` commands below fail until one is, and the commands in the install sections that follow install whatever the main branch holds. This section starts to apply on the day the release appears at https://github.com/Sortedos/sorted-plugin/releases.**
 
-The commands in the install sections below, as written, install whatever the main branch of this repository holds at that moment. A tagged release is a fixed version: it does not change after it is published, so it is the safer choice for a company. Each release is listed with its version number at https://github.com/Sortedos/sorted-plugin/releases and is named `v<version>`, for example `v1.3.9`. Use the version number from that page.
+The commands in the install sections below, as written, install whatever the main branch of this repository holds at that moment. A tagged release is a fixed version: it does not change after it is published, so it is the safer choice for a company. Each release is listed with its version number at https://github.com/Sortedos/sorted-plugin/releases and is named `v<version>`, for example `v1.3.10`. Use the version number from that page.
 
 | You use | Replace the first command with |
 |---|---|
-| Codex | `codex plugin marketplace add Sortedos/sorted-plugin --ref v1.3.9` |
-| Claude Code (terminal) | `claude plugin marketplace add Sortedos/sorted-plugin#v1.3.9` |
+| Codex | `codex plugin marketplace add Sortedos/sorted-plugin --ref v1.3.10` |
+| Claude Code (terminal) | `claude plugin marketplace add Sortedos/sorted-plugin#v1.3.10` |
 
-Then run the second command of your section as written. In Claude on the web or the desktop app, type `Sortedos/sorted-plugin#v1.3.9` where Route A asks for the repository (not tested). To move to a newer version later, repeat with the newer number.
+Then run the second command of your section as written. In Claude on the web or the desktop app, type `Sortedos/sorted-plugin#v1.3.10` where Route A asks for the repository (not tested). To move to a newer version later, repeat with the newer number.
 
 Tested on: Windows 11 with Codex 0.155.1 and Claude Code 2.1.300, 15 October 2026, in clean configuration folders: both forms fetched a named branch of this repository (`install-steps`) and added the marketplace. No release tag exists yet, so an install of a tag was not run, and neither was the install that follows the first command. Not tested: macOS, Linux. What stops anyone from changing a tag after it is published, and what protects the main branch, is described in [SECURITY.md](SECURITY.md).
 
@@ -170,7 +170,7 @@ On a Team or Enterprise plan, a Claude owner can limit which marketplaces are al
 2. Sign in with your Sorted account when Claude asks, choose your company and press **Allow**.
 3. To use a skill, open its file from [the list of skills](#the-17-skills), copy all of its text and paste it as your first message.
 
-Odoo: connecting it needs no extra app or browser extension. The assistant can make the Odoo key itself when it has a browser tool (the Claude desktop app with Claude in Chrome; Cowork is expected to have one, not tested). Without one, you make the key in Odoo (avatar menu, My Profile, Account Security, New API Key) and paste it in the chat, or fill in the Odoo form on Sorted's Connections page; the assistant tells you the steps.
+Odoo: connecting it needs no extra app or browser extension. The assistant can make the Odoo key itself when it has a browser tool (the Claude desktop app with Claude in Chrome; Cowork is expected to have one, not tested). Without one, you make the key in Odoo (avatar menu; Odoo 20: My Preferences, Security tab, Create API Key, Scope RPC; Odoo 19: the same menu, Add API Key; Odoo 17/18: My Profile, Account Security, New API Key) and paste it in the chat, or fill in the Odoo form on Sorted's Connections page; the assistant tells you the steps.
 
 Tested on 19 October 2026 (claude.ai in the browser, where Customize is the same as in the Claude desktop app; Claude Max plan): Route A, steps 1 to 6 above, took about 16 minutes the first time, including working out the four screens that older steps did not mention (the "ready to use" note while Sorted is not connected, the Add custom connector window, pressing Connect twice, and the GitHub note). Route B opens the same Add custom connector window as step 5, so that run covers it in practice; it was not run on its own. Not tested: a Team or Enterprise plan, the Claude desktop app itself, Cowork. Anthropic changes these menus often: if a screen differs, follow Anthropic's page.
 
