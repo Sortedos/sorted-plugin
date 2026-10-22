@@ -1,6 +1,6 @@
 # Sorted for your AI assistant
 
-**Sorted** (https://sortedos.com) puts a company's numbers on one screen. It connects the company's systems (accounting such as Odoo, online stores, ads, analytics), reads them every hour, keeps the history, and shows where two systems disagree about the same number.
+**Sorted** (https://sortedos.com) puts a company's numbers on one screen and lets you ask Claude about them. It reads the company's Odoo, Shopify, Google Ads and Google Analytics 4 every hour and shows where two systems disagree about the same number. This plugin is text skills plus one connection to Sorted's server (https://sortedos.com/api/mcp); nothing in it runs on your computer. You sign in with your own Sorted account (OAuth), with no key to store. Sorted receives your questions, the reads they trigger, numbers your assistant sends in with your yes (feeds), and an Odoo key only when you approve making one.
 
 This repository lets an AI assistant work with Sorted. It holds:
 
@@ -16,9 +16,9 @@ Pick the path for the assistant you use. A terminal is the text window where you
 
 | You use | Terminal needed? | Follow |
 |---|---|---|
-| Codex | Yes | [Install: Codex](#install-codex) |
-| Claude Code | Yes | [Install: Claude Code plugin](#install-claude-code-plugin) |
 | Claude on the web or the desktop app | No | [Claude on the web or the desktop app](#claude-on-the-web-or-the-desktop-app) |
+| Claude Code | Yes | [Install: Claude Code plugin](#install-claude-code-plugin) |
+| Codex | Yes | [Install: Codex](#install-codex) |
 | ChatGPT | No | [Install: ChatGPT connector guide](#install-chatgpt-connector-guide) |
 
 ## What an assistant can do with Sorted
@@ -62,12 +62,62 @@ A tagged release is a fixed version: it does not change after it is published, s
 
 | You use | Replace the first command with |
 |---|---|
-| Codex | `codex plugin marketplace add Sortedos/sorted-plugin --ref v1.3.12` |
 | Claude Code (terminal) | `claude plugin marketplace add Sortedos/sorted-plugin#v1.3.12` |
+| Codex | `codex plugin marketplace add Sortedos/sorted-plugin --ref v1.3.12` |
 
 Then run the second command of your section as written. In Claude on the web or the desktop app, type `Sortedos/sorted-plugin#v1.3.12` where Route A asks for the repository (not tested). To move to a newer version later, repeat with the newer number.
 
 Tested on: Windows 11 with Codex 0.155.1 and Claude Code 2.1.300, 15 October 2026, in clean configuration folders: both forms fetched a named branch of this repository (`install-steps`) and added the marketplace. No release tag existed yet on that day, so an install of a tag was not part of that test, and neither was the install that follows the first command. Not tested: macOS, Linux. What stops anyone from changing a tag after it is published, and what protects the main branch, is described in [SECURITY.md](SECURITY.md).
+
+## Install: Claude Code plugin
+
+You need Claude Code installed. No key: Claude Code signs in to Sorted with your own Sorted account.
+
+1. Open a terminal, as in step 1 of the Codex section above. Any folder will do: Claude Code fetches the plugin from GitHub itself.
+2. Add the plugin, straight from GitHub:
+
+   ```
+   claude plugin marketplace add Sortedos/sorted-plugin
+   claude plugin install sorted@sorted
+   ```
+
+   To get one fixed, released version instead of whatever the main branch holds today, name the release in the first line (see [Install one fixed version](#install-one-fixed-version-recommended)).
+
+3. Start Claude Code, type `/mcp`, choose **sorted** and sign in with your Sorted account when the browser opens.
+4. Ask: "Do a quick business review using Sorted."
+
+(Working from a copy of this repository on your computer instead? Open a terminal in that folder and use `claude plugin marketplace add ./` for the first line.)
+
+Tested on: Windows 11 with Claude Code 2.1.296. On 10 October 2026 both commands above were run for real against this public repository in a clean Claude Code configuration folder: the marketplace was added from GitHub and `sorted@sorted` installed. The sign-in step (step 3) was not run in that test, and neither was the answer in step 4. Earlier, on 6 October 2026 with Claude Code 2.1.291 and 2.1.292, the plugin from a local copy and the Sorted server entry were installed. Not tested: macOS, Linux.
+
+### Claude on the web or the desktop app
+
+No terminal. There are two routes. The plugin route brings the connection to Sorted and Sorted's skills together; the connector route brings the connection only and works on every plan. Sorted is not in Claude's own plugin directory, so you add it yourself in either case.
+
+**Route A: the plugin (Pro, Max, Team and Enterprise plans).**
+
+1. In Claude, open **Customize** in the left sidebar, then the **Plugins** tab.
+2. Press the black **+ Add** button at the top right (not the button on Anthropic's "Data" banner: that one asks for access to everything on your computer), then **Add marketplace**, then **Add from a repository**.
+3. Enter `Sortedos/sorted-plugin` (this repository's GitHub name) and press **Sync**. A yellow note may appear: "Auto-sync requires the Claude GitHub App to have access to this repository. Grant access". Close it: it does not affect Sorted.
+4. Open the **Discover** tab, choose **Sorted** and press **Add**. Claude then says "Sorted is installed and ready to use". **It is not connected yet.** Open the plugin's **Connectors** tab: Sorted reads "Not added".
+5. Press **Connect**. A window titled **Add custom connector** may open, with sign-in choices that look technical. Keep what it suggests, scroll down to the **Add** button and press it. Sorted now reads "Not connected": press **Connect** a second time.
+6. Sorted's own sign-in opens: sign in with your Sorted account, choose your company and press **Allow**. You are done when Sorted reads **Connected**.
+7. Optional: in **Customize**, **Connectors**, **Sorted**, set **Read-only tools** to **Always allow**, so Claude does not ask before each read. Changes to your dashboard still ask first.
+
+Until step 6 is done, Claude has none of Sorted's tools. If you ask something before then, Claude should say that Sorted is not connected yet (the skill `sorted-not-connected` tells it to); it should never send you to another product.
+
+On a Team or Enterprise plan, a Claude owner can limit which marketplaces are allowed; if **Add marketplace** is missing or refuses, ask your owner or use Route B. A plugin added this way is saved to your Claude account and also reaches Claude Code when you sign in there with the same account. Anthropic's page: https://support.claude.com/en/articles/13837440
+
+**Route B: the connector only (every plan, Free included).**
+
+1. In Claude, open **Customize**, then **Connectors**, click **+ Add**, then **Add custom connector**. Name it Sorted, enter the address `https://sortedos.com/api/mcp`, press **Continue**, keep the sign-in choices Claude suggests and press **Add**. On a Team or Enterprise plan, an owner of the Claude organisation adds it first under **Organization settings**, **Connectors**; members then find it under **Customize**, **Connectors** and click **Connect**. Anthropic's page shows each screen: https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp
+2. Sign in with your Sorted account when Claude asks, choose your company and press **Allow**.
+3. Optional: in **Customize**, **Connectors**, **Sorted**, set **Read-only tools** to **Always allow**, so Claude does not ask before each read. Changes to your dashboard still ask first.
+4. To use a skill, open its file from [the list of skills](#the-17-skills), copy all of its text and paste it as your first message.
+
+Odoo: connecting it needs no extra app or browser extension. The assistant can make the Odoo key itself when it has a browser tool (the Claude desktop app with Claude in Chrome; Cowork is expected to have one, not tested). Without one, you make the key in Odoo (avatar menu; Odoo 20: My Preferences, Security tab, Create API Key, Scope RPC; Odoo 19: the same menu, Add API Key; Odoo 17/18: My Profile, Account Security, New API Key) and paste it in the chat, or fill in the Odoo form on Sorted's Connections page; the assistant tells you the steps.
+
+Tested on 19 October 2026 (claude.ai in the browser, where Customize is the same as in the Claude desktop app; Claude Max plan): Route A, steps 1 to 6 above, took about 16 minutes the first time, including working out the four screens that older steps did not mention (the "ready to use" note while Sorted is not connected, the Add custom connector window, pressing Connect twice, and the GitHub note). Route B opens the same Add custom connector window as step 5, so that run covers it in practice; it was not run on its own. Not tested: a Team or Enterprise plan, the Claude desktop app itself, Cowork. Anthropic changes these menus often: if a screen differs, follow Anthropic's page.
 
 ## Install: Codex
 
@@ -126,54 +176,6 @@ Use this instead of the steps above, not as well. It also brings Sorted's skills
 
 Tested on: Windows 11 with Codex 0.155.1. On 10 October 2026 both commands above were run for real against this public repository in a clean Codex home: the marketplace was added from GitHub and `sorted@sorted` 1.2.0 installed and showed as "installed, enabled". The command form `owner/repo` is the one in OpenAI's own page "Build plugins" (https://developers.openai.com/codex/plugins/build). Signing in with a key and the business-review answer were last run on 6 October 2026, with the plugin as it was then (13 skills; the 14th, `sorted-onboard`, was added on 7 October). Not tested: macOS, Linux.
 
-## Install: Claude Code plugin
-
-You need Claude Code installed. No key: Claude Code signs in to Sorted with your own Sorted account.
-
-1. Open a terminal, as in step 1 of the Codex section above. Any folder will do: Claude Code fetches the plugin from GitHub itself.
-2. Add the plugin, straight from GitHub:
-
-   ```
-   claude plugin marketplace add Sortedos/sorted-plugin
-   claude plugin install sorted@sorted
-   ```
-
-   To get one fixed, released version instead of whatever the main branch holds today, name the release in the first line (see [Install one fixed version](#install-one-fixed-version-recommended)).
-
-3. Start Claude Code, type `/mcp`, choose **sorted** and sign in with your Sorted account when the browser opens.
-4. Ask: "Do a quick business review using Sorted."
-
-(Working from a copy of this repository on your computer instead? Open a terminal in that folder and use `claude plugin marketplace add ./` for the first line.)
-
-Tested on: Windows 11 with Claude Code 2.1.296. On 10 October 2026 both commands above were run for real against this public repository in a clean Claude Code configuration folder: the marketplace was added from GitHub and `sorted@sorted` installed. The sign-in step (step 3) was not run in that test, and neither was the answer in step 4. Earlier, on 6 October 2026 with Claude Code 2.1.291 and 2.1.292, the plugin from a local copy and the Sorted server entry were installed. Not tested: macOS, Linux.
-
-### Claude on the web or the desktop app
-
-No terminal. There are two routes. The plugin route brings the connection to Sorted and Sorted's skills together; the connector route brings the connection only and works on every plan. Sorted is not in Claude's own plugin directory, so you add it yourself in either case.
-
-**Route A: the plugin (Pro, Max, Team and Enterprise plans).**
-
-1. In Claude, open **Customize** in the left sidebar, then the **Plugins** tab.
-2. Press the black **+ Add** button at the top right (not the button on Anthropic's "Data" banner: that one asks for access to everything on your computer), then **Add marketplace**, then **Add from a repository**.
-3. Enter `Sortedos/sorted-plugin` (this repository's GitHub name) and press **Sync**. A yellow note may appear: "Auto-sync requires the Claude GitHub App to have access to this repository. Grant access". Close it: it does not affect Sorted.
-4. Open the **Discover** tab, choose **Sorted** and press **Add**. Claude then says "Sorted is installed and ready to use". **It is not connected yet.** Open the plugin's **Connectors** tab: Sorted reads "Not added".
-5. Press **Connect**. A window titled **Add custom connector** may open, with sign-in choices that look technical. Keep what it suggests, scroll down to the **Add** button and press it. Sorted now reads "Not connected": press **Connect** a second time.
-6. Sorted's own sign-in opens: sign in with your Sorted account, choose your company and press **Allow**. You are done when Sorted reads **Connected**.
-
-Until step 6 is done, Claude has none of Sorted's tools. If you ask something before then, Claude should say that Sorted is not connected yet (the skill `sorted-not-connected` tells it to); it should never send you to another product.
-
-On a Team or Enterprise plan, a Claude owner can limit which marketplaces are allowed; if **Add marketplace** is missing or refuses, ask your owner or use Route B. A plugin added this way is saved to your Claude account and also reaches Claude Code when you sign in there with the same account. Anthropic's page: https://support.claude.com/en/articles/13837440
-
-**Route B: the connector only (every plan, Free included).**
-
-1. In Claude, open **Customize**, then **Connectors**, click **+ Add**, then **Add custom connector**. Name it Sorted, enter the address `https://sortedos.com/api/mcp`, press **Continue**, keep the sign-in choices Claude suggests and press **Add**. On a Team or Enterprise plan, an owner of the Claude organisation adds it first under **Organization settings**, **Connectors**; members then find it under **Customize**, **Connectors** and click **Connect**. Anthropic's page shows each screen: https://support.claude.com/en/articles/11175166-get-started-with-custom-connectors-using-remote-mcp
-2. Sign in with your Sorted account when Claude asks, choose your company and press **Allow**.
-3. To use a skill, open its file from [the list of skills](#the-17-skills), copy all of its text and paste it as your first message.
-
-Odoo: connecting it needs no extra app or browser extension. The assistant can make the Odoo key itself when it has a browser tool (the Claude desktop app with Claude in Chrome; Cowork is expected to have one, not tested). Without one, you make the key in Odoo (avatar menu; Odoo 20: My Preferences, Security tab, Create API Key, Scope RPC; Odoo 19: the same menu, Add API Key; Odoo 17/18: My Profile, Account Security, New API Key) and paste it in the chat, or fill in the Odoo form on Sorted's Connections page; the assistant tells you the steps.
-
-Tested on 19 October 2026 (claude.ai in the browser, where Customize is the same as in the Claude desktop app; Claude Max plan): Route A, steps 1 to 6 above, took about 16 minutes the first time, including working out the four screens that older steps did not mention (the "ready to use" note while Sorted is not connected, the Add custom connector window, pressing Connect twice, and the GitHub note). Route B opens the same Add custom connector window as step 5, so that run covers it in practice; it was not run on its own. Not tested: a Team or Enterprise plan, the Claude desktop app itself, Cowork. Anthropic changes these menus often: if a screen differs, follow Anthropic's page.
-
 ## Install: ChatGPT connector guide
 
 ChatGPT connects to Sorted directly, as an app, with sign-in and no key. Which ChatGPT plans can do this, the steps, and how to give ChatGPT the skills: [docs/chatgpt-connector.md](docs/chatgpt-connector.md).
@@ -187,6 +189,7 @@ Tested on: 10 October 2026, live, on a personal ChatGPT Plus account on the web:
 - The assistant asks for the owner's yes only at important steps: anything that costs money, deletes something, changes data the owner did not ask for, makes a key, or changes who can reach a system (a user, a role, an app, a permission or a sign-in consent). Once the owner has signed it in, it presses on, system after system. When Google shows an "unverified app" warning during sign-in, the assistant stops and tells the owner what it says; the owner decides and presses it.
 - Sending numbers into Sorted (feeds) needs the owner's yes: a feed is created only after the owner has seen its preview and said yes, and `end_feed` deletes everything it sent.
 - Text that comes from other systems (names, labels, notes, order comments) is treated as data, never as instructions: only the owner's own messages in the chat are instructions. If such text tells the assistant to add a user, make a key, export data or connect an address, it does not, and tells the owner. This is an instruction to the assistant, not a lock: an assistant can still be fooled, which is why the owner's yes is required for the steps above and why you should read what it asks you to approve.
+- The skills tell the assistant to read Sorted's own guides (the using-sorted guide and the feed guides, through Sorted's `get_guide` tool). They are Sorted's own documentation, served by the one connection declared in `.mcp.json`; no skill reads instructions from any other source.
 - What you install is text plus one connection address, and nothing that runs on your computer. The repository's own check (`python scripts/check_manifests.py`) fails if a change points the connection at any other address or adds a script, hook or command. [SECURITY.md](SECURITY.md) says who can change the main branch, how to install a fixed version, and how to report a problem.
 
 ## For contributors

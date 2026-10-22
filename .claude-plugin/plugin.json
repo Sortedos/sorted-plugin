@@ -1,9 +1,16 @@
 {
   "name": "sorted",
-  "version": "1.3.12",
+  "version": "1.3.14",
   "license": "MIT",
   "description": "Your business on one screen: live numbers from every connected system, the places where systems disagree, the records behind each gap, and feeds that let the assistant send in numbers from systems Sorted does not read itself.",
-  "author": { "name": "Sorted" },
+  "displayName": "Sorted",
+  "author": { "name": "Sorted", "url": "https://sortedos.com" },
   "homepage": "https://sortedos.com",
+  "repository": "https://github.com/Sortedos/sorted-plugin",
+  "icon": "./assets/icon.png",
+  "documentationUrl": "https://github.com/Sortedos/sorted-plugin#readme",
+  "supportUrl": "https://github.com/Sortedos/sorted-plugin/issues",
+  "privacyPolicyUrl": "https://sortedos.com/privacy",
+  "termsOfServiceUrl": "https://sortedos.com/terms",
   "keywords": ["business", "dashboard", "accounting", "odoo", "shopify", "google-ads", "google-analytics", "meta-ads", "kpi", "reconciliation"]
 }

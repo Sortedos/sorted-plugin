@@ -1,6 +1,6 @@
 ---
 name: sorted-connect-shopify
-description: "Read the owner's Shopify store numbers (orders, sales, returns, visits, conversion rate) with read-only access and send them to their Sorted dashboard through a feed. Use when the owner asks to send Shopify numbers into Sorted, especially visits and conversion rate, which Sorted does not read itself. Not for connecting a system Sorted reads itself: that is sorted-connect-systems."
+description: "Read the owner's Shopify store numbers (orders, sales, returns, visits, conversion rate) with read-only access and send them to their Sorted dashboard through a feed. Use when the owner asks to send Shopify numbers into Sorted, especially visits and conversion rate, which Sorted does not read itself. Not for connecting a system Sorted reads itself: that is sorted-connect-systems. Needs Sorted's feed tools (define_feed, feed_numbers); if they are missing, this skill says what to do."
 ---
 
 # Shopify into Sorted, through a feed
@@ -34,6 +34,7 @@ A Shopify app can be limited to reading. Once the store owner has signed in, you
 1. Open https://dev.shopify.com, signed in as the **owner of the store**, and create an app in the same Shopify account as the store (otherwise Shopify refuses it).
 2. Under the Admin API access scopes add only reading scopes: `read_orders`, `read_products`, plus read_all_orders if the Scopes list offers it (orders older than 60 days; if it is not offered, skip it) and, for visits and conversion rate, `read_reports`. No scope that starts with write.
 3. Release the version and install the app on the store.
+   In the app's API access requests, open Protected customer data access and do step 1: pick a reason (Store management or Analytics), no customer fields. Without it Shopify refuses every order read. If a read says access denied for orders, this is the likely cause: never tell the owner to make a new key.
 4. The owner puts the app's access details into the assistant app's Shopify connector settings, never into the chat. While a key shows, read only the box's title and field names, never the page or box text.
 
 The owner types every password and 2-step code. If menus differ, say what you see; do not guess.

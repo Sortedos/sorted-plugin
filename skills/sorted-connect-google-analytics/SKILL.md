@@ -1,6 +1,6 @@
 ---
 name: sorted-connect-google-analytics
-description: Read the owner's Google Analytics 4 numbers (visitors, sessions, conversions, revenue) with read-only access and send them to their Sorted dashboard through a feed. Use when the owner asks their assistant to send website traffic or Analytics numbers into Sorted. Not for connecting a system so that Sorted reads it itself, which is sorted-connect-systems.
+description: Read the owner's Google Analytics 4 numbers (visitors, sessions, conversions, revenue) with read-only access and send them to their Sorted dashboard through a feed. Use when the owner asks their assistant to send website traffic or Analytics numbers into Sorted. Not for connecting a system so that Sorted reads it itself, which is sorted-connect-systems. Needs Sorted's feed tools (define_feed, feed_numbers); if they are missing, this skill says what to do.
 ---
 
 # Google Analytics into Sorted, through a feed

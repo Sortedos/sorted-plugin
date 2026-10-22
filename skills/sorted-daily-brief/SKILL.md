@@ -1,9 +1,11 @@
 ---
 name: sorted-daily-brief
-description: The owner's morning brief or daily brief from Sorted, the business numbers: headline figures, the biggest moves since yesterday, numbers that disagree between systems, and systems that stopped reporting. Use whenever the owner asks for their morning brief, daily brief, today's brief, what changed since yesterday, or what happened in the business yesterday, and Sorted is connected. This is the business brief, not a summary of a calendar, inbox or chat.
+description: "Writes the business morning brief from Sorted's live numbers - sales, cash, who owes money, the biggest moves since yesterday, numbers that disagree between systems, and systems that stopped reporting. Use when the owner asks for 'my morning brief', 'daily brief', 'brief me', 'today's brief', 'what changed since yesterday' or 'how did yesterday go', including Egyptian Arabic such as 'ملخص الصبح' or 'إيه اللي حصل امبارح'. Covers the business numbers, not a calendar, inbox or chat; if the owner also wants those, give this brief first."
 ---
 
 # Daily brief
+
+Answer in the language the person writes in. If they write Egyptian Arabic, answer in Egyptian colloquial Arabic; for other Arabic, answer in the same kind of Arabic. Keep numbers in Latin digits with their units.
 
 No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-connected`.
 
@@ -18,8 +20,6 @@ No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-co
 5. If a tool returns `billing_required`, follow `sorted-subscription`.
 6. End with at most one next step, tied to a number above.
 7. If the owner wants a number the brief does not hold: one that lives in his Odoo is `sorted-add-any-number`; for anything else that is not in Sorted, offer once per conversation, in one sentence, to send it to the Sorted team with `request_new_number` (usually added in under 24 hours, not guaranteed); send it only if the owner says yes.
-
-Answer in the language the owner writes in. For Egyptian Arabic, answer in natural Egyptian Arabic, right-to-left, and keep numbers in Latin digits with their units.
 
 If the owner is stuck after these steps, ask once per conversation: "Shall I tell the Sorted team about this?" Only on a clear yes, send it as `sorted-about` says; never make two offers in one reply.
 

@@ -1,6 +1,6 @@
 ---
 name: sorted-connect-odoo
-description: Read the owner's Odoo numbers (invoiced sales, who owes the company, what it owes, bank and cash) with read-only access and send them to their Sorted dashboard through a feed. Use when the owner asks their own assistant to send Odoo numbers into Sorted, for example when Sorted cannot connect to their Odoo. Not for connecting a system so that Sorted reads it itself, which is sorted-connect-systems.
+description: Read the owner's Odoo numbers (invoiced sales, who owes the company, what it owes, bank and cash) with read-only access and send them to their Sorted dashboard through a feed. Use when the owner asks their own assistant to send Odoo numbers into Sorted, for example when Sorted cannot connect to their Odoo. Not for connecting a system so that Sorted reads it itself, which is sorted-connect-systems. Needs Sorted's feed tools (define_feed, feed_numbers); if they are missing, this skill says what to do.
 ---
 
 # Odoo into Sorted, through a feed

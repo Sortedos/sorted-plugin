@@ -5,6 +5,8 @@ description: Use when Sorted's tools (such as list_connections or get_overview) 
 
 # Sorted is not connected yet
 
+Answer in the language the person writes in. If they write Egyptian Arabic, answer in Egyptian colloquial Arabic; for other Arabic, answer in the same kind of Arabic. Keep numbers in Latin digits with their units.
+
 Having Sorted's skills does not mean Sorted is connected. The connection is a separate step the owner takes once: signing in to Sorted. Until it is done, none of Sorted's tools exist in this chat.
 
 ## What to say
@@ -27,7 +29,5 @@ In the owner's language, in plain words: "Sorted is not connected to this chat y
 ## When it works
 
 Sorted's tools appear (try `list_connections`). If they do not, ask the owner to start a new chat once. Then go on with what the owner asked, or with `sorted-onboard` when they are starting out. If a step is missing or refused (no Add custom connector, a plan or workspace limit), say exactly what the screen says and that an owner or admin of their assistant account can add it; do not suggest another product.
-
-Answer in the language the owner writes in. For Egyptian Arabic, answer in natural Egyptian Arabic, right-to-left, and keep numbers in Latin digits with their units.
 
 Talk in plain words: never quote raw tool output, JSON, tool names or error codes to the person you are helping; say what happened in one plain sentence. Explain a technical term in a few words the first time you use it.

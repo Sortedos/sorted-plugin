@@ -1,6 +1,6 @@
 ---
 name: sorted-connect-google-ads
-description: Read the owner's Google Ads results with read-only access and send the numbers to their Sorted dashboard through a feed. Use when the owner asks their own assistant to send Google Ads spend and results into Sorted, for example when Sorted's own Google Ads connection cannot reach the account. Not for connecting a system so that Sorted reads it itself, which is sorted-connect-systems.
+description: Read the owner's Google Ads results with read-only access and send the numbers to their Sorted dashboard through a feed. Use when the owner asks their own assistant to send Google Ads spend and results into Sorted, for example when Sorted's own Google Ads connection cannot reach the account. Not for connecting a system so that Sorted reads it itself, which is sorted-connect-systems. Needs Sorted's feed tools (define_feed, feed_numbers); if they are missing, this skill says what to do.
 ---
 
 # Google Ads into Sorted, through a feed

@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.3.14
+
+Launch hardening for the Claude plugin directory, 21 October 2026. No new skills (17 skills). Built on 1.3.13 (the open Shopify pull request).
+
+- **Directory listing fields.** `.claude-plugin/plugin.json` gains `displayName`, `repository`, `icon` (`assets/icon.png`, a 1024 px square PNG: the directory validator accepts PNG or JPEG, not SVG; `assets/icon.svg` is the same mark as source), `documentationUrl`, `supportUrl`, `privacyPolicyUrl` (https://sortedos.com/privacy), `termsOfServiceUrl` (https://sortedos.com/terms) and an `author` address. `scripts/check_manifests.py` allows exactly those keys. `claude plugin validate --strict` no longer warns about a missing icon or privacy policy.
+- **Codex route kept.** The Codex plugin keeps its personal-key route, unchanged from 1.3.12: `plugins/sorted/.mcp.json` still names the `SORTED_TOKEN` environment variable, and the README and Arabic README section "Advanced (support only)", the SECURITY.md paragraph about it and the `sign_in` line of `docs/feed-tools.json` stay as they were. The README's Codex steps (sign in with OAuth) remain the preferred route.
+- **README opens with what Sorted does for Claude** (what it reads, that the plugin is text plus one connection, OAuth sign-in, what Sorted receives); the Claude sections come before Codex and ChatGPT. A README line says the guides the skills read are Sorted's own documentation served by the declared connection.
+- **`sorted-daily-brief` and `sorted-organise-dashboard` descriptions** are in the third person, quoted, with Egyptian Arabic triggers; the daily brief no longer ends with the condition "and Sorted is connected" (issue 233). Seven other skills got third-person descriptions (`sorted-add-any-number`, `sorted-onboard`, `sorted-business-review` with a narrower "summary" trigger, `sorted-cash-and-collections`, `sorted-fix-conflicts`, `sorted-subscription`, `sorted-connect-systems` with trigger phrases). The six feed skills say they need Sorted's feed tools and that, if the tools are missing, the skill says what to do (the description does not gate loading, so the skill's own missing-tools branch can be reached).
+- **One language line at the top of eleven skills:** "Answer in the language the person writes in. If they write Egyptian Arabic, answer in Egyptian colloquial Arabic; for other Arabic, answer in the same kind of Arabic. Keep numbers in Latin digits with their units." Other Arabic writers are not switched to Egyptian dialect, and there is no "short" instruction. It replaces the old line (no "right-to-left", "person" for "owner").
+- **Fewer Allow prompts:** the README (Route A and B, and the Arabic README) names the Claude menu path for Always allow; `sorted-onboard` says, host-neutrally, that if the assistant's settings let the owner always allow Sorted's read-only tools, tell them once. The skill names no Claude menu because it ships unchanged into the Codex plugin.
+- **Card-first free trial wording (Sorted ruling 1917, 22 October 2026).** `sorted-subscription` no longer says the free trial "needs no card". It gives the 15-day trial, the card needed to start it and the "no charge until 15 days after you add your card, cancel anytime before" line, in English and in Egyptian Arabic, word for word as the app shows them in `lib/card-first.ts`. The live /signup page words it slightly differently; the skill uses the app's lines. Price and offers are still quoted exactly as `get_subscription` returns them.
+- **Overdue counts (issue 319).** `sorted-cash-and-collections`: if a guide says a number is missing, try `live_read` before saying it is not available.
+- **`sorted-cash-and-collections` description** goes back to main's wording ("Cash position and collections - ..."). With "Shows the cash position and ..." the skill took a bank-balance question that main answers without it (trigger test: 0 of 6 against main's 5 of 6); with main's wording it is 3 of 4 again, and the cash, owed and overdue prompts still pass 4 of 4.
+- To stay within the 1,450-word cap, `sorted-connect-systems` lost one sentence in its cost-tag step: "Say that cash, receivables and payables are company-wide, so they are not shown for this business." It also lost a few filler words in the Google Analytics link sentence and the plain-words paragraph to make room for the longer language line. No lint pin changed.
+
+## 1.3.13
+
+Shopify protected customer data, 21 October 2026. No new skills (17 skills).
+
+- **Shopify setup now includes Protected customer data access.** Shopify refuses every order read until the app has this approval (in the app's API access requests, step 1: pick a reason such as Store management or Analytics; no customer fields are needed; apps on the Shopify App Store also need step 2). Sorted's connection test only reads the shop's name, so it passes without it. `sorted-connect-systems` and `sorted-connect-shopify` now name the step.
+- **A refused first Shopify read no longer sends the owner to make a new key.** The key is usually fine. `sorted-connect-systems` tells the assistant to check Protected customer data access, then the scopes, and not to advise a new key. The web page and the collector's message are Sorted app changes, not part of this plugin.
+- The Codex copy under `plugins/sorted/skills/` carries the same text.
+
 ## 1.3.12
 
 Version numbers and changelog only, 21 October 2026. The 1.3.11 tag was cut one commit early: it has the skills below, but its three manifest files still say 1.3.10 and it has no changelog entry. 1.3.12 is the same skills with the manifests (1.3.12) and this changelog corrected; use 1.3.12. No skill text changed between 1.3.11 and 1.3.12.

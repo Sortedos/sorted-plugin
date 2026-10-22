@@ -120,6 +120,7 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 4. افتح تبويب **Discover**، واختار **Sorted** ودوس **Add**. Claude هيقول "Sorted is installed and ready to use". **لسه مش متوصّل.** افتح تبويب **Connectors** بتاع الإضافة: Sorted مكتوب جنبه "Not added".
 5. دوس **Connect**. ممكن تفتح نافذة اسمها **Add custom connector** فيها اختيارات دخول شكلها تقني. سيب اللي بيقترحه، ونزّل لتحت لحد زرار **Add** ودوس عليه. هتلاقي Sorted مكتوب جنبه "Not connected": دوس **Connect** مرة تانية.
 6. بتفتح شاشة الدخول بتاعة Sorted: سجّل دخول بحساب Sorted، واختار شركتك ودوس **Allow**. خلصت لما يتكتب جنب Sorted **Connected**.
+7. اختياري: من **Customize** ثم **Connectors** ثم **Sorted**، خلّي **Read-only tools** على **Always allow**، علشان Claude ماياخدش إذنك قبل كل قراية. التغييرات في الداشبورد بتاعتك لسه بتطلب إذنك الأول.
 
 لحد ما الخطوة 6 تخلص، Claude معندوش أي أداة من أدوات Sorted. لو سألته قبلها، المفروض يقول إن Sorted لسه مش متوصّل (الـ skill اسمها `sorted-not-connected` بتقوله كده)، ومايبعتكش لمنتج تاني.
 

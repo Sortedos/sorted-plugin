@@ -22,7 +22,9 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 URL = "https://sortedos.com/api/mcp"
-MANIFEST_KEYS_OK = {"name", "version", "license", "description", "author", "homepage", "keywords", "skills", "interface", "owner", "plugins"}
+MANIFEST_KEYS_OK = {"name", "version", "license", "description", "author", "homepage", "keywords", "skills", "interface", "owner", "plugins",
+                    # directory listing fields: https addresses and one icon path, read by the plugin directory, never loaded as code
+                    "displayName", "repository", "icon", "documentationUrl", "supportUrl", "privacyPolicyUrl", "termsOfServiceUrl"}
 SERVER_KEYS_OK = {
     ".mcp.json": {"type", "url"},
     os.path.join("plugins", "sorted", ".mcp.json"): {"type", "url", "bearer_token_env_var"},
