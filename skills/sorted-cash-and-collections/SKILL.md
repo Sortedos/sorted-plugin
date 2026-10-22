@@ -1,6 +1,6 @@
 ---
 name: sorted-cash-and-collections
-description: Shows the cash position and collections - who owes the business money, what is overdue, what the business owes, and draft polite chase messages. Use when the user asks about cash, receivables, overdue invoices, debtors, or who to chase.
+description: Cash position and collections - who owes the business money, what is overdue, what the business owes, and draft polite chase messages. Use when the user asks about cash, receivables, overdue invoices, debtors, or who to chase.
 ---
 
 # Cash and collections
