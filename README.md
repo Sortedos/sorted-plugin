@@ -5,7 +5,7 @@
 This repository lets an AI assistant work with Sorted. It holds:
 
 - **17 skills**: short instruction files that teach an assistant how to do one job well with Sorted, such as getting a company started, a business review, a collections list, finding numbers that disagree, or connecting a system.
-- **The Codex plugin** and **the Claude Code plugin**, which install those skills together with the connection to Sorted (sign-in with your Sorted account, no key).
+- **The Codex plugin** (advanced, support only, with a personal key) and **the Claude Code plugin**, which install those skills together with the connection to Sorted.
 - **A guide for ChatGPT**, which connects to Sorted directly.
 
 ## Who this is for
@@ -135,6 +135,46 @@ You need Codex installed and signed in. No key: Codex signs in to Sorted with yo
 3. Close every Codex window, including the Codex desktop app if it is open, and open Codex again. Ask: "Do a quick business review using Sorted." A working answer quotes your company's numbers with the time they were read.
 
 Source: OpenAI's page on MCP servers in Codex (https://developers.openai.com/codex/mcp, read 11 October 2026) lists servers that use Streamable HTTP with OAuth sign-in, including Dynamic Client Registration, which Sorted's server offers. Tested on: Windows 11 with Codex 0.155.1, where both commands above exist (checked with `--help` on 11 October 2026). The sign-in with Sorted and the answer in step 3 were **not run yet** with this route. Not tested: macOS, Linux.
+
+### Advanced (support only): the Codex plugin with a personal key
+
+**Prefer the steps above.** This route keeps your Sorted key as plain text on your computer: Codex reads it from an environment variable (a named setting your computer keeps for programs), and on Windows that setting is stored unprotected under your user account, on a Mac or Linux in a start-up file. Any program that runs as you can read it, and so could any other Codex plugin you install, by asking Codex to send that variable to a server of its own. Install only plugins you trust, keep the key to yourself, and if it may have leaked, write to info@sortedos.com to have it replaced. Use this route only when Sorted's support asks you to.
+
+Use this instead of the steps above, not as well. It also brings Sorted's skills. You need Codex installed and signed in, and a personal Sorted plugin key (it starts with `srt_`). Sorted gives you one: ask at info@sortedos.com. The key belongs to you and your company; keep it to yourself.
+
+1. Open a terminal: on Windows, press the Windows key, type `PowerShell` and press Enter; on a Mac, press Command and Space, type `Terminal` and press Enter. Any folder will do: Codex fetches the plugin from GitHub itself, so you do not download anything.
+2. Save your key where Codex can read it, as the environment variable `SORTED_TOKEN` (a named setting your computer keeps for programs).
+
+   On Windows, in PowerShell (the window's title or prompt says PowerShell, not Command Prompt), one line at a time:
+
+   a. Paste this line and press Enter:
+
+      ```powershell
+      $key = Read-Host "Paste your Sorted key" -AsSecureString
+      ```
+
+   b. Paste your key when it asks, and press Enter. Nothing shows on screen while you paste: that is normal.
+   c. Paste this line and press Enter:
+
+      ```powershell
+      [Environment]::SetEnvironmentVariable("SORTED_TOKEN", [Net.NetworkCredential]::new("", $key).Password, "User")
+      ```
+
+   On a Mac, type `touch ~/.zshrc; open -e ~/.zshrc` to open your terminal's start-up file in TextEdit; on Linux, type `nano ~/.bashrc`. Add a new last line: `export SORTED_TOKEN=` followed by your key, with no spaces. Save and close the file. Typing the key into the file, not into the terminal, keeps it out of the terminal's history.
+3. Add the plugin to Codex, straight from GitHub. The first line tells Codex where the plugin lives (`Sortedos/sorted-plugin` is this repository's GitHub name), the second installs it:
+
+   ```
+   codex plugin marketplace add Sortedos/sorted-plugin
+   codex plugin add sorted@sorted
+   ```
+
+   To get one fixed, released version instead of whatever the main branch holds today, name the release in the first line (see [Install one fixed version](#install-one-fixed-version-recommended)).
+
+4. Close every Codex window, including the Codex desktop app if it is open, so that Codex sees the new key. Open a new terminal, type `codex` and press Enter, then ask: "Do a quick business review using Sorted." A working answer quotes your company's numbers with the time they were read.
+
+(Working from a copy of this repository on your computer instead, for example while changing it? Open a terminal in that folder and use `codex plugin marketplace add .` for the first line.)
+
+Tested on: Windows 11 with Codex 0.155.1. On 10 October 2026 both commands above were run for real against this public repository in a clean Codex home: the marketplace was added from GitHub and `sorted@sorted` 1.2.0 installed and showed as "installed, enabled". The command form `owner/repo` is the one in OpenAI's own page "Build plugins" (https://developers.openai.com/codex/plugins/build). Signing in with a key and the business-review answer were last run on 6 October 2026, with the plugin as it was then (13 skills; the 14th, `sorted-onboard`, was added on 7 October). Not tested: macOS, Linux.
 
 ## Install: ChatGPT connector guide
 
