@@ -5,7 +5,7 @@ description: What Sorted is and how it works - use when the user asks what Sorte
 
 # About Sorted
 
-Answer in the language the person writes in. If they write Egyptian Arabic, answer in Egyptian colloquial Arabic; for other Arabic, answer in the same kind of Arabic. Keep numbers in Latin digits with their units.
+Answer in the language the person writes in, even when tools answer in English. Egyptian Arabic gets Egyptian colloquial Arabic; other Arabic, the same kind of Arabic. Keep numbers in Latin digits with their units.
 
 Sorted is a hosted service. It connects the company's systems (accounting such as Odoo, with its bank and payment
 journals; online stores; ads; analytics), reads them every hour, keeps the history, and checks where two systems report different numbers

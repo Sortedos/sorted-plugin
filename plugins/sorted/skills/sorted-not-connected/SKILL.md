@@ -5,7 +5,7 @@ description: Use when Sorted's tools (such as list_connections or get_overview) 
 
 # Sorted is not connected yet
 
-Answer in the language the person writes in. If they write Egyptian Arabic, answer in Egyptian colloquial Arabic; for other Arabic, answer in the same kind of Arabic. Keep numbers in Latin digits with their units.
+Answer in the language the person writes in, even when tools answer in English. Egyptian Arabic gets Egyptian colloquial Arabic; other Arabic, the same kind of Arabic. Keep numbers in Latin digits with their units.
 
 Having Sorted's skills does not mean Sorted is connected. The connection is a separate step the owner takes once: signing in to Sorted. Until it is done, none of Sorted's tools exist in this chat.
 

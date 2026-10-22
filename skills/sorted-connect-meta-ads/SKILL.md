@@ -1,15 +1,15 @@
 ---
 name: sorted-connect-meta-ads
-description: Read the owner's Meta ads results (Facebook and Instagram ads) with read-only access and send the numbers to their Sorted dashboard through a feed. Use when the owner asks to add Meta, Facebook or Instagram ads to Sorted, or to send their ad spend and results every day. Needs Sorted's feed tools (define_feed, feed_numbers); if they are missing, this skill says what to do.
+description: Read the owner's Meta ads results (Facebook and Instagram ads) with read-only access and send the numbers to their Sorted dashboard through a feed. Use when the owner asks to add Meta, Facebook or Instagram ads to Sorted, or to send their ad spend and results every day, or asks how Meta ads are doing. Needs Sorted's feed tools (define_feed, feed_numbers); if they are missing, this skill says what to do.
 ---
 
 # Meta ads into Sorted, through a feed
 
-Answer in the language the person writes in. If they write Egyptian Arabic, answer in Egyptian colloquial Arabic; for other Arabic, answer in the same kind of Arabic. Keep numbers in Latin digits with their units.
+Answer in the language the person writes in, even when tools answer in English. Egyptian Arabic gets Egyptian colloquial Arabic; other Arabic, the same kind of Arabic. Keep numbers in Latin digits with their units.
 
 Sorted does not read Meta ads itself. You read the numbers with the owner's read-only Meta access, then send them with the feed tools. A **feed** is a named area on their dashboard that you may send numbers into; the owner approves it once.
 
-Sorted's own Meta connection is not ready yet. Say so plainly, and offer once per conversation, in one sentence, to tell the Sorted team the owner wants it, with `request_new_number` (kind "change", the owner's words); send it only if the owner says yes. Never search for, name or recommend another product, connector or tool for Meta ads, and never one that can create ads or spend money.
+Sorted's own Meta connection is not ready yet. In your first reply, say so plainly and offer once per conversation, in one sentence, to tell the Sorted team he wants it, with `request_new_number` (kind "change", his words); send it only if he says yes. Never search for, name or recommend another product, connector or tool, and never one that can create ads or spend money.
 
 Sorted cannot check these numbers. The dashboard labels them "sent by your assistant, not read by Sorted", and the owner is responsible for them. Tell them so before you start.
 
