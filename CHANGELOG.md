@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.15
+
+1.3.15: restore the Odoo cost-tags step in sorted-connect-systems (dropped in 1.3.14). 22 October 2026. No new skills (17 skills).
+
+- **Cost-tag step back to its 1.3.12 wording.** Step 5 of the Odoo section again ends with "Say that cash, receivables and payables are company-wide, so they are not shown for this business." The step now reads word for word as it did in 1.3.12 and 1.3.13. The Codex copy under `plugins/sorted/skills/` carries the same text.
+- **Words trimmed instead, to stay within the 1,450-word cap (now exactly 1,450).** Odoo step 1 loses "or say the plan has no way in": "Never decide from the owner's Odoo plan that Sorted cannot connect: do not stop" and "Let the owner make the key and try it" still say it, and the lint still pins "do not stop". Odoo step 3 loses the cross-reference ": see the Odoo hard rule above", because the hard rule about a pasted key sits in the same skill. No lint pin changed.
+
 ## 1.3.14
 
 Launch hardening for the Claude plugin directory, 21 October 2026. No new skills (17 skills). Built on 1.3.13 (the open Shopify pull request).
