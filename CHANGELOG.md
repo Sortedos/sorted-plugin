@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.16
+
+1.3.16: three skill descriptions sharpened so the assistant reaches for Sorted first instead of Gmail, Calendar or a web search, in English and Egyptian Arabic. No new skills (17 skills), no connection change.
+
+- **`sorted-daily-brief`** names "give me my morning brief" and "what is up today", and says to use it FIRST, before any calendar, email or chat tool, even when those are connected.
+- **`sorted-subscription`** now also covers what Sorted costs, its price and its free trial ("how much is Sorted", "سورتد بكام", "فيه تجربة مجانية"): `get_subscription` BEFORE any web search, since other products share the name Sorted.
+- **`sorted-cash-and-collections`** names "how many invoices are overdue" ("كام فاتورة متأخرة"): when the tables give only an amount, the count is read with `live_read` in the same answer instead of "unknown" or "amount only".
+
 ## 1.3.15
 
 1.3.15: restore the Odoo cost-tags step in sorted-connect-systems (dropped in 1.3.14), and offer the Sorted team, never another product, for a system Sorted does not read yet (issue 352); the language line now says to answer in the person's language even when tools answer in English (issue 255). 22 October 2026. No new skills (17 skills).
