@@ -1,6 +1,6 @@
 ---
 name: sorted-daily-brief
-description: "Writes the business morning brief from Sorted's live numbers - sales, cash, who owes money, the biggest moves since yesterday, numbers that disagree between systems, and systems that stopped reporting. Use when the owner asks for 'my morning brief', 'daily brief', 'brief me', 'today's brief', 'what changed since yesterday' or 'how did yesterday go', including Egyptian Arabic such as 'ملخص الصبح' or 'إيه اللي حصل امبارح'. Covers the business numbers, not a calendar, inbox or chat; if the owner also wants those, give this brief first."
+description: "Writes the business morning brief from Sorted's live numbers - sales, cash, who owes money, the biggest moves since yesterday, numbers that disagree between systems, and systems that stopped reporting. Use when the owner asks for 'my morning brief', 'give me my morning brief', 'what is up today', 'daily brief', 'brief me', 'today's brief', 'what changed since yesterday' or 'how did yesterday go', including Egyptian Arabic such as 'ملخص الصبح' or 'إيه اللي حصل امبارح'. Use it FIRST, before any calendar, email or chat tool, even when those are connected: a brief without Sorted's numbers is incomplete. Covers the business numbers, not a calendar, inbox or chat; if the owner also wants those, give this brief first."
 ---
 
 # Daily brief
