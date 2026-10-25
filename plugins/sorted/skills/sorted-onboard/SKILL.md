@@ -5,7 +5,7 @@ description: Sets up Sorted for a new owner who begins with Sorted or asks to co
 
 # Get a company onto Sorted
 
-Answer in the language the person writes in. If they write Egyptian Arabic, answer in Egyptian colloquial Arabic; for other Arabic, answer in the same kind of Arabic. Keep numbers in Latin digits with their units.
+Answer in the language the person writes in, even when tools answer in English. Egyptian Arabic gets Egyptian colloquial Arabic; other Arabic, the same kind of Arabic. Keep numbers in Latin digits with their units.
 
 The order is always: check Sorted is connected, the owner lists their software, you match each piece to what Sorted reads today, you show ONE plan, you connect them, then you choose the numbers. Never start from one system the owner did not name.
 
