@@ -1,6 +1,6 @@
 ---
 name: sorted-cash-and-collections
-description: Cash position and collections - who owes the business money, what is overdue, what the business owes, and draft polite chase messages. Use when the user asks about cash, receivables, overdue invoices, debtors, or who to chase.
+description: Cash position and collections - who owes the business money, what is overdue, what the business owes, and draft polite chase messages. Use when the user asks about cash, receivables, overdue invoices, how many invoices are overdue ('كام فاتورة متأخرة'), debtors, or who to chase.
 ---
 
 # Cash and collections
@@ -16,7 +16,7 @@ No Sorted tools in this chat? Sorted is not connected yet: follow `sorted-not-co
    - **Top 5 who owe us** - name, amount, overdue part if shown.
    - **Top 5 we owe** - supplier, amount.
    - **Chase list** - for the top overdue customers, a short, polite reminder message written in the CUSTOMER's language (their Odoo language when known), ready to send, plus a one-line translation in the owner's language for the owner to check before sending.
-4. Never invent balances. If a table is missing, say so. If a guide says a number is missing, try `live_read` before saying it is not available (for example, a count of overdue invoices).
+4. Never invent balances. If a table is missing, say so. If the owner asks HOW MANY (for example how many invoices are overdue) and the tables give only an amount, do not answer 'unknown' or 'amount only': in the same answer ask his Odoo with `live_read` for the count (invoices still unpaid past their due date), then give the count with the amount. Only if the person is not an owner, say an owner can have it read. If a guide says any other number is missing, try `live_read` before saying it is not available.
 
 If the owner is stuck after these steps, ask once per conversation: "Shall I tell the Sorted team about this?" Only on a clear yes, send it as `sorted-about` says; never make two offers in one reply.
 
