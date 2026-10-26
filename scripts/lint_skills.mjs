@@ -163,7 +163,7 @@ const STALE_NO_API_STOP = /(?:One App Free|Standard)[^.\n]*\bno external API\b|\
 // 8. Every tool name a skill writes in backticks must be a real tool of the Sorted connection.
 const READ_TOOLS = ["get_overview", "get_section", "list_conflicts", "get_conflict_records", "get_subscription", "open_dashboard",
   "daily_brief", "list_connections", "get_dashboard_layout", "update_dashboard_layout", "undo_dashboard_change", "request_new_number",
-  "preview_number", "enable_number", "disable_number", "preview_cash_journals", "set_cash_journals", "clear_cash_journals", "live_read"];
+  "preview_number", "enable_number", "disable_number", "preview_cash_journals", "set_cash_journals", "clear_cash_journals", "live_read", "preview_refresh_rate", "set_refresh_rate"];
 const FEED_TOOLS = ["define_feed", "feed_numbers", "list_feeds", "end_feed"];
 const CONNECT_TOOLS = ["connect_odoo"]; // saves an Odoo connection after the owner's yes (Sorted still only reads from that Odoo); live since 11 October 2026
 const KNOWN_TOOLS = new Set([...READ_TOOLS, ...FEED_TOOLS, ...CONNECT_TOOLS]);

@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.17
+
+1.3.17: `sorted-onboard` step 5 now asks the owner once how often Sorted should refresh the numbers (every 1, 3, 6, 12 or 24 hours; hourly by default) and uses `preview_refresh_rate` then `set_refresh_rate` after a yes. No new skills (17 skills), no connection change.
+
 ## 1.3.16
 
 1.3.16: three skill descriptions sharpened so the assistant reaches for Sorted first instead of Gmail, Calendar or a web search, in English and Egyptian Arabic. No new skills (17 skills), no connection change.

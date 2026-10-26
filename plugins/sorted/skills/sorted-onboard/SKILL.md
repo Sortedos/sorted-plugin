@@ -46,7 +46,7 @@ Show ONE plan as a table: system | what Sorted does | when the numbers arrive. S
 
 ## 5. Choose the numbers
 
-What only the owner knows: which numbers matter to them and how often they want them. Then call `get_overview` and report only the numbers it returns, with their units and snapshot time. To show or hide cards later, see `sorted-organise-dashboard`; for a number Sorted lacks, `sorted-add-any-number`.
+What only the owner knows: which numbers matter to them and how often they want them. Ask once how often Sorted should refresh: every 1, 3, 6, 12 or 24 hours (hourly is the default); use `preview_refresh_rate`, then `set_refresh_rate` only after a yes. Then call `get_overview` and report only the numbers it returns, with their units and snapshot time. To show or hide cards later, see `sorted-organise-dashboard`; for a number Sorted lacks, `sorted-add-any-number`.
 
 ## 6. Close with a list
 
