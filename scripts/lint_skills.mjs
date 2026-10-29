@@ -439,6 +439,8 @@ const FEED_RULES = [
 // 13 October 2026 (feeds live test): a ChatGPT connection made before feeds were switched on only shows the feed tools after the owner presses Refresh tools in Sorted's plugin settings and
 // starts a new chat. The skill that every other feed route falls back on says so BEFORE it concludes that feeds are off, in words that name no assistant (nothing is verified about Claude or Codex).
 const ANY_SYSTEM_RULES = [
+  // 29 October 2026: browser first for systems Sorted does not read itself (such as Zoho).
+  ["opens the system's site in its browser, lets the owner only sign in, makes the key itself and never tells the owner to get one", /Browser first: open the system's site in your browser[\s\S]*Never tell the owner to get an API key/],
   ["asks the owner once to press Refresh tools in Sorted's plugin settings and start a new chat before it concludes that feeds are not switched on", /not among your Sorted tools, ask the owner once to press Refresh tools in Sorted's plugin settings[^.]*start a new chat[^.]*feeds are not switched on/],
 ];
 
@@ -460,6 +462,8 @@ const ADD_ANY_NUMBER_RULES = [
 // own example "Give me my morning brief" went to another skill because no Sorted skill claimed it. sorted-not-connected says plainly that Sorted is not connected yet and gives the exact
 // steps (CONNECT_STEPS, word for word); sorted-daily-brief claims the morning / daily brief; every skill that needs Sorted's tools points to sorted-not-connected.
 const NOT_CONNECTED_RULES = [
+  // 29 October 2026: once connected, a system is connected by the assistant in its browser; the owner only signs in.
+  ["promises to open the system in the browser and make any key itself", /you open that system's site in your browser, the owner only signs in, and you make any key yourself[^.]*never tell the owner to go and get an API key/],
   ["says plainly that Sorted is not connected to this chat yet", /"Sorted is not connected to this chat yet\. Here is how to connect it\."/],
   ["never says Sorted was not found", /Never say Sorted was "not found"/],
   ["never recommends another product, plugin or connector", /Never recommend, list or offer another product, plugin or connector/],
@@ -482,6 +486,8 @@ const NOT_CONNECTED_POINTER_SKILLS = new Set(["sorted-onboard", "sorted-connect-
 // with the three columns, and the plain statement that only Odoo, Shopify, Google Ads and Google Analytics 4 can be added today
 // (11 October 2026: feeds are off, so the seven routes are gone from the plan).
 const ONBOARD_RULES = [
+  // 29 October 2026: browser first in onboarding too.
+  ["say browser first: the assistant makes the key and never tells the owner to get one", /\*\*Browser first; you make the key\.\*\*[^\n]*Never tell the owner to get, find or make an API key\./],
   ["asks the one first question", /Which software does your company run on\? If you run more than one company, list each one's\./],
   ["names the four systems Sorted reads today and says everything else cannot be added yet", /Odoo, Shopify, Google Ads and Google Analytics 4[\s\S]*cannot be added yet/],
   ["checks what Sorted already has with list_connections", /`list_connections`/],
@@ -504,8 +510,9 @@ const ONBOARD_RULES = [
 // database name and login come from the signed-in Odoo page, never from a hosting dashboard, and same-named cost tags need no question.
 const SIGN_IN_RULES = [
   ["gives the owner one link for their company to open where they are already signed in to Sorted", /already signed in to Sorted: https:\/\/sortedos\.com\/connections\?org=<company id>&provider=<google_ads\|ga4\|shopify>/],
-  ["stops at Google's unverified app screen and lets the owner continue only on the owner's yes", /"unverified app" screen: stop and tell the owner what it says; only on the owner's yes does the owner press Advanced/],
-  ["never signs its own browser in to Sorted for these systems, except as the last resort after checking the owner's email and company name", /Never sign your own browser in to Sorted for them[\s\S]*confirm it shows the owner's email and the company's name/],
+  ["stops at Google's unverified app screen and lets the owner continue only on the owner's yes", /"unverified app" screen: stop and tell the owner what it says; only on the owner's yes do you press Advanced/],
+  // 29 October 2026: browser first. The assistant opens the company's link itself, in the owner's own browser, and checks the page shows the owner's email and the company's name; only then, or with no browser tool, does the owner open the link.
+  ["opens the company's link itself in the owner's own browser, checks the owner's email and company name, and otherwise gives the owner the link", /Open this link yourself, in the owner's own browser[\s\S]*must show the owner's email and the company's name; if not, give the owner the link to open/],
   ["reads the database name and login from the signed-in page's session info and never opens a hosting dashboard", /session info[\s\S]*"db" and "username"[\s\S]*Never open Odoo\.sh, GitHub or a hosting dashboard/],
   ["says same-named cost tags are all included and each line counts once", /tags that share a name are all included and each line counts once/],
   // 12 October 2026 (live test): Sorted's own Google sign-in for Analytics is switched off, so Analytics has no Continue with Google. The assistant does the guided setup itself
@@ -532,7 +539,8 @@ const SECURITY_SKILLS = new Set(["sorted-onboard", "sorted-connect-systems"]);
 // With no browser tool Odoo still connects: the owner makes the key himself and the assistant passes it to connect_odoo, or he fills in the form on Sorted's Connections page.
 const NO_BROWSER_RULES = [
   ["does not stop or ask the owner to install anything when there is no browser tool", /Do not stop or ask the owner to install anything/],
-  ["connects Odoo with no browser tool: the owner makes the key himself, nothing to install", /\*\*With no browser tool\*\* the owner makes it the same way himself \(nothing to install\)/],
+  // 29 October 2026: the assistant opens the browser and makes the key; the owner only signs in. Never "go and get an API key".
+  ["says browser first: the assistant makes the key, the owner only signs in, and never tells the owner to get an API key", /\*\*Browser first; you make the key\.\*\*[^\n]*The owner only signs in\. Never tell the owner to get, find or make an API key\./],
   ["asks for the database name and login when there is no browser to read them from", /Without one, ask him for both/],
 ];
 const KEY_BOX_SKILLS = new Set(["sorted-onboard", "sorted-connect-systems"]);
@@ -573,6 +581,13 @@ const ODOO_FEED_RULES = [
 
 const dirs = readdirSync(SKILLS).filter((d) => statSync(join(SKILLS, d)).isDirectory()).sort();
 assert(JSON.stringify(dirs) === JSON.stringify([...EXPECTED].sort()), `skills/ holds exactly the ${EXPECTED.length} expected skills, found: ${dirs.join(", ")}`);
+// 29 October 2026: the assistant opens the browser and makes the key; the owner only signs in. A sentence that sends the owner off to get, find or generate a key or token themselves
+// ("get your API key", "go and create an API token") is refused unless the same sentence forbids it ("never", "not", "no", "without").
+const SELF_KEY_RE = /\b(?:go (?:and |to )?)?(?:(?:get|obtain|generate|grab|fetch|create)\s+(?:your|an?|the|his|her|their)|find\s+(?:your|his|her|their))\s+(?:own\s+)?(?:API\s+)?(?:key|token)s?\b|\b(?:your|the) API (?:key|token)s? (?:from|in) (?:your|the)\b/i;
+const SELF_KEY_FORBID = /\b(?:never|not|no|without|don't|do not)\b/i;
+const selfKeyProblems = (text) => text.split(/\n+|(?<=[.!?;])\s+/).filter((s) => SELF_KEY_RE.test(s) && !SELF_KEY_FORBID.test(s)).map((s) => `sends the owner to get a key or token themselves: "${s.slice(0, 90)}"`);
+assert(selfKeyProblems("Go and get your API key from the settings page.").length === 1, "the lint catches a skill that tells the owner to get their own API key");
+assert(selfKeyProblems("Open the system's site yourself; the owner signs in and you make the key. Never tell the owner to get an API key.").length === 0, "the lint passes the browser-first wording");
 let good = 0;
 const bad = [];
 for (const d of dirs) {
@@ -596,6 +611,7 @@ for (const d of dirs) {
     for (const [why, re] of FEED_SECTIONS) if (!re.test(text)) problems.push(`has no section on ${why}`);
     for (const [why, re] of FEED_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
   }
+  problems.push(...selfKeyProblems(text));
   if (!PLAIN_WORDS_RULE.test(text)) problems.push("does not tell the assistant to talk in plain words and never show raw tool output, JSON, tool names or error codes");
   if (d === "sorted-connect-odoo") for (const [why, re] of ODOO_FEED_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);
   if (d === "sorted-connect-any-system") for (const [why, re] of ANY_SYSTEM_RULES) if (!re.test(text)) problems.push(`does not say it ${why}`);

@@ -37,7 +37,7 @@ A Shopify app can be limited to reading. Once the store owner has signed in, you
 2. Under the Admin API access scopes add only reading scopes: `read_orders`, `read_products`, plus read_all_orders if the Scopes list offers it (orders older than 60 days; if it is not offered, skip it) and, for visits and conversion rate, `read_reports`. No scope that starts with write.
 3. Release the version and install the app on the store.
    In the app's API access requests, open Protected customer data access and do step 1: pick a reason (Store management or Analytics), no customer fields. Without it Shopify refuses every order read. If a read says access denied for orders, this is the likely cause: never tell the owner to make a new key.
-4. The owner puts the app's access details into the assistant app's Shopify connector settings, never into the chat. While a key shows, read only the box's title and field names, never the page or box text.
+4. You put the app's access details into the assistant app's Shopify connector settings, never into the chat. While a key shows, read only the box's title and field names, never the page or box text.
 
 The owner types every password and 2-step code. If menus differ, say what you see; do not guess.
 
