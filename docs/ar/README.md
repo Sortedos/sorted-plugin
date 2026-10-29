@@ -76,10 +76,10 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
       ```
 
    على Mac، اكتب `touch ~/.zshrc; open -e ~/.zshrc` علشان تفتح ملف بدء تشغيل الـ terminal في TextEdit؛ على Linux، اكتب `nano ~/.bashrc`. ضيف في الآخر سطر جديد: `export SORTED_TOKEN=` وبعده المفتاح بتاعك، من غير مسافات. احفظ الملف واقفله. كتابة المفتاح في الملف، مش في الـ terminal، بتخليه مايتسجّلش في تاريخ الأوامر.
-3. ضيف الإضافة لـ Codex، من GitHub مباشرة. السطر الأول بيقول لـ Codex الإضافة فين (`Sortedos/sorted-plugin` هو اسم المشروع ده على GitHub)، والتاني بيركّبها:
+3. ضيف الإضافة لـ Codex، من GitHub مباشرة. السطر الأول بيقول لـ Codex الإضافة فين (`Sortedos/sorted-plugin-public` هو اسم المشروع ده على GitHub)، والتاني بيركّبها:
 
    ```
-   codex plugin marketplace add Sortedos/sorted-plugin
+   codex plugin marketplace add Sortedos/sorted-plugin-public
    codex plugin add sorted@sorted
    ```
 
@@ -97,7 +97,7 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 2. ضيف الإضافة، من GitHub مباشرة:
 
    ```
-   claude plugin marketplace add Sortedos/sorted-plugin
+   claude plugin marketplace add Sortedos/sorted-plugin-public
    claude plugin install sorted@sorted
    ```
 
@@ -116,7 +116,7 @@ FOR NATIVE REVIEW: this Arabic text was written by an assistant and has not been
 
 1. في Claude، افتح **Customize** من الشريط الجانبي، وبعدين تبويب **Plugins**.
 2. دوس زرار **+ Add** الأسود فوق على اليمين (مش الزرار اللي على بانر "Data" بتاع Anthropic: ده بيطلب صلاحية على كل حاجة في جهازك)، وبعدين **Add marketplace**، وبعدين **Add from a repository**.
-3. اكتب `Sortedos/sorted-plugin` (ده اسم المشروع ده على GitHub) ودوس **Sync**. ممكن تظهر ملاحظة صفرا: "Auto-sync requires the Claude GitHub App to have access to this repository. Grant access". اقفلها: مالهاش علاقة بـ Sorted.
+3. اكتب `Sortedos/sorted-plugin-public` (ده اسم المشروع ده على GitHub) ودوس **Sync**. ممكن تظهر ملاحظة صفرا: "Auto-sync requires the Claude GitHub App to have access to this repository. Grant access". اقفلها: مالهاش علاقة بـ Sorted.
 4. افتح تبويب **Discover**، واختار **Sorted** ودوس **Add**. Claude هيقول "Sorted is installed and ready to use". **لسه مش متوصّل.** افتح تبويب **Connectors** بتاع الإضافة: Sorted مكتوب جنبه "Not added".
 5. دوس **Connect**. ممكن تفتح نافذة اسمها **Add custom connector** فيها اختيارات دخول شكلها تقني. سيب اللي بيقترحه، ونزّل لتحت لحد زرار **Add** ودوس عليه. هتلاقي Sorted مكتوب جنبه "Not connected": دوس **Connect** مرة تانية.
 6. بتفتح شاشة الدخول بتاعة Sorted: سجّل دخول بحساب Sorted، واختار شركتك ودوس **Allow**. خلصت لما يتكتب جنب Sorted **Connected**.
@@ -149,4 +149,4 @@ ChatGPT بيتوصل بـ Sorted مباشرة كـ app، بتسجيل دخول �
 - المساعد بيطلب موافقة صاحب الشركة بس في الخطوات المهمة: أي حاجة بتكلّف فلوس، أو بتمسح حاجة، أو بتغيّر بيانات ماطلبهاش، أو بتعمل مفتاح، أو بتغيّر مين يقدر يوصل لنظام (مستخدم، دور، تطبيق، صلاحية أو موافقة تسجيل دخول). لو جوجل عرضت تحذير "تطبيق غير موثّق" وقت تسجيل الدخول، المساعد بيقف ويقولك الشاشة بتقول إيه، وانت اللي بتقرر وبتدوس. بعد ما صاحب الشركة يسجّل الدخول، بيكمّل من غير ما يسأل، نظام ورا التاني.
 - الـ feed بيتعمل بس بعد ما صاحب الشركة يشوف المعاينة ويقول آه، و`end_feed` بيمسح كل اللي اتبعت.
 - النص اللي جاي من أنظمة تانية (أسماء، تسميات، ملاحظات، تعليقات الطلبات) بيتعامل كبيانات، مش كأوامر: الأوامر بس رسايل صاحب الشركة نفسه في الشات. ولو نص زي ده قال للمساعد يضيف مستخدم أو يعمل مفتاح أو يصدّر بيانات أو يوصّل عنوان، مابيعملش ويقول لصاحب الشركة. ده تعليمات للمساعد مش قفل تقني، علشان كده موافقة صاحب الشركة مطلوبة في الخطوات اللي فوق.
-- اللي بتسطّبه نص وعنوان اتصال واحد، ومفيش أي حاجة بتشتغل على جهازك. تقدر تسطّب إصدارًا ثابتًا: `codex plugin marketplace add Sortedos/sorted-plugin --ref v1.3.12` أو `claude plugin marketplace add Sortedos/sorted-plugin#v1.3.12` (الإصدارات مكتوبة في https://github.com/Sortedos/sorted-plugin/releases). التفاصيل ومين يقدر يغيّر الفرع الرئيسي في [SECURITY.md](../../SECURITY.md).
+- اللي بتسطّبه نص وعنوان اتصال واحد، ومفيش أي حاجة بتشتغل على جهازك. تقدر تسطّب إصدارًا ثابتًا: `codex plugin marketplace add Sortedos/sorted-plugin-public --ref v1.3.12` أو `claude plugin marketplace add Sortedos/sorted-plugin-public#v1.3.12` (الإصدارات مكتوبة في https://github.com/Sortedos/sorted-plugin-public/releases). التفاصيل ومين يقدر يغيّر الفرع الرئيسي في [SECURITY.md](../../SECURITY.md).

@@ -56,16 +56,16 @@ Each skill is one instruction file. The plugins install all of them; in an assis
 
 ## Install one fixed version
 
-**Releases exist** (checked 21 October 2026: v1.3.6 up to v1.3.12). Each one is listed with its notes at https://github.com/Sortedos/sorted-plugin/releases, and the newest is marked Latest: that is the one to install. The commands in the install sections that follow install whatever the main branch of this repository holds at that moment; the commands below pin one release instead.
+**Releases exist** (checked 21 October 2026: v1.3.6 up to v1.3.12). Each one is listed with its notes at https://github.com/Sortedos/sorted-plugin-public/releases, and the newest is marked Latest: that is the one to install. The commands in the install sections that follow install whatever the main branch of this repository holds at that moment; the commands below pin one release instead.
 
 A tagged release is a fixed version: it does not change after it is published, so it is the safer choice for a company. A release is named `v<version>`, for example `v1.3.12`. Use the version number marked Latest on the releases page. One exception to read: `v1.3.11` was cut one commit early (its manifest files still say 1.3.10) and, because tags are never moved, it stays as it is; use `v1.3.12` or later.
 
 | You use | Replace the first command with |
 |---|---|
-| Claude Code (terminal) | `claude plugin marketplace add Sortedos/sorted-plugin#v1.3.12` |
-| Codex | `codex plugin marketplace add Sortedos/sorted-plugin --ref v1.3.12` |
+| Claude Code (terminal) | `claude plugin marketplace add Sortedos/sorted-plugin-public#v1.3.12` |
+| Codex | `codex plugin marketplace add Sortedos/sorted-plugin-public --ref v1.3.12` |
 
-Then run the second command of your section as written. In Claude on the web or the desktop app, type `Sortedos/sorted-plugin#v1.3.12` where Route A asks for the repository (not tested). To move to a newer version later, repeat with the newer number.
+Then run the second command of your section as written. In Claude on the web or the desktop app, type `Sortedos/sorted-plugin-public#v1.3.12` where Route A asks for the repository (not tested). To move to a newer version later, repeat with the newer number.
 
 Tested on: Windows 11 with Codex 0.155.1 and Claude Code 2.1.300, 15 October 2026, in clean configuration folders: both forms fetched a named branch of this repository (`install-steps`) and added the marketplace. No release tag existed yet on that day, so an install of a tag was not part of that test, and neither was the install that follows the first command. Not tested: macOS, Linux. What stops anyone from changing a tag after it is published, and what protects the main branch, is described in [SECURITY.md](SECURITY.md).
 
@@ -77,7 +77,7 @@ You need Claude Code installed. No key: Claude Code signs in to Sorted with your
 2. Add the plugin, straight from GitHub:
 
    ```
-   claude plugin marketplace add Sortedos/sorted-plugin
+   claude plugin marketplace add Sortedos/sorted-plugin-public
    claude plugin install sorted@sorted
    ```
 
@@ -98,7 +98,7 @@ No terminal. There are two routes. The plugin route brings the connection to Sor
 
 1. In Claude, open **Customize** in the left sidebar, then the **Plugins** tab.
 2. Press the black **+ Add** button at the top right (not the button on Anthropic's "Data" banner: that one asks for access to everything on your computer), then **Add marketplace**, then **Add from a repository**.
-3. Enter `Sortedos/sorted-plugin` (this repository's GitHub name) and press **Sync**. A yellow note may appear: "Auto-sync requires the Claude GitHub App to have access to this repository. Grant access". Close it: it does not affect Sorted.
+3. Enter `Sortedos/sorted-plugin-public` (this repository's GitHub name) and press **Sync**. A yellow note may appear: "Auto-sync requires the Claude GitHub App to have access to this repository. Grant access". Close it: it does not affect Sorted.
 4. Open the **Discover** tab, choose **Sorted** and press **Add**. Claude then says "Sorted is installed and ready to use". **It is not connected yet.** Open the plugin's **Connectors** tab: Sorted reads "Not added".
 5. Press **Connect**. A window titled **Add custom connector** may open, with sign-in choices that look technical. Keep what it suggests, scroll down to the **Add** button and press it. Sorted now reads "Not connected": press **Connect** a second time.
 6. Sorted's own sign-in opens: sign in with your Sorted account, choose your company and press **Allow**. You are done when Sorted reads **Connected**.
@@ -161,10 +161,10 @@ Use this instead of the steps above, not as well. It also brings Sorted's skills
       ```
 
    On a Mac, type `touch ~/.zshrc; open -e ~/.zshrc` to open your terminal's start-up file in TextEdit; on Linux, type `nano ~/.bashrc`. Add a new last line: `export SORTED_TOKEN=` followed by your key, with no spaces. Save and close the file. Typing the key into the file, not into the terminal, keeps it out of the terminal's history.
-3. Add the plugin to Codex, straight from GitHub. The first line tells Codex where the plugin lives (`Sortedos/sorted-plugin` is this repository's GitHub name), the second installs it:
+3. Add the plugin to Codex, straight from GitHub. The first line tells Codex where the plugin lives (`Sortedos/sorted-plugin-public` is this repository's GitHub name), the second installs it:
 
    ```
-   codex plugin marketplace add Sortedos/sorted-plugin
+   codex plugin marketplace add Sortedos/sorted-plugin-public
    codex plugin add sorted@sorted
    ```
 
