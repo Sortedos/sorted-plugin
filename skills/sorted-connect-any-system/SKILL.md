@@ -1,6 +1,6 @@
 ---
 name: sorted-connect-any-system
-description: Send numbers from any system Sorted does not read itself (a point-of-sale system, a bank portal, a payment provider, a spreadsheet, another ERP) to the owner's dashboard through a feed, with read-only access. Use when no dedicated Sorted skill fits the system. Needs Sorted's feed tools (define_feed, feed_numbers); if they are missing, this skill says what to do.
+description: Send numbers from any system Sorted does not read itself (a point-of-sale system, a bank portal, a payment provider, a spreadsheet, another ERP or accounting system such as Zoho) to the owner's dashboard through a feed, with read-only access. Use when no dedicated Sorted skill fits the system. Needs Sorted's feed tools (define_feed, feed_numbers); if they are missing, this skill says what to do.
 ---
 
 # Any other system into Sorted, through a feed
@@ -35,7 +35,7 @@ If none is possible, say so and stop; use no stronger access than the owner chos
 
 In the system's own help pages look for a **read-only role** for a user (often Viewer, Read only, Reporting or Auditor), or an **access key or app with read-only scopes** (for example read_orders, ORDERS_READ or a Read level) and nothing that writes: a single general scope that also writes is no read-only option. If there is neither, the owner runs a **report export**.
 
-Once the owner has signed in, you do the clicks; the owner types every password. The owner puts access details into the assistant app's settings, never into the chat; while a key shows, read only the box's title and field names, never the page or box text. If there is no read-only option, tell them that the only access available can change things, and let them decide.
+Browser first: open the system's site in your browser and say so ("I'll open Zoho; you sign in, I'll make the key"). The owner only signs in and types every password; you do the clicks, find the key screen under the system's own Settings, Security, API or Developer menu, make the key and put it in the assistant app's connector settings, never in the chat. While a key shows, read only the box's title and field names, never the page or box text. Never tell the owner to get an API key; with no browser tool, give click-by-click steps. If there is no read-only option, tell them that the only access available can change things, and let them decide.
 
 ## Numbers to read
 

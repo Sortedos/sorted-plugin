@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.3.18
+
+1.3.18: browser first. When the owner asks to connect a system, the assistant opens that system's site in its browser, says so ("I'll open the system; you sign in, I'll make the key"), and makes any key itself; the owner only types passwords and sign-in codes. The skills no longer tell the owner to go and get an API key; with no browser tool the assistant gives click-by-click steps naming every menu. No new skills (17 skills), no connection change.
+
+- **`sorted-connect-systems`** and **`sorted-onboard`** carry the rule once, in a "Browser first; you make the key" line. For Google Ads and Shopify the assistant opens the company's connection link itself in the owner's own browser (it must show the owner's email and the company's name) instead of handing the owner the link.
+- **`sorted-connect-any-system`** (any system not listed, such as Zoho) and **`sorted-connect-odoo`** make the key in the owner's signed-in session and put it into the assistant app's connector settings, never in the chat.
+- **`sorted-not-connected`** says the same once Sorted is connected.
+- The skill lint now fails any skill that tells the owner to get, find or generate their own API key or token.
+
 ## 1.3.17
 
 1.3.17: `sorted-onboard` step 5 now asks the owner once how often Sorted should refresh the numbers (every 1, 3, 6, 12 or 24 hours; hourly by default) and uses `preview_refresh_rate` then `set_refresh_rate` after a yes. No new skills (17 skills), no connection change.
