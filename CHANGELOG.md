@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.19
+
+1.3.19: the repository is now Sortedos/sorted-plugin-public (renamed on 29 October 2026; it was Sortedos/sorted-plugin). The old address still works: GitHub redirects it, and on 29 October 2026 `claude plugin marketplace add Sortedos/sorted-plugin` and `codex plugin marketplace add Sortedos/sorted-plugin` both still worked. New installs should use the new name. No new skills (17 skills), no change to any skill, no connection change.
+
+- **Repository links updated.** `.claude-plugin/plugin.json` (`repository`, `documentationUrl`, `supportUrl`), the README, `SECURITY.md` and the Arabic README now name `Sortedos/sorted-plugin-public` in every install command, the releases link and the pinned-release examples.
+- **Earlier entries are left as written.** They name the old address because that was the name at the time.
+
 ## 1.3.18
 
 1.3.18: browser first. When the owner asks to connect a system, the assistant opens that system's site in its browser, says so ("I'll open the system; you sign in, I'll make the key"), and makes any key itself; the owner only types passwords and sign-in codes. The skills no longer tell the owner to go and get an API key; with no browser tool the assistant gives click-by-click steps naming every menu. No new skills (17 skills), no connection change.
